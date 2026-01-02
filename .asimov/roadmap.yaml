@@ -14,7 +14,7 @@ current:
   deliverables:
     - "[x] Asymmetric game analysis (Apex Paradox)"
     - "[x] One-shot game analysis"
-    - "[ ] Short horizon scenarios (low w)"
+    - "[x] Short horizon scenarios (low w)"
     - "[ ] Failure mode documentation"
     - "[ ] Edge case testing"
 
@@ -72,3 +72,6 @@ findings:
     - "One-shot: IPD 15x harder than iterated; Chicken/Stag Hunt same threshold"
     - "Catastrophic mutual defection enables one-shot cooperation (Chicken c*=0.5)"
     - "Game design > enforcement: frame existential risk as Chicken, not IPD"
+    - "Short horizons: Long horizon 10x more valuable for cooperation than short for defection"
+    - "Threshold w*=0.5 is knife-edge; small interventions flip outcomes"
+    - "Horizon extension + cost injection compound for robust cooperation"

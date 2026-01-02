@@ -6,8 +6,26 @@ All notable findings and releases for the Kinship Protocol project.
 
 ### In Progress
 - v0.3.0: Boundary Condition Mapping
-- Short horizon scenarios (low w)
 - Failure mode documentation
+- Edge case testing
+
+### Added — Short Horizon Scenarios
+
+The shadow of the future: how cooperation changes as horizons shorten.
+
+**Key Finding:** Long horizons are 10x more valuable for cooperation than short horizons are for defection.
+
+| Horizon (w) | Coop EV | Defect EV | Winner |
+|-------------|---------|-----------|--------|
+| 0.2 | 3.75 | 5.25 | Defect |
+| 0.5 | 6.00 | 6.00 | **Tie** |
+| 0.9 | 30.00 | 14.00 | Coop |
+
+**Implication:** Any intervention that extends time horizons disproportionately favors cooperation. AI alignment sits at threshold (w≈0.5)—small changes flip outcomes.
+
+**Added:**
+- `models/short_horizon.yaml` — Horizon sweep analysis
+- `docs/SHORT_HORIZONS.md` — Full theoretical framework
 
 ### Added — One-Shot Game Analysis
 

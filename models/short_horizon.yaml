@@ -1,0 +1,294 @@
+_forge_version: 1.0.0
+# Short Horizon Scenarios
+#
+# What happens when future interaction probability w is low?
+# Explores the space between one-shot (w=0) and long-term (w→1).
+#
+# Key question: At what horizon does cooperation break down?
+
+assumptions:
+  # === IPD PAYOFFS (Axelrod) ===
+  T:
+    value: 5.0
+    description: Temptation
+  R:
+    value: 3.0
+    description: Reward
+  P:
+    value: 1.0
+    description: Punishment
+  S:
+    value: 0.0
+    description: Sucker
+
+  # Dissipation cost
+  c:
+    value: 0.0
+    description: Base case - no dissipation cost
+
+  # === COOPERATION THRESHOLD ===
+  # w* = (T - c - R) / (T - P)
+  threshold_c0:
+    value: 0.5
+    formula: =(T - 0 - R) / (T - P)
+    description: Threshold with no cost
+  threshold_c05:
+    value: 0.375
+    formula: =(T - 0.5 - R) / (T - P)
+    description: Threshold with c=0.5
+  threshold_c1:
+    value: 0.25
+    formula: =(T - 1 - R) / (T - P)
+    description: Threshold with c=1.0
+
+  # === HORIZON SWEEP (no dissipation cost) ===
+  # Expected value of cooperation: R / (1 - w)
+  # Expected value of defection: T + wP / (1 - w)
+  # (Simplified: defect once, then mutual punishment forever)
+
+  w_01:
+    value: 0.1
+  w_01_coop_ev:
+    value: 3.33
+    formula: =R / (1 - w_01)
+  w_01_defect_ev:
+    value: 5.11
+    formula: =T + (w_01 * P) / (1 - w_01)
+  w_01_coop_wins:
+    value: 0.0
+    formula: =IF(w_01_coop_ev > w_01_defect_ev, 1, 0)
+  w_01_gap:
+    value: -1.78
+    formula: =w_01_coop_ev - w_01_defect_ev
+    description: Negative = defection advantage
+
+  w_02:
+    value: 0.2
+  w_02_coop_ev:
+    value: 3.75
+    formula: =R / (1 - w_02)
+  w_02_defect_ev:
+    value: 5.25
+    formula: =T + (w_02 * P) / (1 - w_02)
+  w_02_coop_wins:
+    value: 0.0
+    formula: =IF(w_02_coop_ev > w_02_defect_ev, 1, 0)
+  w_02_gap:
+    value: -1.5
+    formula: =w_02_coop_ev - w_02_defect_ev
+
+  w_03:
+    value: 0.3
+  w_03_coop_ev:
+    value: 4.29
+    formula: =R / (1 - w_03)
+  w_03_defect_ev:
+    value: 5.43
+    formula: =T + (w_03 * P) / (1 - w_03)
+  w_03_coop_wins:
+    value: 0.0
+    formula: =IF(w_03_coop_ev > w_03_defect_ev, 1, 0)
+  w_03_gap:
+    value: -1.14
+    formula: =w_03_coop_ev - w_03_defect_ev
+
+  w_04:
+    value: 0.4
+  w_04_coop_ev:
+    value: 5.0
+    formula: =R / (1 - w_04)
+  w_04_defect_ev:
+    value: 5.67
+    formula: =T + (w_04 * P) / (1 - w_04)
+  w_04_coop_wins:
+    value: 0.0
+    formula: =IF(w_04_coop_ev > w_04_defect_ev, 1, 0)
+  w_04_gap:
+    value: -0.67
+    formula: =w_04_coop_ev - w_04_defect_ev
+
+  w_05:
+    value: 0.5
+  w_05_coop_ev:
+    value: 6.0
+    formula: =R / (1 - w_05)
+  w_05_defect_ev:
+    value: 6.0
+    formula: =T + (w_05 * P) / (1 - w_05)
+  w_05_coop_wins:
+    value: 0.0
+    formula: =IF(w_05_coop_ev > w_05_defect_ev, 1, 0)
+  w_05_gap:
+    value: 0.0
+    formula: =w_05_coop_ev - w_05_defect_ev
+    description: Breakeven at w=0.5
+
+  w_06:
+    value: 0.6
+  w_06_coop_ev:
+    value: 7.5
+    formula: =R / (1 - w_06)
+  w_06_defect_ev:
+    value: 6.5
+    formula: =T + (w_06 * P) / (1 - w_06)
+  w_06_coop_wins:
+    value: 1.0
+    formula: =IF(w_06_coop_ev > w_06_defect_ev, 1, 0)
+  w_06_gap:
+    value: 1.0
+    formula: =w_06_coop_ev - w_06_defect_ev
+    description: Cooperation advantage emerges
+
+  w_07:
+    value: 0.7
+  w_07_coop_ev:
+    value: 10.0
+    formula: =R / (1 - w_07)
+  w_07_defect_ev:
+    value: 7.33
+    formula: =T + (w_07 * P) / (1 - w_07)
+  w_07_coop_wins:
+    value: 1.0
+    formula: =IF(w_07_coop_ev > w_07_defect_ev, 1, 0)
+  w_07_gap:
+    value: 2.67
+    formula: =w_07_coop_ev - w_07_defect_ev
+
+  w_08:
+    value: 0.8
+  w_08_coop_ev:
+    value: 15.0
+    formula: =R / (1 - w_08)
+  w_08_defect_ev:
+    value: 9.0
+    formula: =T + (w_08 * P) / (1 - w_08)
+  w_08_coop_wins:
+    value: 1.0
+    formula: =IF(w_08_coop_ev > w_08_defect_ev, 1, 0)
+  w_08_gap:
+    value: 6.0
+    formula: =w_08_coop_ev - w_08_defect_ev
+
+  w_09:
+    value: 0.9
+  w_09_coop_ev:
+    value: 30.0
+    formula: =R / (1 - w_09)
+  w_09_defect_ev:
+    value: 14.0
+    formula: =T + (w_09 * P) / (1 - w_09)
+  w_09_coop_wins:
+    value: 1.0
+    formula: =IF(w_09_coop_ev > w_09_defect_ev, 1, 0)
+  w_09_gap:
+    value: 16.0
+    formula: =w_09_coop_ev - w_09_defect_ev
+
+  # === WITH DISSIPATION COST c=0.5 ===
+  # Threshold drops from 0.5 to 0.375
+  c_cost:
+    value: 0.5
+
+  w_03_c_defect_ev:
+    value: 4.93
+    formula: =T - c_cost + (w_03 * (P - c_cost)) / (1 - w_03)
+  w_03_c_coop_wins:
+    value: 0.0
+    formula: =IF(w_03_coop_ev > w_03_c_defect_ev, 1, 0)
+  w_03_c_gap:
+    value: -0.64
+    formula: =w_03_coop_ev - w_03_c_defect_ev
+
+  w_04_c_defect_ev:
+    value: 5.0
+    formula: =T - c_cost + (w_04 * (P - c_cost)) / (1 - w_04)
+  w_04_c_coop_wins:
+    value: 0.0
+    formula: =IF(w_04_coop_ev > w_04_c_defect_ev, 1, 0)
+  w_04_c_gap:
+    value: 0.0
+    formula: =w_04_coop_ev - w_04_c_defect_ev
+    description: New breakeven at w=0.4 with c=0.5
+
+  w_05_c_defect_ev:
+    value: 5.0
+    formula: =T - c_cost + (w_05 * (P - c_cost)) / (1 - w_05)
+  w_05_c_coop_wins:
+    value: 1.0
+    formula: =IF(w_05_coop_ev > w_05_c_defect_ev, 1, 0)
+  w_05_c_gap:
+    value: 1.0
+    formula: =w_05_coop_ev - w_05_c_defect_ev
+
+  # === REAL-WORLD SHORT HORIZON SCENARIOS ===
+
+  # Startup negotiations (might not get another meeting)
+  startup_w:
+    value: 0.3
+    description: 30% chance of future interaction
+  startup_coop_ev:
+    value: 4.29
+    formula: =R / (1 - startup_w)
+  startup_defect_ev:
+    value: 5.43
+    formula: =T + (startup_w * P) / (1 - startup_w)
+  startup_defect_wins:
+    value: 1.0
+    formula: =IF(startup_defect_ev > startup_coop_ev, 1, 0)
+    description: Short horizon favors defection
+
+  # Industry conference (will see each other again)
+  conference_w:
+    value: 0.7
+    description: 70% chance of future interaction
+  conference_coop_ev:
+    value: 10.0
+    formula: =R / (1 - conference_w)
+  conference_defect_ev:
+    value: 7.33
+    formula: =T + (conference_w * P) / (1 - conference_w)
+  conference_coop_wins:
+    value: 1.0
+    formula: =IF(conference_coop_ev > conference_defect_ev, 1, 0)
+    description: Longer horizon favors cooperation
+
+  # AI lab competition (uncertain future)
+  ai_lab_w:
+    value: 0.5
+    description: 50% - threshold case
+  ai_lab_coop_ev:
+    value: 6.0
+    formula: =R / (1 - ai_lab_w)
+  ai_lab_defect_ev:
+    value: 6.0
+    formula: =T + (ai_lab_w * P) / (1 - ai_lab_w)
+  ai_lab_neutral:
+    value: 1.0
+    formula: =IF(ai_lab_coop_ev = ai_lab_defect_ev, 1, 0)
+    description: Exactly at threshold - knife edge
+
+  # === KEY METRICS ===
+
+  # How much does threshold shift per unit dissipation cost?
+  threshold_sensitivity:
+    value: 0.25
+    formula: =(threshold_c0 - threshold_c1) / 1
+    description: Each unit of c reduces threshold by 0.25
+
+  # Cooperation advantage at long horizon (w=0.9)
+  long_horizon_advantage:
+    value: 16.0
+    formula: =w_09_gap
+    description: Cooperation wins by 16 points at w=0.9
+
+  # Defection advantage at short horizon (w=0.2)
+  short_horizon_disadvantage:
+    value: 1.5
+    formula: =0 - w_02_gap
+    description: Defection wins by 1.5 points at w=0.2
+
+  # Ratio: how much more does cooperation win at long vs short horizon?
+  horizon_leverage:
+    value: 10.67
+    formula: =long_horizon_advantage / short_horizon_disadvantage
+    description: Long horizon 10x more valuable for cooperation

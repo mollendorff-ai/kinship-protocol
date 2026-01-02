@@ -31,6 +31,15 @@ Cooperation without a future. Analyzes when one-shot games (w=0) can support coo
 
 ---
 
+### Short Horizons
+**[SHORT_HORIZONS.md](SHORT_HORIZONS.md)**
+
+The shadow of the future. Maps cooperation dynamics as time horizons shorten. Finds the cooperation advantage at long horizons is 10x larger than defection advantage at short horizons.
+
+**Key result:** Horizon extension is high leverage. Any intervention that extends time horizons disproportionately favors cooperation.
+
+---
+
 ## Quick Reference
 
 | Document | Topic | Key Finding |
@@ -38,6 +47,7 @@ Cooperation without a future. Analyzes when one-shot games (w=0) can support coo
 | COOPERATION_THRESHOLDS | IPD + multi-game thresholds | `c* = T - R` makes cooperation dominant |
 | APEX_PARADOX | Asymmetric power dynamics | Restraint > extraction under uncertainty |
 | ONE_SHOT_GAMES | One-shot viability | Chicken enables one-shot cooperation |
+| SHORT_HORIZONS | Time horizon dynamics | Long horizons 10x more valuable for cooperation |
 
 ## Related
 
