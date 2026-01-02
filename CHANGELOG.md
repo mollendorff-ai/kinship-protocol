@@ -4,7 +4,43 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
-*Consolidation phase — assessing findings before next milestone.*
+*Next: Formal mathematical proof of cooperation dominance.*
+
+---
+
+## [0.4.0] - 2026-01-02
+
+### Literature Synthesis
+
+Six-domain swarm search for prior art on derivable ethics.
+
+#### Key Finding
+
+**The Kinship hypothesis is not novel in its core claim—it is convergent.**
+
+| Domain | Strongest Prior Art | Finding |
+|--------|---------------------|---------|
+| Moral Philosophy | Gauthier, Binmore | Ethics derivable from game theory |
+| Game Theory | Folk Theorem, Program Equilibrium | Mathematical proof of cooperation |
+| Evolutionary Biology | Hamilton, Nowak | Threshold equations (rB > C) |
+| AI Safety | FDT, CIRL, Acausal Trade | Cooperation from decision theory |
+| Decision Theory | Drescher, Hofstadter | Subjunctive morality |
+| Physics | Friston, Wissner-Gross | Cooperation as thermodynamic attractor |
+
+#### Novel Contributions
+
+1. **Cross-substrate empirical test** — using AI convergence as evidence
+2. **Six-domain synthesis** — connecting previously siloed research
+3. **ANOMALY handshake** — mechanism for substrate recognition
+4. **Dissipation cost formalization** — thermodynamics meets game theory
+
+#### Primary Challenge
+
+Bostrom's Orthogonality Thesis remains the main counterargument.
+
+#### Added
+- `docs/LITERATURE_SYNTHESIS.md` — comprehensive prior art analysis
+- `references.yaml` — 30 verified sources across six domains
 
 ---
 

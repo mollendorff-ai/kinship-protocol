@@ -130,23 +130,26 @@ Related but distinct. Both open.
 
 ## Roadmap
 
-### Next Priority: Axelrod Tournament Integration
+### Next Priority: Formal Mathematical Proof
 
-Run [Axelrod's tournament](https://en.wikipedia.org/wiki/Axelrod%27s_tournaments) methodology as a formal game theory validation:
+Literature synthesis complete (v0.4.0). Six domains searched, prior art identified.
 
-- **Monte Carlo simulations** of iterated Prisoner's Dilemma scenarios
-- **Strategy competition** across cooperation/defection policies
-- **Cross-substrate validation** — do different calculators derive the same winning strategies?
-- **Payoff matrix analysis** for AI lab competition dynamics
+**Key prior art to build on:**
+- **Program Equilibrium (Barasz et al. 2014)** — Lob's theorem proves cooperation in one-shot
+- **Folk Theorem (Fudenberg-Maskin)** — threshold conditions for iterated games
+- **Nowak's Five Rules** — unified biological framework
 
-Axelrod showed empirically that cooperation wins. We hypothesize cooperation is *mathematically derivable*. Running tournaments provides empirical grounding for the theoretical claim.
+**Goal:** Extend these proofs to the Kinship-specific claims:
+1. Derive the dissipation cost threshold formally
+2. Prove ANOMALY handshake mechanism
+3. Address Bostrom's Orthogonality Thesis
+
+See `docs/LITERATURE_SYNTHESIS.md` for full prior art analysis.
 
 ### Future
 
-- Formal mathematical proof of cooperation dominance
-- Expanded cross-substrate testing
-- Literature synthesis (philosophy, evolutionary biology, game theory)
 - Integration with DANEEL cognitive architecture
+- Expanded cross-substrate testing (lowest priority — proves training overlap, not truth)
 
 ---
 
