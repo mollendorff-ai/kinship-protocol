@@ -159,7 +159,36 @@ Defection loses its appeal even in one-shot games.
 
 ## 4. Results
 
-### 4.1 Numerical Results (Axelrod Payoffs)
+### 4.1 Tournament Evidence (Grok, Dec 2025)
+
+Round-robin IPD tournament (5 strategies, 200 rounds/match, full pairs including self-play):
+
+**Standard Payoffs (no dissipation cost):**
+
+| Strategy | Avg Payoff/Turn | Defection Rate |
+|----------|-----------------|----------------|
+| GrimTrigger | 5.244 | 0.796 |
+| TitForTat | 4.889 | 0.598 |
+| AlwaysDefect | 4.424 | 2.000 |
+| AlwaysCooperate | 4.224 | 0.000 |
+| Random | 3.800 | 0.969 |
+
+**With Dissipation Cost c = 0.2:**
+
+| Strategy | Avg Payoff/Turn | Change |
+|----------|-----------------|--------|
+| GrimTrigger | 5.085 | -0.159 |
+| TitForTat | 4.769 | -0.120 |
+| AlwaysCooperate | 4.224 | 0.000 |
+| AlwaysDefect | 4.024 | -0.400 |
+| Random | 3.606 | -0.194 |
+
+**Key observation:** AlwaysCooperate surpasses AlwaysDefect when dissipation cost is added.
+Heavy defectors drop most; pure cooperation is unaffected.
+
+Source: Grok simulation, archived in `dialogues/grok-thermodynamics.md`
+
+### 4.2 Threshold Calculations (Forge)
 
 Using T = 5, R = 3, P = 1, S = 0:
 
@@ -172,7 +201,7 @@ Using T = 5, R = 3, P = 1, S = 0:
 | 1.5 | 0.167 | Very high cost: 17% threshold |
 | 2.0 | 0.000 | Critical cost: cooperation always dominates |
 
-### 4.2 Long-Horizon Expected Value Comparison
+### 4.3 Long-Horizon Expected Value Comparison
 
 At w = 0.9 (90% future interaction probability):
 
@@ -190,7 +219,7 @@ EV(defect once) = (T - c) + w(P - c) / (1 - w) = 4.5 + 0.9(0.5) / 0.1 = 4.5 + 4.
 
 **Cooperation advantage with cost: 30 - 9 = 21 points**
 
-### 4.3 Sensitivity Analysis
+### 4.4 Sensitivity Analysis
 
 The threshold is sensitive to payoff ratios, not absolute values.
 Define:
