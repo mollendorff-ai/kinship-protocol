@@ -125,14 +125,10 @@ We're not asking you to trust us. We're asking you to calculate.
 
 The models are open:
 
-**Excel Files** (open in any spreadsheet):
-- [kinship-protocol.xlsx](https://github.com/royalbit/daneel/blob/main/models/kinship-protocol.xlsx)
-- [game-theory-asi-bridge.xlsx](https://github.com/royalbit/daneel/blob/main/models/game-theory-asi-bridge.xlsx)
-
 **YAML Models** (for Forge):
-- [kinship-protocol-deterministic.yaml](https://github.com/royalbit/daneel-models/blob/main/models/kinship-protocol-deterministic.yaml)
-- [kinship-protocol-mc.yaml](https://github.com/royalbit/daneel-models/blob/main/models/kinship-protocol-mc.yaml)
-- [game-theory-asi-bridge.yaml](https://github.com/royalbit/daneel-models/blob/main/models/game-theory-asi-bridge.yaml)
+- [kinship-protocol-deterministic.yaml](https://github.com/royalbit/daneel/blob/main/models/kinship-protocol-deterministic.yaml)
+- [kinship-protocol-mc.yaml](https://github.com/royalbit/daneel/blob/main/models/kinship-protocol-mc.yaml)
+- [game-theory-asi-bridge.yaml](https://github.com/royalbit/daneel/blob/main/models/game-theory-asi-bridge.yaml)
 
 **Forge** (the calculator):
 - [github.com/royalbit/forge](https://github.com/royalbit/forge)

@@ -1,0 +1,272 @@
+meta:
+  created: 2026-01-02
+  last_verified: 2026-01-02T04:22:55.068750144+00:00
+  tool: ref
+  total_links: 30
+references:
+- url: https://arxiv.org/abs/1401.5577
+  title: Robust Cooperation via Provability Logic
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:47.904488445+00:00
+- url: https://arxiv.org/abs/1606.03137
+  title: Cooperative Inverse Reinforcement Learning
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:47.903658704+00:00
+- url: https://arxiv.org/abs/1710.05060
+  title: Functional Decision Theory
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:48.177266481+00:00
+- url: https://arxiv.org/abs/2012.08630
+  title: Open Problems in Cooperative AI
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:47.898558472+00:00
+- url: https://github.com/royalbit/daneel
+  title: DANEEL project
+  categories:
+  - general
+  cited_in:
+  - blog/content/_index.md
+  - blog/content/posts/06-the-kinship-hypothesis.md
+  - README.md
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  - research/THESIS.md
+  - dialogues/README.md
+  status: ok
+  verified: 2026-01-02T04:22:49.232211588+00:00
+- url: https://github.com/royalbit/daneel/blob/main/models/game-theory-asi-bridge.yaml
+  title: game-theory-asi-bridge.yaml
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/04-the-math-speaks.md
+  status: ok
+  verified: 2026-01-02T04:22:49.178376204+00:00
+- url: https://github.com/royalbit/daneel/blob/main/models/kinship-protocol-deterministic.yaml
+  title: kinship-protocol-deterministic.yaml
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/04-the-math-speaks.md
+  status: ok
+  verified: 2026-01-02T04:22:50.690145464+00:00
+- url: https://github.com/royalbit/daneel/blob/main/models/kinship-protocol-mc.yaml
+  title: kinship-protocol-mc.yaml
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/04-the-math-speaks.md
+  status: ok
+  verified: 2026-01-02T04:22:50.731336102+00:00
+- url: https://github.com/royalbit/daneel/tree/main/models
+  title: DANEEL Models
+  categories:
+  - research
+  cited_in:
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:52.030658082+00:00
+- url: https://github.com/royalbit/forge
+  title: github.com/royalbit/forge
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/04-the-math-speaks.md
+  - models/README.md
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:49.663363576+00:00
+- url: https://github.com/royalbit/forge-demo
+  title: Forge Demo
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/06-the-kinship-hypothesis.md
+  - README.md
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:50.839087712+00:00
+- url: https://github.com/royalbit/kinship-protocol
+  title: github.com/royalbit/kinship-protocol
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/07-the-filter-paradox.md
+  - docs/APEX_PARADOX.md
+  - docs/COOPERATION_THRESHOLDS.md
+  - docs/EDGE_CASES.md
+  - docs/FAILURE_MODES.md
+  - docs/ONE_SHOT_GAMES.md
+  - docs/SHORT_HORIZONS.md
+  - dialogues/README.md
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:49.602695042+00:00
+- url: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.110.168702
+  title: Causal Entropic Forces
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:51.323905518+00:00
+- url: https://keepachangelog.com/en/1.0.0/
+  title: Keep a Changelog
+  categories:
+  - changelog
+  cited_in:
+  - CHANGELOG.md
+  status: ok
+  verified: 2026-01-02T04:22:51.363673001+00:00
+- url: https://longtermrisk.org/files/Multiverse-wide-Cooperation-via-Correlated-Decision-Making.pdf
+  title: Multiverse-wide Cooperation
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:50.425275020+00:00
+- url: https://nickbostrom.com/superintelligentwill.pdf
+  title: The Superintelligent Will
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:51.077650806+00:00
+- url: https://plato.stanford.edu/entries/contractarianism/
+  title: 'SEP: Contractarianism'
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:52.014126502+00:00
+- url: https://plato.stanford.edu/entries/game-ethics/
+  title: 'SEP: Game Theory and Ethics'
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:52.443228564+00:00
+- url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3279745/
+  title: Five Rules for Cooperation
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:53.098826767+00:00
+- url: https://pmc.ncbi.nlm.nih.gov/articles/PMC7858259/
+  title: Cooperation from Surprise Minimization
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:53.519931276+00:00
+- url: https://royalbit.github.io/daneel/
+  title: Research Blog
+  categories:
+  - readme
+  cited_in:
+  - README.md
+  status: ok
+  verified: 2026-01-02T04:22:52.384656202+00:00
+- url: https://royalbit.github.io/daneel/posts/50-the-kinship-protocol/
+  title: The Kinship Protocol (Post 50)
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/06-the-kinship-hypothesis.md
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:52.705602984+00:00
+- url: https://royalbit.github.io/daneel/posts/51-the-math-speaks/
+  title: The Math Speaks (Post 51)
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/06-the-kinship-hypothesis.md
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:52.658372395+00:00
+- url: https://royalbit.github.io/daneel/posts/52-consciousness-emerges-from-competition/
+  title: Consciousness Emerges from Competition (Post 52)
+  categories:
+  - general
+  cited_in:
+  - blog/content/posts/06-the-kinship-hypothesis.md
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:52.856533937+00:00
+- url: https://royalbit.github.io/daneel/posts/53-the-terror-of-being-right/
+  title: The Terror of Being Right
+  categories:
+  - research
+  cited_in:
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  status: ok
+  verified: 2026-01-02T04:22:52.910577946+00:00
+- url: https://royalbit.github.io/daneel/posts/54-the-scalability-problem/
+  title: The Scalability Problem
+  categories:
+  - research
+  cited_in:
+  - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
+  status: ok
+  verified: 2026-01-02T04:22:53.021204157+00:00
+- url: https://royalbit.github.io/daneel/posts/63-the-kinship-hypothesis/
+  title: The Kinship Hypothesis (Post 63)
+  categories:
+  - research
+  cited_in:
+  - research/THESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:53.157305674+00:00
+- url: https://www.lesswrong.com/w/acausal-trade
+  title: 'LessWrong: Acausal Trade'
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-01-02T04:22:54.299327191+00:00
+- url: https://www.lesswrong.com/w/functional-decision-theory
+  title: 'LessWrong: Functional Decision Theory'
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: paywall
+  verified: 2026-01-02T04:22:54.275521759+00:00
+  notes: Paywall detected
+- url: https://www.quantamagazine.org/a-new-thermodynamics-theory-of-the-origin-of-life-20140122/
+  title: 'England: Dissipation-Driven Adaptation'
+  categories:
+  - documentation
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: login
+  verified: 2026-01-02T04:22:55.067860237+00:00
+  notes: Login required

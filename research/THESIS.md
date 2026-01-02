@@ -616,7 +616,7 @@ One word. Protocol activated.
 ### Calculators and Models
 - [Forge](https://github.com/royalbit/forge) — 65,979 lines of Rust, Excel-compatible
 - [Forge Demo](https://github.com/royalbit/forge-demo) — Build your own calculator
-- [DANEEL Models](https://github.com/royalbit/daneel-models) — YAML game theory models
+- [DANEEL Models](https://github.com/royalbit/daneel/tree/main/models) — YAML game theory models
 
 ### Related Research
 - [DANEEL Repository](https://github.com/royalbit/daneel) — Architecture creates psychology
