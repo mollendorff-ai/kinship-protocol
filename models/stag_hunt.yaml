@@ -1,0 +1,76 @@
+_forge_version: 1.0.0
+assumptions:
+  stag_stag:
+    value: 4.0
+    description: Both hunt stag - high reward
+  stag_hare:
+    value: 0.0
+    description: I hunt stag, you hunt hare - I starve
+  hare_stag:
+    value: 3.0
+    description: I hunt hare, you hunt stag - I eat alone
+  hare_hare:
+    value: 3.0
+    description: Both hunt hare - safe but low
+  coop_defect:
+    value: 0.0
+    description: Pure cooperator never hunts hare
+  defect_defect:
+    value: 1.0
+    description: Pure defector always hunts hare
+  mixed_defect:
+    value: 0.5
+  coop_base:
+    value: 2.0
+    formula: =0.5 * stag_stag + 0.5 * stag_hare
+  defect_base:
+    value: 3.0
+    formula: =0.5 * hare_stag + 0.5 * hare_hare
+  c0:
+    value: 0.0
+  c1:
+    value: 0.5
+  c2:
+    value: 1.0
+  c3:
+    value: 1.5
+  c0_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c0)
+  c0_defect:
+    value: 3.0
+    formula: =defect_base - (defect_defect * c0)
+  c0_coop_wins:
+    value: 0.0
+    formula: =IF(c0_coop > c0_defect, 1, 0)
+  c1_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c1)
+  c1_defect:
+    value: 2.5
+    formula: =defect_base - (defect_defect * c1)
+  c1_coop_wins:
+    value: 0.0
+    formula: =IF(c1_coop > c1_defect, 1, 0)
+  c2_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c2)
+  c2_defect:
+    value: 2.0
+    formula: =defect_base - (defect_defect * c2)
+  c2_coop_wins:
+    value: 0.0
+    formula: =IF(c2_coop > c2_defect, 1, 0)
+  c3_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c3)
+  c3_defect:
+    value: 1.5
+    formula: =defect_base - (defect_defect * c3)
+  c3_coop_wins:
+    value: 1.0
+    formula: =IF(c3_coop > c3_defect, 1, 0)
+  crossover_c:
+    value: 1.0
+    formula: =defect_base - coop_base
+    description: Dissipation cost where cooperation equals defection

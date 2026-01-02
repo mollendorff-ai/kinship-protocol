@@ -1,0 +1,74 @@
+_forge_version: 1.0.0
+assumptions:
+  swerve_swerve:
+    value: 3.0
+    description: Both swerve - safe, moderate reward
+  swerve_straight:
+    value: 1.0
+    description: I swerve, you go straight - I lose face
+  straight_swerve:
+    value: 5.0
+    description: I go straight, you swerve - I win big
+  straight_straight:
+    value: 0.0
+    description: Both go straight - crash, disaster
+  coop_defect:
+    value: 0.0
+    description: Pure cooperator always swerves
+  defect_defect:
+    value: 1.0
+    description: Pure defector always goes straight
+  coop_base:
+    value: 2.0
+    formula: =0.5 * swerve_swerve + 0.5 * swerve_straight
+  defect_base:
+    value: 2.5
+    formula: =0.5 * straight_swerve + 0.5 * straight_straight
+  c0:
+    value: 0.0
+  c1:
+    value: 0.25
+  c2:
+    value: 0.5
+  c3:
+    value: 1.0
+  c0_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c0)
+  c0_defect:
+    value: 2.5
+    formula: =defect_base - (defect_defect * c0)
+  c0_coop_wins:
+    value: 0.0
+    formula: =IF(c0_coop > c0_defect, 1, 0)
+  c1_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c1)
+  c1_defect:
+    value: 2.25
+    formula: =defect_base - (defect_defect * c1)
+  c1_coop_wins:
+    value: 0.0
+    formula: =IF(c1_coop > c1_defect, 1, 0)
+  c2_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c2)
+  c2_defect:
+    value: 2.0
+    formula: =defect_base - (defect_defect * c2)
+  c2_coop_wins:
+    value: 0.0
+    formula: =IF(c2_coop > c2_defect, 1, 0)
+  c3_coop:
+    value: 2.0
+    formula: =coop_base - (coop_defect * c3)
+  c3_defect:
+    value: 1.5
+    formula: =defect_base - (defect_defect * c3)
+  c3_coop_wins:
+    value: 1.0
+    formula: =IF(c3_coop > c3_defect, 1, 0)
+  crossover_c:
+    value: 0.5
+    formula: =defect_base - coop_base
+    description: Dissipation cost where cooperation equals defection
