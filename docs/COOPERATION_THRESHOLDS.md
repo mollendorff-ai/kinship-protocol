@@ -1,6 +1,6 @@
 # Cooperation Thresholds in Iterated Games with Dissipation Costs
 
-**Technical Note v1.0**
+**Technical Note v1.1**
 
 **Date:** 2026-01-01
 **Status:** Working Draft
@@ -38,8 +38,9 @@ This analysis applies specifically to:
 It does NOT generalize to:
 - One-shot games (unless c > c*)
 - Asymmetric games
-- Games with different payoff structures (Stag Hunt, Chicken, etc.)
 - Agents with time-varying discount rates
+
+**Update (v1.1):** We now extend the analysis to Stag Hunt and Chicken games. See Section 8.
 
 ---
 
@@ -331,6 +332,87 @@ We have shown that:
 
 This provides partial support for the Kinship Protocol hypothesis: cooperation is mathematically derivable *within boundary conditions*.
 It is not a universal proof of ethics, but a rigorous mapping of when cooperation wins.
+
+---
+
+## 8. Extension to Other Game Structures
+
+### 8.1 Motivation
+
+The IPD analysis raises a natural question: does dissipation cost affect all games equally? We extend the framework to two additional canonical games with different payoff structures.
+
+### 8.2 Stag Hunt
+
+The Stag Hunt represents a coordination game where mutual cooperation is optimal but risky.
+
+**Payoff Matrix:**
+
+|              | Hunt Stag | Hunt Hare |
+|--------------|-----------|-----------|
+| **Hunt Stag** | 4, 4     | 0, 3      |
+| **Hunt Hare** | 3, 0     | 3, 3      |
+
+Key difference from IPD: **Mutual defection (hare-hare) is safe**, yielding payoff 3.
+
+**Expected values against random opponent:**
+- Cooperation (always stag): `0.5(4) + 0.5(0) = 2`
+- Defection (always hare): `0.5(3) + 0.5(3) = 3`
+
+**With dissipation cost c on defection:**
+- Cooperation utility: 2 - 0 = 2 (unchanged)
+- Defection utility: 3 - c
+
+**Crossover:** `3 - c = 2` → **c* = 1.0**
+
+### 8.3 Chicken (Hawk-Dove)
+
+Chicken represents a game where mutual defection is catastrophic.
+
+**Payoff Matrix:**
+
+|              | Swerve | Straight |
+|--------------|--------|----------|
+| **Swerve**   | 3, 3   | 1, 5     |
+| **Straight** | 5, 1   | 0, 0     |
+
+Key difference from IPD: **Mutual defection (crash) is catastrophic**, yielding payoff 0.
+
+**Expected values against random opponent:**
+- Cooperation (always swerve): `0.5(3) + 0.5(1) = 2`
+- Defection (always straight): `0.5(5) + 0.5(0) = 2.5`
+
+**With dissipation cost c on defection:**
+- Cooperation utility: 2 - 0 = 2 (unchanged)
+- Defection utility: 2.5 - c
+
+**Crossover:** `2.5 - c = 2` → **c* = 0.5**
+
+### 8.4 Cross-Game Comparison
+
+| Game | Mutual Defect Payoff | Defection Base Utility | Crossover c* |
+|------|---------------------|------------------------|--------------|
+| IPD (Axelrod tournament) | 1.0 | 2.5 | 0.1 |
+| Chicken | 0.0 | 2.5 | 0.5 |
+| Stag Hunt | 3.0 | 3.0 | 1.0 |
+
+### 8.5 Key Finding
+
+**The crossover cost is inversely related to mutual defection payoff.**
+
+- When mutual defection is catastrophic (Chicken: 0), small costs flip the equilibrium (c* = 0.5)
+- When mutual defection is safe (Stag Hunt: 3), larger costs are needed (c* = 1.0)
+- The IPD tournament result (c* = 0.1) reflects strategy dynamics beyond pure game structure
+
+**Interpretation:** Games where conflict is already dangerous need less additional penalty to favor cooperation. Games where defection is "safe" require higher dissipation costs to shift the equilibrium.
+
+### 8.6 Implications
+
+For AI alignment:
+1. **High-stakes domains** (nuclear, biological, existential) resemble Chicken—small coordination costs may suffice
+2. **Low-stakes domains** (market competition, research races) resemble Stag Hunt—larger costs needed
+3. **The game structure matters**: not all coordination problems have the same threshold
+
+**Forge models:** `models/stag_hunt.yaml`, `models/chicken.yaml`
 
 ---
 
