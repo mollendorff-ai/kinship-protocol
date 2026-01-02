@@ -5,9 +5,54 @@ All notable findings and releases for the Kinship Protocol project.
 ## [Unreleased]
 
 ### In Progress
-- Alternative game types (Stag Hunt, Chicken)
-- Failure mode documentation
-- Peer review and validation
+- v0.3.0: Boundary Condition Mapping
+- One-shot game analysis
+- Short horizon scenarios
+- Asymmetric game analysis
+
+---
+
+## [0.2.0] - 2026-01-01
+
+### Axelrod Tournament Integration
+
+Multi-game analysis with dissipation costs across different game structures.
+
+#### Key Findings
+
+**Axelrod Tournament (5 strategies, 200 rounds):**
+
+| Cost (c) | GrimTrigger | TitForTat | AlwaysDefect | AlwaysCooperate |
+|----------|-------------|-----------|--------------|-----------------|
+| 0.0 | 2.622 | 2.445 | 2.212 | 2.112 |
+| 0.1 | 2.582 | 2.415 | 2.112 | 2.112 |
+| 0.2 | 2.542 | 2.385 | 2.012 | 2.112 |
+
+**Crossover at c = 0.1** — AlwaysCooperate beats AlwaysDefect.
+
+**Multi-Game Comparison:**
+
+| Game | Mutual Defect Payoff | Crossover c* |
+|------|---------------------|--------------|
+| IPD | 1.0 (moderate) | 0.1 |
+| Chicken | 0.0 (catastrophic) | 0.5 |
+| Stag Hunt | 3.0 (safe) | 1.0 |
+
+**Key Finding:** Crossover cost inversely related to mutual defection payoff. Games where conflict is already dangerous need less additional penalty to favor cooperation.
+
+#### Added
+- `models/axelrod_tournament.yaml` — 5-strategy tournament with parameter sweep
+- `models/stag_hunt.yaml` — Stag Hunt game with dissipation costs
+- `models/chicken.yaml` — Chicken (Hawk-Dove) game with dissipation costs
+- `models/kinship_scenarios.yaml` — Scenario comparison model
+- `docs/COOPERATION_THRESHOLDS.md` v1.1 — Extended with multi-game analysis
+- `dialogues/grok-thermodynamics.md` — Archived Grok conversations
+
+#### Implications
+- Game structure matters: not all coordination problems have same threshold
+- High-stakes domains (existential risk) resemble Chicken — small costs suffice
+- Low-stakes domains (market competition) resemble Stag Hunt — larger costs needed
+- General principle validated across multiple game types
 
 ---
 
