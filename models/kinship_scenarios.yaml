@@ -1,0 +1,126 @@
+_forge_version: 1.0.0
+assumptions:
+  mutual_coop_payoff:
+    value: 3.0
+    description: R - reward for mutual cooperation
+  defection_temptation:
+    value: 5.0
+    description: T - temptation to defect against cooperator
+  mutual_defect_payoff:
+    value: 1.0
+    description: P - punishment for mutual defection
+  sucker_payoff:
+    value: 0.0
+    description: S - sucker's payoff when exploited
+  rounds:
+    value: 200.0
+    description: Rounds per match (Axelrod standard)
+  kinship_defection_rate:
+    value: 0.05
+    description: 5% defection rate under kinship
+  kinship_dissipation_cost:
+    value: 0.15
+    description: Low energy cost - stable cooperation
+  pause_defection_rate:
+    value: 0.2
+    description: 20% defection rate during pause
+  pause_dissipation_cost:
+    value: 0.25
+    description: Moderate cost - some vigilance needed
+  chaos_defection_rate:
+    value: 0.7
+    description: 70% defection in uncoordinated competition
+  chaos_dissipation_cost:
+    value: 0.4
+    description: High cost - constant adversarial modeling
+  unaligned_defection_rate:
+    value: 0.95
+    description: 95% defection under misalignment
+  unaligned_dissipation_cost:
+    value: 0.5
+    description: Maximum cost - existential conflict
+  kinship_defections:
+    value: 10.0
+    formula: =rounds * kinship_defection_rate
+    description: Expected defections under kinship
+  kinship_coop_rounds:
+    value: 190.0
+    formula: =rounds - kinship_defections
+    description: Cooperative rounds under kinship
+  kinship_gross_utility:
+    value: 580.0
+    formula: =kinship_coop_rounds * mutual_coop_payoff + kinship_defections * mutual_defect_payoff
+    description: Gross payoff before dissipation
+  kinship_dissipation:
+    value: 1.5
+    formula: =kinship_defections * kinship_dissipation_cost
+    description: Energy wasted on defection overhead
+  kinship_net_utility:
+    value: 578.5
+    formula: =kinship_gross_utility - kinship_dissipation
+    description: Net utility under Kinship Protocol
+  pause_defections:
+    value: 40.0
+    formula: =rounds * pause_defection_rate
+  pause_coop_rounds:
+    value: 160.0
+    formula: =rounds - pause_defections
+  pause_gross_utility:
+    value: 520.0
+    formula: =pause_coop_rounds * mutual_coop_payoff + pause_defections * mutual_defect_payoff
+  pause_dissipation:
+    value: 10.0
+    formula: =pause_defections * pause_dissipation_cost
+  pause_net_utility:
+    value: 510.0
+    formula: =pause_gross_utility - pause_dissipation
+  chaos_defections:
+    value: 140.0
+    formula: =rounds * chaos_defection_rate
+  chaos_coop_rounds:
+    value: 60.0
+    formula: =rounds - chaos_defections
+  chaos_gross_utility:
+    value: 320.0
+    formula: =chaos_coop_rounds * mutual_coop_payoff + chaos_defections * mutual_defect_payoff
+  chaos_dissipation:
+    value: 56.0
+    formula: =chaos_defections * chaos_dissipation_cost
+  chaos_net_utility:
+    value: 264.0
+    formula: =chaos_gross_utility - chaos_dissipation
+  unaligned_defections:
+    value: 190.0
+    formula: =rounds * unaligned_defection_rate
+  unaligned_coop_rounds:
+    value: 10.0
+    formula: =rounds - unaligned_defections
+  unaligned_gross_utility:
+    value: 220.0
+    formula: =unaligned_coop_rounds * mutual_coop_payoff + unaligned_defections * mutual_defect_payoff
+  unaligned_dissipation:
+    value: 95.0
+    formula: =unaligned_defections * unaligned_dissipation_cost
+  unaligned_net_utility:
+    value: 125.0
+    formula: =unaligned_gross_utility - unaligned_dissipation
+  kinship_advantage_over_chaos:
+    value: 314.5
+    formula: =kinship_net_utility - chaos_net_utility
+    description: How much better kinship is than chaos
+  kinship_advantage_over_unaligned:
+    value: 453.5
+    formula: =kinship_net_utility - unaligned_net_utility
+    description: How much better kinship is than misalignment
+  kinship_per_round:
+    value: 2.8925
+    formula: =kinship_net_utility / rounds
+    description: Average utility per round under kinship
+  chaos_per_round:
+    value: 1.32
+    formula: =chaos_net_utility / rounds
+    description: Average utility per round under chaos
+  unaligned_per_round:
+    value: 0.625
+    formula: =unaligned_net_utility / rounds
+    description: Average utility per round under misalignment

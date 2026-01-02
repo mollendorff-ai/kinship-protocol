@@ -24,6 +24,23 @@ Calculates cooperation thresholds under various conditions.
 
 **Breakeven cost = 2** — above this, cooperation dominates even in one-shot games.
 
+### kinship_scenarios.yaml
+
+Scenario comparison across coordination outcomes.
+
+**Run:** `forge calculate models/kinship_scenarios.yaml`
+
+**Key Results:**
+
+| Scenario | Net Utility | Per Round |
+|----------|-------------|-----------|
+| Kinship Protocol | 578.5 | 2.89 |
+| Coordination Pause | 510.0 | 2.55 |
+| Multipolar Chaos | 264.0 | 1.32 |
+| Unaligned ASI | 125.0 | 0.63 |
+
+**Kinship advantage:** +314.5 over chaos, +453.5 over misalignment.
+
 See: [research/GAME_THEORY.md](../research/GAME_THEORY.md) for theoretical framework.
 
 ---
