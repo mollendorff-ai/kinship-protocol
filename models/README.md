@@ -13,6 +13,7 @@ Executable via [Forge](https://github.com/royalbit/forge).
 | [chicken.yaml](chicken.yaml) | Chicken with costs | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint +125% over extraction | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot game analysis | IPD 15x harder than iterated | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
+| [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Long horizon 10x leverage | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
 | [kinship_scenarios.yaml](kinship_scenarios.yaml) | Scenario comparison | Kinship +314 over chaos | — |
 
 ## Running Models
@@ -56,6 +57,7 @@ Full analysis in [docs/](../docs/README.md):
 - [COOPERATION_THRESHOLDS.md](../docs/COOPERATION_THRESHOLDS.md) — Threshold derivations
 - [APEX_PARADOX.md](../docs/APEX_PARADOX.md) — Power asymmetry analysis
 - [ONE_SHOT_GAMES.md](../docs/ONE_SHOT_GAMES.md) — One-shot viability
+- [SHORT_HORIZONS.md](../docs/SHORT_HORIZONS.md) — Time horizon dynamics
 
 ## Build Your Own
 
