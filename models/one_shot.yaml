@@ -1,0 +1,218 @@
+_forge_version: 1.0.0
+assumptions:
+  ipd_T:
+    value: 5.0
+    description: Temptation (defect vs cooperate)
+  ipd_R:
+    value: 3.0
+    description: Reward (mutual cooperation)
+  ipd_P:
+    value: 1.0
+    description: Punishment (mutual defection)
+  ipd_S:
+    value: 0.0
+    description: Sucker (cooperate vs defect)
+  ipd_coop_ev:
+    value: 1.5
+    formula: =0.5 * ipd_R + 0.5 * ipd_S
+    description: EV of cooperation in one-shot
+  ipd_defect_ev:
+    value: 3.0
+    formula: =0.5 * ipd_T + 0.5 * ipd_P
+    description: EV of defection in one-shot
+  ipd_defect_advantage:
+    value: 1.5
+    formula: =ipd_defect_ev - ipd_coop_ev
+    description: How much defection beats cooperation
+  ipd_critical_c:
+    value: 1.5
+    formula: =ipd_defect_ev - ipd_coop_ev
+    description: Cost where cooperation = defection in one-shot
+  ipd_c1:
+    value: 0.5
+  ipd_c1_defect:
+    value: 2.5
+    formula: =ipd_defect_ev - ipd_c1
+  ipd_c1_coop_wins:
+    value: 0.0
+    formula: =IF(ipd_coop_ev > ipd_c1_defect, 1, 0)
+  ipd_c2:
+    value: 1.0
+  ipd_c2_defect:
+    value: 2.0
+    formula: =ipd_defect_ev - ipd_c2
+  ipd_c2_coop_wins:
+    value: 0.0
+    formula: =IF(ipd_coop_ev > ipd_c2_defect, 1, 0)
+  ipd_c3:
+    value: 1.5
+  ipd_c3_defect:
+    value: 1.5
+    formula: =ipd_defect_ev - ipd_c3
+  ipd_c3_coop_wins:
+    value: 0.0
+    formula: =IF(ipd_coop_ev > ipd_c3_defect, 1, 0)
+    description: Tie at critical cost
+  ipd_c4:
+    value: 2.0
+  ipd_c4_defect:
+    value: 1.0
+    formula: =ipd_defect_ev - ipd_c4
+  ipd_c4_coop_wins:
+    value: 1.0
+    formula: =IF(ipd_coop_ev > ipd_c4_defect, 1, 0)
+    description: Cooperation wins above critical cost
+  sh_stag_stag:
+    value: 4.0
+  sh_stag_hare:
+    value: 0.0
+  sh_hare_stag:
+    value: 3.0
+  sh_hare_hare:
+    value: 3.0
+  sh_coop_ev:
+    value: 2.0
+    formula: =0.5 * sh_stag_stag + 0.5 * sh_stag_hare
+  sh_defect_ev:
+    value: 3.0
+    formula: =0.5 * sh_hare_stag + 0.5 * sh_hare_hare
+  sh_critical_c:
+    value: 1.0
+    formula: =sh_defect_ev - sh_coop_ev
+    description: Critical cost for Stag Hunt
+  sh_c1:
+    value: 0.5
+  sh_c1_defect:
+    value: 2.5
+    formula: =sh_defect_ev - sh_c1
+  sh_c1_coop_wins:
+    value: 0.0
+    formula: =IF(sh_coop_ev > sh_c1_defect, 1, 0)
+  sh_c2:
+    value: 1.0
+  sh_c2_defect:
+    value: 2.0
+    formula: =sh_defect_ev - sh_c2
+  sh_c2_coop_wins:
+    value: 0.0
+    formula: =IF(sh_coop_ev > sh_c2_defect, 1, 0)
+  sh_c3:
+    value: 1.5
+  sh_c3_defect:
+    value: 1.5
+    formula: =sh_defect_ev - sh_c3
+  sh_c3_coop_wins:
+    value: 1.0
+    formula: =IF(sh_coop_ev > sh_c3_defect, 1, 0)
+  ch_swerve_swerve:
+    value: 3.0
+  ch_swerve_straight:
+    value: 1.0
+  ch_straight_swerve:
+    value: 5.0
+  ch_straight_straight:
+    value: 0.0
+  ch_coop_ev:
+    value: 2.0
+    formula: =0.5 * ch_swerve_swerve + 0.5 * ch_swerve_straight
+  ch_defect_ev:
+    value: 2.5
+    formula: =0.5 * ch_straight_swerve + 0.5 * ch_straight_straight
+  ch_critical_c:
+    value: 0.5
+    formula: =ch_defect_ev - ch_coop_ev
+    description: Critical cost for Chicken (lowest!)
+  ch_c1:
+    value: 0.25
+  ch_c1_defect:
+    value: 2.25
+    formula: =ch_defect_ev - ch_c1
+  ch_c1_coop_wins:
+    value: 0.0
+    formula: =IF(ch_coop_ev > ch_c1_defect, 1, 0)
+  ch_c2:
+    value: 0.5
+  ch_c2_defect:
+    value: 2.0
+    formula: =ch_defect_ev - ch_c2
+  ch_c2_coop_wins:
+    value: 0.0
+    formula: =IF(ch_coop_ev > ch_c2_defect, 1, 0)
+  ch_c3:
+    value: 0.75
+  ch_c3_defect:
+    value: 1.75
+    formula: =ch_defect_ev - ch_c3
+  ch_c3_coop_wins:
+    value: 1.0
+    formula: =IF(ch_coop_ev > ch_c3_defect, 1, 0)
+  iter_ipd_crossover:
+    value: 0.1
+    description: Iterated IPD tournament crossover
+  iter_chicken_crossover:
+    value: 0.5
+    description: Iterated Chicken crossover
+  iter_sh_crossover:
+    value: 1.0
+    description: Iterated Stag Hunt crossover
+  oneshot_ipd_critical:
+    value: 1.5
+    formula: =ipd_critical_c
+  oneshot_chicken_critical:
+    value: 0.5
+    formula: =ch_critical_c
+  oneshot_sh_critical:
+    value: 1.0
+    formula: =sh_critical_c
+  ipd_difficulty_ratio:
+    value: 15.0
+    formula: =oneshot_ipd_critical / iter_ipd_crossover
+    description: One-shot needs 15x more cost than iterated
+  chicken_difficulty_ratio:
+    value: 1.0
+    formula: =oneshot_chicken_critical / iter_chicken_crossover
+    description: Chicken same for one-shot and iterated!
+  sh_difficulty_ratio:
+    value: 1.0
+    formula: =oneshot_sh_critical / iter_sh_crossover
+    description: Stag Hunt same for one-shot and iterated!
+  anon_temptation:
+    value: 100.0
+    description: Scam profit
+  anon_cooperation:
+    value: 50.0
+    description: Honest trade profit
+  anon_cost:
+    value: 10.0
+    description: Fraud detection, reputation damage
+  anon_defect_ev:
+    value: 40.0
+    formula: =0.5 * anon_temptation - anon_cost
+  anon_coop_wins:
+    value: 1.0
+    formula: =IF(anon_cooperation > anon_defect_ev, 1, 0)
+    description: Even small costs make honesty win
+  nuke_win:
+    value: 100.0
+    description: Decisive first strike advantage
+  nuke_peace:
+    value: 50.0
+    description: Continued peace value
+  nuke_war:
+    value: -1000.0
+    description: Mutual destruction
+  nuke_defect_ev:
+    value: -450.0
+    formula: =0.5 * nuke_win + 0.5 * nuke_war
+  nuke_coop_wins:
+    value: 1.0
+    formula: =IF(nuke_peace > nuke_defect_ev, 1, 0)
+    description: Catastrophic mutual defection makes cooperation dominant
+  viable_without_future:
+    value: 1.0
+    formula: =IF(ch_critical_c <= 1, 1, 0)
+    description: Chicken-like games can support one-shot cooperation with modest costs
+  catastrophic_games_easier:
+    value: 1.0
+    formula: =IF(ch_critical_c < ipd_critical_c, 1, 0)
+    description: Games with catastrophic mutual defection need less cost for cooperation

@@ -6,8 +6,28 @@ All notable findings and releases for the Kinship Protocol project.
 
 ### In Progress
 - v0.3.0: Boundary Condition Mapping
-- One-shot game analysis
-- Short horizon scenarios
+- Short horizon scenarios (low w)
+- Failure mode documentation
+
+### Added — One-Shot Game Analysis
+
+When future interaction probability w=0, what makes cooperation viable?
+
+**Key Finding:** Game structure matters more than iteration.
+
+| Game | One-Shot c* | Iterated Crossover | Difficulty Ratio |
+|------|-------------|-------------------|------------------|
+| IPD | 1.5 | 0.1 | **15x harder** |
+| Stag Hunt | 1.0 | 1.0 | 1x (same) |
+| Chicken | 0.5 | 0.5 | 1x (same) |
+
+**Surprising result:** IPD is uniquely hard for one-shot. Chicken and Stag Hunt have identical thresholds whether iterated or one-shot.
+
+**Implication:** Frame existential scenarios as Chicken (catastrophic mutual defection), not IPD. Game design > enforcement mechanisms.
+
+**Added:**
+- `models/one_shot.yaml` — Multi-game one-shot analysis
+- `docs/ONE_SHOT_GAMES.md` — Full theoretical framework
 
 ### Added — The Apex Paradox
 

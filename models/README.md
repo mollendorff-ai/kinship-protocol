@@ -133,6 +133,30 @@ Asymmetric power dynamics model. Tests whether apex predators rationally choose 
 
 See: [docs/APEX_PARADOX.md](../docs/APEX_PARADOX.md) for full theoretical framework.
 
+### one_shot.yaml
+
+One-shot game analysis. Tests when cooperation is viable without future interactions (w=0).
+
+**Run:** `forge calculate models/one_shot.yaml`
+
+**Key Results — Critical costs for one-shot cooperation:**
+
+| Game | One-Shot c* | Iterated Crossover | Difficulty Ratio |
+|------|-------------|-------------------|------------------|
+| IPD | 1.5 | 0.1 | **15x harder** |
+| Stag Hunt | 1.0 | 1.0 | 1x (same) |
+| Chicken | 0.5 | 0.5 | 1x (same) |
+
+**Key finding:** IPD is uniquely hard for one-shot cooperation. Chicken and Stag Hunt have the same threshold whether iterated or one-shot.
+
+**Real-world scenarios:**
+- Nuclear first strike: Peace wins by 500 points (Chicken-like)
+- Anonymous transaction: Honesty wins with modest fraud costs
+
+**Implication:** Frame existential scenarios as Chicken (catastrophic mutual defection), not IPD. Catastrophic downside makes one-shot cooperation rational.
+
+See: [docs/ONE_SHOT_GAMES.md](../docs/ONE_SHOT_GAMES.md) for full analysis.
+
 ---
 
 ## Scenario Analysis (Previous Work)
