@@ -12,9 +12,9 @@ current:
   summary: "Boundary Condition Mapping"
   goal: "Find where cooperation breaks"
   deliverables:
+    - "[x] Asymmetric game analysis (Apex Paradox)"
     - "[ ] One-shot game analysis"
     - "[ ] Short horizon scenarios (low w)"
-    - "[ ] Asymmetric game analysis"
     - "[ ] Failure mode documentation"
     - "[ ] Edge case testing"
 
@@ -63,3 +63,9 @@ findings:
     - "Chicken crossover at c=0.5 (catastrophic mutual defection needs less)"
     - "Game structure determines crossover threshold"
     - "Multi-game comparison validates general principle"
+  v0.3.0:
+    - "Apex Paradox: Power asymmetry doesn't imply defection"
+    - "Restraint beats max extraction by 125% under base conditions"
+    - "Critical parameter is discount rate (δ < 0.4 = extraction wins)"
+    - "Option value explains apex predator restraint in nature"
+    - "AI alignment question reframed: discount rate > raw capability"
