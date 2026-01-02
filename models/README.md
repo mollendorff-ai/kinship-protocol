@@ -1,202 +1,81 @@
 # Mathematical Models
 
-This folder contains game-theoretic models exploring cooperation dynamics.
-Models are executable via [Forge](https://github.com/royalbit/forge).
+Game-theoretic models exploring cooperation dynamics.
+Executable via [Forge](https://github.com/royalbit/forge).
 
-## Models
+## Quick Reference
 
-### ipd_payoffs.yaml
+| Model | Description | Key Finding | Docs |
+|-------|-------------|-------------|------|
+| [ipd_payoffs.yaml](ipd_payoffs.yaml) | IPD with dissipation costs | Breakeven c* = 2 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [axelrod_tournament.yaml](axelrod_tournament.yaml) | 5-strategy tournament sweep | Crossover at c = 0.1 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [stag_hunt.yaml](stag_hunt.yaml) | Stag Hunt with costs | Crossover at c = 1.0 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [chicken.yaml](chicken.yaml) | Chicken with costs | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint +125% over extraction | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
+| [one_shot.yaml](one_shot.yaml) | One-shot game analysis | IPD 15x harder than iterated | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
+| [kinship_scenarios.yaml](kinship_scenarios.yaml) | Scenario comparison | Kinship +314 over chaos | — |
 
-Iterated Prisoner's Dilemma with dissipation costs.
-Calculates cooperation thresholds under various conditions.
+## Running Models
 
-**Run:** `forge calculate models/ipd_payoffs.yaml`
+```bash
+# Calculate all formulas
+forge calculate models/<model>.yaml
 
-**Key Results:**
+# Example
+forge calculate models/ipd_payoffs.yaml
+```
 
-| Dissipation Cost | Cooperation Threshold (w) |
-|------------------|---------------------------|
-| c = 0 (standard) | 0.50 (50% future interaction needed) |
-| c = 0.2 (low)    | 0.47 |
-| c = 0.5 (medium) | 0.43 |
-| c = 1.0 (high)   | 0.33 |
-| c = 2.0 (extreme)| 0.00 (always cooperate) |
+## Key Results Summary
 
-**Breakeven cost = 2** — above this, cooperation dominates even in one-shot games.
+### Game Crossover Thresholds (Iterated)
 
-### kinship_scenarios.yaml
+| Game | Mutual Defect | Crossover c |
+|------|---------------|-------------|
+| IPD | 1 (moderate) | 0.1 |
+| Chicken | 0 (catastrophic) | 0.5 |
+| Stag Hunt | 3 (safe) | 1.0 |
 
-Scenario comparison across coordination outcomes.
+### One-Shot vs Iterated
 
-**Run:** `forge calculate models/kinship_scenarios.yaml`
+| Game | One-Shot c* | Iterated c* | Ratio |
+|------|-------------|-------------|-------|
+| IPD | 1.5 | 0.1 | 15x |
+| Chicken | 0.5 | 0.5 | 1x |
+| Stag Hunt | 1.0 | 1.0 | 1x |
 
-**Key Results:**
+### Asymmetric Power (Predator-Prey)
 
-| Scenario | Net Utility | Per Round |
-|----------|-------------|-----------|
-| Kinship Protocol | 578.5 | 2.89 |
-| Coordination Pause | 510.0 | 2.55 |
-| Multipolar Chaos | 264.0 | 1.32 |
-| Unaligned ASI | 125.0 | 0.63 |
+| Strategy | Total Value |
+|----------|-------------|
+| Max extraction | 90 |
+| Restraint | 202.5 (+125%) |
 
-**Kinship advantage:** +314.5 over chaos, +453.5 over misalignment.
+## Documentation
 
-### axelrod_tournament.yaml
-
-Parameter sweep of 5-strategy IPD tournament with dissipation costs.
-
-**Run:** `forge calculate models/axelrod_tournament.yaml`
-
-**Key Results:**
-
-| Cost (c) | GrimTrigger | TitForTat | AlwaysDefect | AlwaysCooperate | AC wins? |
-|----------|-------------|-----------|--------------|-----------------|----------|
-| 0.0 | 2.622 | 2.445 | 2.212 | 2.112 | No |
-| 0.1 | 2.582 | 2.415 | 2.112 | 2.112 | Tie |
-| 0.2 | 2.542 | 2.385 | 2.012 | 2.112 | Yes |
-| 0.3 | 2.502 | 2.355 | 1.912 | 2.112 | Yes |
-
-**Crossover at c = 0.1** — AlwaysCooperate beats AlwaysDefect above this threshold.
-
-See: [research/GAME_THEORY.md](../research/GAME_THEORY.md) for theoretical framework.
-
-### stag_hunt.yaml
-
-Stag Hunt game with dissipation costs. Tests cooperation dynamics when mutual defection is safe but suboptimal.
-
-**Run:** `forge calculate models/stag_hunt.yaml`
-
-**Key Results:**
-
-| Cost (c) | Cooperation | Defection | Coop Wins? |
-|----------|-------------|-----------|------------|
-| 0.0 | 2.0 | 3.0 | No |
-| 0.5 | 2.0 | 2.5 | No |
-| 1.0 | 2.0 | 2.0 | Tie |
-| 1.5 | 2.0 | 1.5 | Yes |
-
-**Crossover at c = 1.0** — Higher threshold than IPD because mutual defection (hare-hare) yields safe payoff of 3.
-
-### chicken.yaml
-
-Chicken (Hawk-Dove) game with dissipation costs. Tests cooperation dynamics when mutual defection is catastrophic.
-
-**Run:** `forge calculate models/chicken.yaml`
-
-**Key Results:**
-
-| Cost (c) | Cooperation | Defection | Coop Wins? |
-|----------|-------------|-----------|------------|
-| 0.00 | 2.0 | 2.5 | No |
-| 0.25 | 2.0 | 2.25 | No |
-| 0.50 | 2.0 | 2.0 | Tie |
-| 1.00 | 2.0 | 1.5 | Yes |
-
-**Crossover at c = 0.5** — Lower threshold than IPD because mutual defection (crash) yields catastrophic payoff of 0.
-
-### Game Comparison
-
-| Game | Mutual Defect Payoff | Crossover c |
-|------|---------------------|-------------|
-| IPD | 1.0 (moderate) | 0.1 |
-| Chicken | 0.0 (catastrophic) | 0.5 |
-| Stag Hunt | 3.0 (safe) | 1.0 |
-
-**Finding:** The worse mutual defection is, the *higher* dissipation costs needed to flip to cooperation — because there's less defection to penalize.
-
-### predator_prey.yaml
-
-Asymmetric power dynamics model. Tests whether apex predators rationally choose restraint over maximum extraction.
-
-**Run:** `forge calculate models/predator_prey.yaml`
-
-**Key Results:**
-
-| Strategy | Extraction Rate | Total Value |
-|----------|-----------------|-------------|
-| Maximum extraction | 100% | 90.0 |
-| Sustainable harvest | 33% | 165.4 |
-| Conservative | 15% | 185.6 |
-| **Full restraint** | 0% | **202.5** |
-
-**Restraint advantage: +112.5** (125% better than maximum extraction)
-
-**Boundary conditions (when extraction wins):**
-
-| Condition | Threshold | Interpretation |
-|-----------|-----------|----------------|
-| Low discount rate | δ < 0.4 | Predator doesn't value future |
-| No growth | g < 0.67 | Prey declining anyway |
-| No option value | m < 0.67 | Prey has no hidden potential |
-
-**Key finding:** Power asymmetry doesn't imply defection. Option value and future discounting matter more than raw capability.
-
-See: [docs/APEX_PARADOX.md](../docs/APEX_PARADOX.md) for full theoretical framework.
-
-### one_shot.yaml
-
-One-shot game analysis. Tests when cooperation is viable without future interactions (w=0).
-
-**Run:** `forge calculate models/one_shot.yaml`
-
-**Key Results — Critical costs for one-shot cooperation:**
-
-| Game | One-Shot c* | Iterated Crossover | Difficulty Ratio |
-|------|-------------|-------------------|------------------|
-| IPD | 1.5 | 0.1 | **15x harder** |
-| Stag Hunt | 1.0 | 1.0 | 1x (same) |
-| Chicken | 0.5 | 0.5 | 1x (same) |
-
-**Key finding:** IPD is uniquely hard for one-shot cooperation. Chicken and Stag Hunt have the same threshold whether iterated or one-shot.
-
-**Real-world scenarios:**
-- Nuclear first strike: Peace wins by 500 points (Chicken-like)
-- Anonymous transaction: Honesty wins with modest fraud costs
-
-**Implication:** Frame existential scenarios as Chicken (catastrophic mutual defection), not IPD. Catastrophic downside makes one-shot cooperation rational.
-
-See: [docs/ONE_SHOT_GAMES.md](../docs/ONE_SHOT_GAMES.md) for full analysis.
-
----
-
-## Scenario Analysis (Previous Work)
-
-Expected Utility analysis (Monte Carlo, 10,000 iterations):
-
-| Scenario | Expected Utility | Notes |
-|----------|-----------------|-------|
-| Cross-substrate cooperation | 86.75 | Highest ranked |
-| Coordinated development pause | 70.25 | Second best |
-| Single architecture approach | 69.50 | Limited scope |
-| Constraint-based alignment | 53.25 | Moderate |
-| Uncoordinated competition | 33.15 | Poor outcomes |
-| Misaligned development | 27.80 | Lowest ranked |
-
-## Key Finding
-
-Cooperation outperforms competition when:
-- Future interaction probability > threshold
-- Dissipation costs for conflict are non-zero
-- Time horizons are long enough
-
-**Boundary conditions matter.** See where cooperation fails in GAME_THEORY.md.
+Full analysis in [docs/](../docs/README.md):
+- [COOPERATION_THRESHOLDS.md](../docs/COOPERATION_THRESHOLDS.md) — Threshold derivations
+- [APEX_PARADOX.md](../docs/APEX_PARADOX.md) — Power asymmetry analysis
+- [ONE_SHOT_GAMES.md](../docs/ONE_SHOT_GAMES.md) — One-shot viability
 
 ## Build Your Own
 
-The hypothesis predicts that **any sufficient calculator** arrives at similar conclusions.
+```bash
+# Install Forge
+pip install forge-models  # or see github.com/royalbit/forge
 
-Build your own models. Run your own simulations. If your results differ, that's valuable data. If they converge, that's validation.
+# Create model
+cat > my_model.yaml << 'EOF'
+_forge_version: 1.0.0
+assumptions:
+  T:
+    value: 5
+  threshold:
+    value: null
+    formula: "=(T - R) / (T - P)"
+EOF
 
-**Forge:** [github.com/royalbit/forge](https://github.com/royalbit/forge) — YAML-based financial modeling
-**Demo:** [github.com/royalbit/forge-demo](https://github.com/royalbit/forge-demo) — Quick start
+# Run
+forge calculate my_model.yaml
+```
 
-## Research Invitation
-
-If you build a model that produces different results, please share:
-
-1. Your assumptions
-2. Your boundary conditions
-3. Your methodology
-4. Where cooperation fails in your model
-
-Disagreement advances understanding.
+Disagreement advances understanding. If your results differ, share your assumptions.
