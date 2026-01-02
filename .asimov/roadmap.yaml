@@ -7,36 +7,33 @@
 # See: README.md for project overview
 
 current:
-  version: "0.1.0"
+  version: "0.3.0"
   status: in_progress
-  summary: "Game Theory Formalization"
-  goal: "Map cooperation boundary conditions"
+  summary: "Boundary Condition Mapping"
+  goal: "Find where cooperation breaks"
   deliverables:
-    - "[x] Create GAME_THEORY.md with honest framing"
-    - "[x] Build Forge model for IPD with dissipation costs"
-    - "[x] Calculate cooperation thresholds"
-    - "[ ] Test alternative game types (Stag Hunt, Chicken)"
-    - "[ ] Document where cooperation fails"
-    - "[ ] Peer review and validation"
+    - "[ ] One-shot game analysis"
+    - "[ ] Short horizon scenarios (low w)"
+    - "[ ] Asymmetric game analysis"
+    - "[ ] Failure mode documentation"
+    - "[ ] Edge case testing"
 
 next:
-  - version: "0.2.0"
-    summary: "Axelrod Tournament Integration"
-    goal: "Empirical validation via tournament methodology"
+  - version: "0.4.0"
+    summary: "DANEEL Integration"
+    goal: "Connect game theory to cognitive architecture"
     deliverables:
-      - "Monte Carlo simulations of IPD scenarios"
-      - "Strategy competition (TitForTat, Grim, etc.)"
-      - "Cross-substrate validation"
-      - "Payoff matrix analysis with dissipation costs"
+      - "Map IPD dynamics to DANEEL memory systems"
+      - "Trust as evolved cooperation threshold"
+      - "Kinship detection as strategy recognition"
 
-  - version: "0.3.0"
-    summary: "Boundary Condition Mapping"
-    goal: "Find where cooperation breaks"
+  - version: "0.5.0"
+    summary: "Cross-Model Validation"
+    goal: "Validate convergence across AI systems"
     deliverables:
-      - "One-shot game analysis"
-      - "Short horizon scenarios"
-      - "Asymmetric game analysis"
-      - "Failure mode documentation"
+      - "Run same scenarios on multiple LLMs"
+      - "Document convergence and divergence"
+      - "Identify substrate-independent patterns"
 
 backlog:
   - "Formal mathematical proof of cooperation conditions"
@@ -45,6 +42,14 @@ backlog:
   - "Cross-model validation (more AI systems)"
   - "KL divergence / FEP formalization (if rigorous mapping found)"
 
+completed:
+  - version: "0.1.0"
+    summary: "Game Theory Formalization"
+    status: done
+  - version: "0.2.0"
+    summary: "Axelrod Tournament Integration"
+    status: done
+
 findings:
   v0.1.0:
     - "Cooperation threshold = (T-R)/(T-P) = 0.5 for standard PD"
@@ -52,3 +57,9 @@ findings:
     - "Breakeven cost = T-R = 2; above this, cooperation always dominates"
     - "At w=0.9, cooperation EV advantage = 16 points over defection"
     - "Thermodynamic framing is analogy, not equivalence (honest caveat)"
+  v0.2.0:
+    - "Axelrod tournament: AlwaysCooperate beats AlwaysDefect at c=0.1"
+    - "Stag Hunt crossover at c=1.0 (safe mutual defection needs more cost)"
+    - "Chicken crossover at c=0.5 (catastrophic mutual defection needs less)"
+    - "Game structure determines crossover threshold"
+    - "Multi-game comparison validates general principle"
