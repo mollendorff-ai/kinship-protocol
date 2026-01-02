@@ -13,7 +13,7 @@ current:
   goal: "Find where cooperation breaks"
   deliverables:
     - "[x] Asymmetric game analysis (Apex Paradox)"
-    - "[ ] One-shot game analysis"
+    - "[x] One-shot game analysis"
     - "[ ] Short horizon scenarios (low w)"
     - "[ ] Failure mode documentation"
     - "[ ] Edge case testing"
@@ -69,3 +69,6 @@ findings:
     - "Critical parameter is discount rate (δ < 0.4 = extraction wins)"
     - "Option value explains apex predator restraint in nature"
     - "AI alignment question reframed: discount rate > raw capability"
+    - "One-shot: IPD 15x harder than iterated; Chicken/Stag Hunt same threshold"
+    - "Catastrophic mutual defection enables one-shot cooperation (Chicken c*=0.5)"
+    - "Game design > enforcement: frame existential risk as Chicken, not IPD"
