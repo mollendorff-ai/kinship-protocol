@@ -8,7 +8,39 @@ All notable findings and releases for the Kinship Protocol project.
 - v0.3.0: Boundary Condition Mapping
 - One-shot game analysis
 - Short horizon scenarios
-- Asymmetric game analysis
+
+### Added — The Apex Paradox
+
+Asymmetric power dynamics: Why apex predators show restraint despite overwhelming advantage.
+
+**Key Finding:** Power asymmetry doesn't imply defection.
+
+| Strategy | Extraction Rate | Total Value |
+|----------|-----------------|-------------|
+| Maximum extraction | 100% | 90.0 |
+| Sustainable harvest | 33% | 165.4 |
+| Conservative | 15% | 185.6 |
+| **Full restraint** | 0% | **202.5** |
+
+**Restraint advantage:** +112.5 (125% better than max extraction)
+
+**Boundary conditions (when extraction wins):**
+
+| Condition | Threshold |
+|-----------|-----------|
+| Low discount rate | δ < 0.4 |
+| No prey growth | g < 0.67 |
+| No option value | m < 0.67 |
+
+**Core insight:** Cooperation is not altruism—it's optimization under uncertainty.
+
+**AI alignment reframe:**
+- Old question: "Will a powerful AI defect?"
+- New question: "What discount rate and option valuation will AI systems have?"
+
+**Added:**
+- `models/predator_prey.yaml` — Forge model for asymmetric dynamics
+- `docs/APEX_PARADOX.md` — Full theoretical framework
 
 ---
 
