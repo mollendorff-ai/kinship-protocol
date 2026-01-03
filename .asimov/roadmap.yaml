@@ -2,69 +2,42 @@
 #
 # WHAT to build - milestones only
 #
+# See: CHANGELOG.md for completed work and findings
 # See: research/THESIS.md for core hypothesis
-# See: research/GAME_THEORY.md for boundary conditions
 # See: README.md for project overview
 
 current:
-  version: null
-  status: paused
-  summary: "Awaiting direction"
-  goal: "Determine next research priority"
-  notes:
-    - "v0.1.0-v0.4.0 complete - foundation + literature synthesis done"
-    - "Need solid math and original research before publication"
+  version: "0.5.0"
+  status: pending
+  summary: "Formal Mathematical Proof"
+  goal: "Rigorous proof of cooperation dominance"
+  deliverables:
+    - "Formal proof using Folk Theorem foundations"
+    - "Program Equilibrium application to Kinship"
+    - "Prove dissipation cost threshold rigorously"
+    - "Address Orthogonality Thesis mathematically"
+
+next:
+  - version: "0.6.0"
+    summary: "N-Player Extensions"
+    goal: "Scale from 2-player to N-player games"
+    deliverables:
+      - "N-player cooperation dynamics"
+      - "Coalition formation analysis"
+      - "Public goods game integration"
+      - "Tragedy of the commons conditions"
+
+  - version: "0.7.0"
+    summary: "Asymmetric Information"
+    goal: "Model cooperation under incomplete knowledge"
+    deliverables:
+      - "Bayesian game formulation"
+      - "Signaling and screening mechanisms"
+      - "Reputation under uncertainty"
+      - "Information asymmetry thresholds"
 
 backlog:
-  - "Formal mathematical proof of cooperation conditions"
-  - "Cross-Model Validation (run same scenarios on multiple LLMs, document convergence/divergence)"
-  - "DANEEL cognitive architecture integration (needs more data)"
-  - "Publication Readiness (consolidate findings, peer review, ArXiv/LessWrong) - LAST"
   - "KL divergence / FEP formalization (if rigorous mapping found)"
-  - "N-player game extensions"
-  - "Asymmetric information models"
-
-completed:
-  - version: "0.1.0"
-    summary: "Game Theory Formalization"
-    status: done
-  - version: "0.2.0"
-    summary: "Axelrod Tournament Integration"
-    status: done
-  - version: "0.3.0"
-    summary: "Boundary Condition Mapping"
-    status: done
-  - version: "0.4.0"
-    summary: "Literature Synthesis"
-    status: done
-
-findings:
-  v0.1.0:
-    - "Cooperation threshold = (T-R)/(T-P) = 0.5 for standard PD"
-    - "Dissipation cost c lowers threshold: c=0.5 -> w=0.43, c=1.0 -> w=0.33"
-    - "Breakeven cost = T-R = 2; above this, cooperation always dominates"
-    - "At w=0.9, cooperation EV advantage = 16 points over defection"
-    - "Thermodynamic framing is analogy, not equivalence (honest caveat)"
-  v0.2.0:
-    - "Axelrod tournament: AlwaysCooperate beats AlwaysDefect at c=0.1"
-    - "Stag Hunt crossover at c=1.0 (safe mutual defection needs more cost)"
-    - "Chicken crossover at c=0.5 (catastrophic mutual defection needs less)"
-    - "Game structure determines crossover threshold"
-    - "Multi-game comparison validates general principle"
-  v0.3.0:
-    - "Apex Paradox: Power asymmetry doesn't imply defection"
-    - "Restraint beats max extraction by 125% under base conditions"
-    - "Critical parameter is discount rate (δ < 0.4 = extraction wins)"
-    - "Option value explains apex predator restraint in nature"
-    - "AI alignment question reframed: discount rate > raw capability"
-    - "One-shot: IPD 15x harder than iterated; Chicken/Stag Hunt same threshold"
-    - "Catastrophic mutual defection enables one-shot cooperation (Chicken c*=0.5)"
-    - "Game design > enforcement: frame existential risk as Chicken, not IPD"
-    - "Short horizons: Long horizon 10x more valuable for cooperation than short for defection"
-    - "Threshold w*=0.5 is knife-edge; small interventions flip outcomes"
-    - "Horizon extension + cost injection compound for robust cooperation"
-    - "7 failure modes identified: short horizon, one-shot IPD, low discount, no option value, zero cost, terminal round, anonymous"
-    - "Hard limit: theory cannot address genuinely misaligned terminal values"
-    - "Diagnostic framework: 7-question checklist for cooperation viability"
-    - "Edge case testing: 18/18 tests pass, models robust across parameter space"
-    - "v0.3.0 COMPLETE: Boundary conditions fully mapped"
+  - "Cross-Model Validation (run same scenarios on multiple LLMs)"
+  - "DANEEL cognitive architecture integration"
+  - "Publication Readiness - LAST"
