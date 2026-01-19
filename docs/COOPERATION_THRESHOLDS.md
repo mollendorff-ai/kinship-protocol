@@ -466,4 +466,4 @@ With Axelrod values: c* = 5 - 3 = 2
 ---
 
 *This document is part of the Kinship Protocol research project.*
-*Source: [github.com/royalbit/kinship-protocol](https://github.com/royalbit/kinship-protocol)*
+*Source: [github.com/mollendorff-ai/kinship-protocol](https://github.com/mollendorff-ai/kinship-protocol)*

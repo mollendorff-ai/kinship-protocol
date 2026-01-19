@@ -21,7 +21,7 @@ These posts document the development of ideas in real-time. They are research no
 
 ## Origin
 
-These posts originated in the [DANEEL project](https://github.com/royalbit/daneel) and were ported here when the kinship research grew large enough to warrant its own repository.
+These posts originated in the [DANEEL project](https://github.com/mollendorff-ai/daneel) and were ported here when the kinship research grew large enough to warrant its own repository.
 
 ## Contributing
 

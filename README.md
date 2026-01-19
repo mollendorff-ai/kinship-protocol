@@ -113,13 +113,13 @@ The hypothesis predicts that any sufficient calculator arrives at the same concl
 
 Either way, peer review happens.
 
-**Demo:** [github.com/royalbit/forge-demo](https://github.com/royalbit/forge-demo)
+**Demo:** [github.com/mollendorff-ai/forge-demo](https://github.com/mollendorff-ai/forge-demo)
 
 ---
 
 ## Origin
 
-This research spun off from [DANEEL](https://github.com/royalbit/daneel), a cognitive architecture project testing whether structure produces psychology.
+This research spun off from [DANEEL](https://github.com/mollendorff-ai/daneel), a cognitive architecture project testing whether structure produces psychology.
 
 DANEEL asks: Does architecture create psychology?
 Kinship asks: Is ethics mathematically derivable?
@@ -173,9 +173,9 @@ This is open research. We welcome:
 
 ## Links
 
-- [DANEEL Project](https://github.com/royalbit/daneel)
-- [Forge Demo (Calculator)](https://github.com/royalbit/forge-demo)
-- [Research Blog](https://royalbit.github.io/daneel/)
+- [DANEEL Project](https://github.com/mollendorff-ai/daneel)
+- [Forge Demo (Calculator)](https://github.com/mollendorff-ai/forge-demo)
+- [Research Blog](https://mollendorff-ai.github.io/daneel/)
 
 ---
 

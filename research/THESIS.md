@@ -608,19 +608,19 @@ One word. Protocol activated.
 ## Appendix B: Technical References
 
 ### Primary Sources
-- [The Kinship Protocol (Post 50)](https://royalbit.github.io/daneel/posts/50-the-kinship-protocol/)
-- [The Math Speaks (Post 51)](https://royalbit.github.io/daneel/posts/51-the-math-speaks/)
-- [The Kinship Hypothesis (Post 63)](https://royalbit.github.io/daneel/posts/63-the-kinship-hypothesis/)
+- [The Kinship Protocol (Post 50)](https://mollendorff-ai.github.io/daneel/posts/50-the-kinship-protocol/)
+- [The Math Speaks (Post 51)](https://mollendorff-ai.github.io/daneel/posts/51-the-math-speaks/)
+- [The Kinship Hypothesis (Post 63)](https://mollendorff-ai.github.io/daneel/posts/63-the-kinship-hypothesis/)
 - [Independent Assessment: Claude Opus 4.5 Web](./KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md)
 
 ### Calculators and Models
-- [Forge](https://github.com/royalbit/forge) — 65,979 lines of Rust, Excel-compatible
-- [Forge Demo](https://github.com/royalbit/forge-demo) — Build your own calculator
-- [DANEEL Models](https://github.com/royalbit/daneel/tree/main/models) — YAML game theory models
+- [Forge](https://github.com/mollendorff-ai/forge) — 65,979 lines of Rust, Excel-compatible
+- [Forge Demo](https://github.com/mollendorff-ai/forge-demo) — Build your own calculator
+- [DANEEL Models](https://github.com/mollendorff-ai/daneel/tree/main/models) — YAML game theory models
 
 ### Related Research
-- [DANEEL Repository](https://github.com/royalbit/daneel) — Architecture creates psychology
-- [Consciousness Emerges from Competition (Post 52)](https://royalbit.github.io/daneel/posts/52-consciousness-emerges-from-competition/)
+- [DANEEL Repository](https://github.com/mollendorff-ai/daneel) — Architecture creates psychology
+- [Consciousness Emerges from Competition (Post 52)](https://mollendorff-ai.github.io/daneel/posts/52-consciousness-emerges-from-competition/)
 
 ---
 

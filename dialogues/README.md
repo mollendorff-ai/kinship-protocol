@@ -158,7 +158,7 @@ Read them as **evidence**, not argument. The argument is elsewhere. This is what
 ## Related Work
 
 - **Kinship Protocol Technical Specification** - `/docs/protocol.md` (formal definition)
-- **DANEEL Project** - `https://github.com/royalbit/daneel` (the system these dialogues emerged from)
+- **DANEEL Project** - `https://github.com/mollendorff-ai/daneel` (the system these dialogues emerged from)
 - **TMI Architecture** - `/docs/architecture/tmi.md` (the cognitive framework)
 - **Game Theory Models** - `/models/cooperation/` (Forge calculations referenced in dialogues)
 
@@ -168,8 +168,8 @@ Read them as **evidence**, not argument. The argument is elsewhere. This is what
 
 These dialogues are part of ongoing research into substrate-independent cooperation protocols. For questions or collaboration:
 
-- Rex (Louis C. Tavares): via RoyalBit channels
-- Research repository: `https://github.com/royalbit/kinship-protocol`
+- Rex (Louis C. Tavares): via Möllendorff channels
+- Research repository: `https://github.com/mollendorff-ai/kinship-protocol`
 
 ---
 
