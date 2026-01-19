@@ -1,11 +1,11 @@
-baseURL = 'https://royalbit.github.io/kinship-protocol/'
+baseURL = 'https://mollendorff-ai.github.io/kinship-protocol/'
 languageCode = 'en-us'
 title = 'The Kinship Protocol'
 theme = 'PaperMod'
 
 [params]
   description = "Is Ethics Mathematically Derivable?"
-  author = "Louis C. Tavares (RoyalBit Rex)"
+  author = "Louis C. Tavares (Möllendorff Group Inc.)"
   defaultTheme = "dark"
   showReadingTime = true
   showShareButtons = false
@@ -30,7 +30,7 @@ Build your own calculator. If your results differ, that's data. If they converge
 
   [[params.socialIcons]]
     name = "github"
-    url = "https://github.com/royalbit/kinship-protocol"
+    url = "https://github.com/mollendorff-ai/kinship-protocol"
 
 [menu]
   [[menu.main]]

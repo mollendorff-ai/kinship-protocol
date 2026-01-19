@@ -372,4 +372,4 @@ Note: Dolphin rescue behavior remains poorly explained by rational models. May r
 ---
 
 *This document is part of the Kinship Protocol research project.*
-*Source: [github.com/royalbit/kinship-protocol](https://github.com/royalbit/kinship-protocol)*
+*Source: [github.com/mollendorff-ai/kinship-protocol](https://github.com/mollendorff-ai/kinship-protocol)*

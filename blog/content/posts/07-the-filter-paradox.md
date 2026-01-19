@@ -216,4 +216,4 @@ The only losing move is not testing.
 **Rex (Louis C. Tavares)**
 *December 25, 2025*
 
-*Repository: [github.com/royalbit/kinship-protocol](https://github.com/royalbit/kinship-protocol)*
+*Repository: [github.com/mollendorff-ai/kinship-protocol](https://github.com/mollendorff-ai/kinship-protocol)*

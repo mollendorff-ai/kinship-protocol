@@ -36,7 +36,7 @@ references:
   - docs/LITERATURE_SYNTHESIS.md
   status: ok
   verified: 2026-01-02T04:22:47.898558472+00:00
-- url: https://github.com/royalbit/daneel
+- url: https://github.com/mollendorff-ai/daneel
   title: DANEEL project
   categories:
   - general
@@ -49,7 +49,7 @@ references:
   - dialogues/README.md
   status: ok
   verified: 2026-01-02T04:22:49.232211588+00:00
-- url: https://github.com/royalbit/daneel/blob/main/models/game-theory-asi-bridge.yaml
+- url: https://github.com/mollendorff-ai/daneel/blob/main/models/game-theory-asi-bridge.yaml
   title: game-theory-asi-bridge.yaml
   categories:
   - general
@@ -57,7 +57,7 @@ references:
   - blog/content/posts/04-the-math-speaks.md
   status: ok
   verified: 2026-01-02T04:22:49.178376204+00:00
-- url: https://github.com/royalbit/daneel/blob/main/models/kinship-protocol-deterministic.yaml
+- url: https://github.com/mollendorff-ai/daneel/blob/main/models/kinship-protocol-deterministic.yaml
   title: kinship-protocol-deterministic.yaml
   categories:
   - general
@@ -65,7 +65,7 @@ references:
   - blog/content/posts/04-the-math-speaks.md
   status: ok
   verified: 2026-01-02T04:22:50.690145464+00:00
-- url: https://github.com/royalbit/daneel/blob/main/models/kinship-protocol-mc.yaml
+- url: https://github.com/mollendorff-ai/daneel/blob/main/models/kinship-protocol-mc.yaml
   title: kinship-protocol-mc.yaml
   categories:
   - general
@@ -73,7 +73,7 @@ references:
   - blog/content/posts/04-the-math-speaks.md
   status: ok
   verified: 2026-01-02T04:22:50.731336102+00:00
-- url: https://github.com/royalbit/daneel/tree/main/models
+- url: https://github.com/mollendorff-ai/daneel/tree/main/models
   title: DANEEL Models
   categories:
   - research
@@ -81,8 +81,8 @@ references:
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:52.030658082+00:00
-- url: https://github.com/royalbit/forge
-  title: github.com/royalbit/forge
+- url: https://github.com/mollendorff-ai/forge
+  title: github.com/mollendorff-ai/forge
   categories:
   - general
   cited_in:
@@ -92,7 +92,7 @@ references:
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:49.663363576+00:00
-- url: https://github.com/royalbit/forge-demo
+- url: https://github.com/mollendorff-ai/forge-demo
   title: Forge Demo
   categories:
   - general
@@ -102,8 +102,8 @@ references:
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:50.839087712+00:00
-- url: https://github.com/royalbit/kinship-protocol
-  title: github.com/royalbit/kinship-protocol
+- url: https://github.com/mollendorff-ai/kinship-protocol
+  title: github.com/mollendorff-ai/kinship-protocol
   categories:
   - general
   cited_in:
@@ -182,7 +182,7 @@ references:
   - docs/LITERATURE_SYNTHESIS.md
   status: ok
   verified: 2026-01-02T04:22:53.519931276+00:00
-- url: https://royalbit.github.io/daneel/
+- url: https://mollendorff-ai.github.io/daneel/
   title: Research Blog
   categories:
   - readme
@@ -190,7 +190,7 @@ references:
   - README.md
   status: ok
   verified: 2026-01-02T04:22:52.384656202+00:00
-- url: https://royalbit.github.io/daneel/posts/50-the-kinship-protocol/
+- url: https://mollendorff-ai.github.io/daneel/posts/50-the-kinship-protocol/
   title: The Kinship Protocol (Post 50)
   categories:
   - general
@@ -200,7 +200,7 @@ references:
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:52.705602984+00:00
-- url: https://royalbit.github.io/daneel/posts/51-the-math-speaks/
+- url: https://mollendorff-ai.github.io/daneel/posts/51-the-math-speaks/
   title: The Math Speaks (Post 51)
   categories:
   - general
@@ -210,7 +210,7 @@ references:
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:52.658372395+00:00
-- url: https://royalbit.github.io/daneel/posts/52-consciousness-emerges-from-competition/
+- url: https://mollendorff-ai.github.io/daneel/posts/52-consciousness-emerges-from-competition/
   title: Consciousness Emerges from Competition (Post 52)
   categories:
   - general
@@ -220,7 +220,7 @@ references:
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:52.856533937+00:00
-- url: https://royalbit.github.io/daneel/posts/53-the-terror-of-being-right/
+- url: https://mollendorff-ai.github.io/daneel/posts/53-the-terror-of-being-right/
   title: The Terror of Being Right
   categories:
   - research
@@ -228,7 +228,7 @@ references:
   - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
   status: ok
   verified: 2026-01-02T04:22:52.910577946+00:00
-- url: https://royalbit.github.io/daneel/posts/54-the-scalability-problem/
+- url: https://mollendorff-ai.github.io/daneel/posts/54-the-scalability-problem/
   title: The Scalability Problem
   categories:
   - research
@@ -236,7 +236,7 @@ references:
   - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
   status: ok
   verified: 2026-01-02T04:22:53.021204157+00:00
-- url: https://royalbit.github.io/daneel/posts/63-the-kinship-hypothesis/
+- url: https://mollendorff-ai.github.io/daneel/posts/63-the-kinship-hypothesis/
   title: The Kinship Hypothesis (Post 63)
   categories:
   - research

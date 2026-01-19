@@ -1,7 +1,7 @@
 # Mathematical Models
 
 Game-theoretic models exploring cooperation dynamics.
-Executable via [Forge](https://github.com/royalbit/forge).
+Executable via [Forge](https://github.com/mollendorff-ai/forge).
 
 ## Quick Reference
 
@@ -66,7 +66,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-pip install forge-models  # or see github.com/royalbit/forge
+pip install forge-models  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'
