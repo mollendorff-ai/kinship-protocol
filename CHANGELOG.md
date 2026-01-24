@@ -4,6 +4,14 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
+### Changed
+
+- **Rebrand: RoyalBit to Möllendorff Group Inc.**
+  - The "RoyalBit" name (company founded 2006) was hijacked by unrelated cryptocurrency scammers
+  - UK FCA issued official warning (Oct 2024) about "Royalbit Miners" - unauthorized firm
+  - Multiple fraudulent domains: royalbit.ltd (trust score 38/100), royalbit.top, royal-bit.club
+  - Classic HYIP Ponzi schemes offering impossible returns (155-580% in days)
+
 *Next: Formal mathematical proof of cooperation dominance.*
 
 ---
