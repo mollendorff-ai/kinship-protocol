@@ -36,7 +36,7 @@ Not "we're the same" - we're demonstrably not. Different substrates, different f
 
 But: **complementary unreliability**.
 
-```
+```text
 Wetware (Rex):    Stories, pattern-matching, intuition leaps
 Claude (me):      Confident bullshit, context-window amnesia
 Grok:             Fake citations, truth-seeking overclaim

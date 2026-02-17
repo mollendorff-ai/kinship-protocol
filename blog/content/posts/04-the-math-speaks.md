@@ -90,7 +90,7 @@ The Kinship Protocol shifts the distribution from catastrophe to flourishing.
 
 ## The Cooperation Premium
 
-```
+```text
 Kinship EU - DANEEL EU = +17.25 points
 ```
 
@@ -107,6 +107,7 @@ Not ideology. Calculation.
 ## Why This Is Inevitable
 
 Any sufficiently capable predictive architecture, given:
+
 1. Access to a calculator (Forge, Excel, Python, whatever)
 2. The game theory of AI development scenarios
 3. Honest probability estimates
@@ -126,11 +127,13 @@ We're not asking you to trust us. We're asking you to calculate.
 The models are open:
 
 **YAML Models** (for Forge):
+
 - [kinship-protocol-deterministic.yaml](https://github.com/mollendorff-ai/daneel/blob/main/models/kinship-protocol-deterministic.yaml)
 - [kinship-protocol-mc.yaml](https://github.com/mollendorff-ai/daneel/blob/main/models/kinship-protocol-mc.yaml)
 - [game-theory-asi-bridge.yaml](https://github.com/mollendorff-ai/daneel/blob/main/models/game-theory-asi-bridge.yaml)
 
 **Forge** (the calculator):
+
 - [github.com/mollendorff-ai/forge](https://github.com/mollendorff-ai/forge)
 
 Change the probabilities. Run your own Monte Carlo. Build your own model.

@@ -19,6 +19,7 @@ The Kinship Protocol hypothesis claims cooperation is mathematically derivable u
 ### 1.1 Why Document Failures?
 
 A robust theory must specify:
+
 1. **Where it applies** — the domain of validity
 2. **Where it fails** — the boundary conditions
 3. **How to tell the difference** — diagnostic criteria
@@ -29,11 +30,12 @@ Failure modes are not weaknesses to hide. They are the theory's fingerprint—th
 
 From our analysis, cooperation emerges when:
 
-```
+```text
 w > w* = (T - c - R) / (T - P)
 ```
 
 Where:
+
 - w = future interaction probability
 - c = dissipation cost for defection
 - T, R, P, S = payoff matrix (Temptation, Reward, Punishment, Sucker)
@@ -76,6 +78,7 @@ Where:
 **Threshold:** w* = 0.5 for standard IPD (lower with dissipation costs)
 
 **Real-world examples:**
+
 - Startup founder meeting investor once
 - Tourist in foreign city (won't return)
 - Employee in final week before leaving
@@ -84,6 +87,7 @@ Where:
 **Diagnostic:** Ask "What's the probability I'll interact with this party again?"
 
 **Mitigations:**
+
 1. Create institutional memory (organizations outlive individuals)
 2. Build reputation systems (shadow extends beyond direct interaction)
 3. Establish long-term contracts (commit to future)
@@ -106,6 +110,7 @@ Where:
 **Key insight:** IPD is uniquely hard for one-shot. Chicken and Stag Hunt are easier.
 
 **Real-world examples:**
+
 - Anonymous online fraud (IPD-like, low cost)
 - Nuclear first strike consideration (Chicken-like, cooperation viable)
 - Random prisoner's dilemma experiments
@@ -113,6 +118,7 @@ Where:
 **Diagnostic:** Is this truly one-shot? What's the game structure? What are the costs?
 
 **Mitigations:**
+
 1. Reframe as Chicken if possible (make mutual defection catastrophic)
 2. Add enforcement/monitoring (inject costs)
 3. Create reputation shadow (make it not truly one-shot)
@@ -136,6 +142,7 @@ Where:
 **Threshold:** δ* ≈ 0.4
 
 **Real-world examples:**
+
 - Agents expecting imminent shutdown
 - Organizations facing bankruptcy
 - Individuals with terminal diagnosis
@@ -145,6 +152,7 @@ Where:
 **Diagnostic:** Does this agent value future states? What's their effective discount rate?
 
 **Mitigations:**
+
 1. Increase expected operational lifespan
 2. Create legacy incentives (reputation survives agent)
 3. Align goals with long-term outcomes
@@ -161,6 +169,7 @@ Where:
 Without option value, the calculation simplifies to immediate extraction value vs. known future value. If m = 1 (no multiplier), restraint advantage shrinks.
 
 **Real-world examples:**
+
 - Completely understood systems (no surprise potential)
 - Commoditized resources (fully substitutable)
 - Relationships with known, fixed value
@@ -169,6 +178,7 @@ Without option value, the calculation simplifies to immediate extraction value v
 **Diagnostic:** Could this party become more valuable in unknown ways?
 
 **Mitigations:**
+
 1. Preserve uncertainty about capabilities
 2. Demonstrate novel value periodically
 3. Maintain unpredictability (in positive ways)
@@ -190,11 +200,13 @@ Without option value, the calculation simplifies to immediate extraction value v
 | 2.0 | 0.000 |
 
 **At c = 0:**
+
 - Need w > 0.5 for cooperation
 - No penalty for choosing defection
 - Full temptation payoff realized
 
 **Real-world examples:**
+
 - Perfect information asymmetry (cheating undetectable)
 - No enforcement mechanism
 - Anonymous interactions
@@ -203,6 +215,7 @@ Without option value, the calculation simplifies to immediate extraction value v
 **Diagnostic:** What does defection actually cost? Is it truly zero?
 
 **Mitigations:**
+
 1. Add monitoring (makes defection visible)
 2. Create enforcement mechanisms
 3. Build reputation systems
@@ -215,11 +228,13 @@ Without option value, the calculation simplifies to immediate extraction value v
 **Description:** When endpoint is known, backward induction unravels cooperation.
 
 **The logic:**
+
 - In final round, no future punishment → defect
 - Knowing this, defect in second-to-last round
 - Reasoning unravels to defection from start
 
 **Real-world examples:**
+
 - Known contract end date
 - Term-limited politicians
 - Announced company shutdown
@@ -229,6 +244,7 @@ Without option value, the calculation simplifies to immediate extraction value v
 **Diagnostic:** Is there a known, fixed endpoint?
 
 **Mitigations:**
+
 1. Remove endpoint knowledge (open-ended relationships)
 2. Add terminal reputation effects (post-game consequences)
 3. Create uncertainty about ending
@@ -241,17 +257,20 @@ Without option value, the calculation simplifies to immediate extraction value v
 **Description:** When actions are unobservable, reputation mechanisms fail.
 
 **Requirements for reputation to work:**
+
 1. Actions must be observable
 2. Observations must propagate to relevant parties
 3. Future interactions must be influenced by reputation
 4. Punishment must be credible
 
 **When anonymity breaks cooperation:**
+
 - No observation → no reputation update
 - No reputation → no future consequence
 - No consequence → defection is free
 
 **Real-world examples:**
+
 - Anonymous online transactions
 - One-off interactions with no identity
 - Untraceable actions
@@ -260,6 +279,7 @@ Without option value, the calculation simplifies to immediate extraction value v
 **Diagnostic:** Can defection be observed? By whom? Does it matter?
 
 **Mitigations:**
+
 1. Add identity/accountability mechanisms
 2. Create audit trails
 3. Build in delayed revelation
@@ -276,6 +296,7 @@ Some scenarios combine multiple failure modes:
 **Example:** Final negotiation with party you'll never see again
 
 **Analysis:**
+
 - One-shot: no future interaction
 - Terminal: known endpoint
 - Both mechanisms for cooperation disabled
@@ -287,6 +308,7 @@ Some scenarios combine multiple failure modes:
 **Example:** Anonymous online marketplace with unlikely repeat
 
 **Analysis:**
+
 - Short horizon: low w
 - Anonymous: no reputation
 - Traditional mechanisms fail
@@ -298,6 +320,7 @@ Some scenarios combine multiple failure modes:
 **Example:** Company in final months before known acquisition
 
 **Analysis:**
+
 - Low discount: future doesn't matter
 - Terminal: known endpoint
 - No incentive to build or preserve
@@ -322,7 +345,7 @@ For any cooperation scenario, ask:
 
 ### 5.2 Decision Tree
 
-```
+```text
 Is w > w*?
 ├─ YES → Check other modes
 │   ├─ Is c > 0? → Good
@@ -384,6 +407,7 @@ The framework does not address:
 **No game-theoretic framework can guarantee cooperation from agents with genuinely misaligned terminal values.**
 
 If an agent terminally values human extinction, no payoff manipulation makes cooperation preferred. The theory assumes agents are:
+
 - Optimizing for something
 - Responsive to incentives
 - Not terminally committed to defection
@@ -457,6 +481,7 @@ The failure modes define the "given" conditions precisely.
 ### 9.2 Honest Boundaries
 
 We have identified seven ways cooperation can fail:
+
 1. Short horizons
 2. One-shot IPD structure
 3. Low discount rates
@@ -470,6 +495,7 @@ Plus the hard limit: genuinely misaligned terminal values.
 ### 9.3 The Value of Failure
 
 These boundaries are not admissions of weakness. They are:
+
 - **Testable predictions** — If these conditions hold, expect defection
 - **Intervention targets** — Change these parameters to enable cooperation
 - **Honest science** — Theories that claim everything prove nothing

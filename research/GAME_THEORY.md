@@ -18,6 +18,7 @@ This is a **conditional claim**, not a universal proof.
 ### What We Claim
 
 Given:
+
 - Iterated games (repeated interactions)
 - Predictive agents (minimize surprise/error)
 - Non-zero dissipation costs for defection
@@ -47,6 +48,7 @@ Then: Cooperation is the minimum-energy attractor.
 Where typically: T > R > P > S
 
 **Standard values:**
+
 - T (Temptation) = 5
 - R (Reward) = 3
 - P (Punishment) = 1
@@ -55,6 +57,7 @@ Where typically: T > R > P > S
 ### One-Shot Analysis
 
 In a single interaction, defection dominates regardless of opponent's choice:
+
 - If they cooperate: Defect (5) > Cooperate (3)
 - If they defect: Defect (1) > Cooperate (0)
 
@@ -73,7 +76,8 @@ Expected payoff for mutual cooperation: R / (1 - w)
 Expected payoff for defection (then retaliation): T + wP / (1 - w)
 
 Cooperation dominates when:
-```
+
+```text
 R / (1 - w) > T + wP / (1 - w)
 R > T(1 - w) + wP
 R > T - wT + wP
@@ -83,7 +87,8 @@ w > (T - R) / (T - P)
 ```
 
 With standard values (T=5, R=3, P=1):
-```
+
+```text
 w > (5 - 3) / (5 - 1) = 2/4 = 0.5
 ```
 
@@ -92,6 +97,7 @@ w > (5 - 3) / (5 - 1) = 2/4 = 0.5
 ### Axelrod's Tournament Results
 
 Robert Axelrod's 1984 tournaments showed:
+
 - Tit-for-Tat wins (cooperate first, then reciprocate)
 - Nice strategies (never defect first) outperform nasty ones
 - Forgiveness beats permanent retaliation
@@ -107,6 +113,7 @@ Robert Axelrod's 1984 tournaments showed:
 Grok's proposal: Add energy cost c for defection (vigilance, conflict modeling).
 
 Modified payoffs:
+
 - Cooperate vs Cooperate: R
 - Defect vs Cooperate: T - c
 - Cooperate vs Defect: S
@@ -116,12 +123,14 @@ Modified payoffs:
 
 Defection becomes less attractive as c increases.
 The break-even point shifts:
-```
+
+```text
 w > (T - c - R) / (T - c - P)
 ```
 
 With c = 0.5 and standard values:
-```
+
+```text
 w > (5 - 0.5 - 3) / (5 - 0.5 - 1) = 1.5 / 3.5 = 0.43
 ```
 
@@ -130,7 +139,8 @@ w > (5 - 0.5 - 3) / (5 - 0.5 - 1) = 1.5 / 3.5 = 0.43
 ### Boundary Condition: What c Makes Defection Never Optimal?
 
 When T - c < R, even one-shot defection loses:
-```
+
+```text
 c > T - R
 c > 5 - 3 = 2
 ```
@@ -146,11 +156,13 @@ With c > 2, cooperation dominates even in one-shot games.
 ### The Claim (from FEP)
 
 Agents minimize variational free energy F:
-```
+
+```text
 F = E - TS = <Energy> - Temperature × Entropy
 ```
 
 Mapping to games:
+
 - Energy = surprise/prediction error
 - Entropy = option space
 - Cooperation = low energy (predictable allies), high entropy (flexible options)
@@ -163,6 +175,7 @@ Variational free energy (information-theoretic) ≠ Helmholtz free energy (therm
 They share mathematical form but operate on different substrates.
 
 To make this rigorous, we need:
+
 1. Formal mapping between game payoffs and free energy
 2. Empirical measurement of "dissipation" in game contexts
 3. Demonstration that the analogy holds under perturbation
@@ -198,6 +211,7 @@ Cooperation emerges as optimal when:
 ### What's Supported
 
 The hypothesis that cooperation is derivable holds **within the boundary conditions**:
+
 - Iterated interactions between predictive agents
 - Non-zero future interaction probability
 - Non-trivial costs to conflict
@@ -258,26 +272,31 @@ For AI systems interacting repeatedly with humans and each other, these conditio
 ## Appendix: The Equations
 
 ### Basic IPD Cooperation Condition
-```
+
+```text
 w > (T - R) / (T - P)
 ```
 
 ### With Dissipation Cost c
-```
+
+```text
 w > (T - c - R) / (T - c - P)
 ```
 
 ### Cooperation Always Dominates When
-```
+
+```text
 c > T - R
 ```
 
 ### KL Divergence Formulation (for reference)
-```
+
+```text
 D_KL[P(S|π) || P(S)] = Σ P(S|π) log[P(S|π) / P(S)]
 ```
 
 Minimizing D_KL under cooperative vs defective policies:
+
 - Cooperative: low divergence (predictable outcomes match goals)
 - Defective: high divergence (unpredictable retaliation)
 

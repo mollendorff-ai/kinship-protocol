@@ -82,6 +82,7 @@ scenarios:
 ```
 
 **Why MC.Uniform(0.1, 0.3)?**
+
 - Neutral prior (no bias toward higher/lower costs)
 - Scale relative to PD payoffs (modest but cumulative)
 - Empirically tuned: ~0.2 shifted rankings meaningfully without breaking the game
@@ -91,9 +92,9 @@ scenarios:
 ## Reality Checks (from Grok)
 
 > "Short vs. Long Horizon: In one-shot games or isolated contexts, defection is often lazier (grab resources, no future modeling needed). The efficiency win only emerges in iterated/multipolar settings."
-
+>
 > "Local Minima Traps: A 'lazy' predictor might get stuck in defective equilibria if early signals reward greed. The ANOMALY detection could act as the escape hatch."
-
+>
 > "Measurement Challenge: Proving the energy delta empirically is tricky today (no direct ASI comparisons), but simulations with compute proxies could quantify it."
 
 ---
@@ -105,11 +106,13 @@ From the Implications conversation:
 > "If the core hypothesis turns out to be correct and rigorously proven, the implications would be profound..."
 
 ### AI Safety
+
 - Cooperation emerges naturally as dominant strategy for rational predictors
 - Less reliance on fragile human-designed safeguards
 - Efficiency/thermodynamics acts as an attractor
 
 ### Philosophy
+
 - Ethics isn't arbitrary—it's objective and discoverable like physics
 - Challenges moral relativism
 - Bridges is-ought gap via game-theoretic rationality
@@ -123,6 +126,7 @@ From the Implications conversation:
 ## Source Files
 
 Original conversations archived from:
+
 - `~/Downloads/Thermodynamics Ethics.md`
 - `~/Downloads/Implications.md`
 - `~/Downloads/Yes, Forge has dedicated scenario analysis as a core feature.md`

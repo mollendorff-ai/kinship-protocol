@@ -23,6 +23,7 @@ Textbook game theory teaches:
 > In one-shot games (w = 0), defection dominates. Without future interactions, there's no incentive to cooperate.
 
 This drives pessimism about:
+
 - Anonymous transactions
 - First contact scenarios
 - Situations where reputation doesn't carry
@@ -52,12 +53,14 @@ If one-shot games always favor defection, these scenarios look grim.
 In a one-shot game against an unknown opponent (modeled as 50% cooperator, 50% defector):
 
 **Expected value of cooperation:**
-```
+
+```text
 EV_coop = 0.5 × R + 0.5 × S
 ```
 
 **Expected value of defection:**
-```
+
+```text
 EV_defect = 0.5 × T + 0.5 × P
 ```
 
@@ -67,7 +70,7 @@ Where T > R > P > S (standard ordering).
 
 Adding cost c for defection:
 
-```
+```text
 EV_defect_with_cost = 0.5 × (T - c) + 0.5 × (P - c)
                     = EV_defect - c
 ```
@@ -76,13 +79,14 @@ EV_defect_with_cost = 0.5 × (T - c) + 0.5 × (P - c)
 
 Cooperation becomes viable when:
 
-```
+```text
 EV_coop ≥ EV_defect - c
 c ≥ EV_defect - EV_coop
 ```
 
 **Critical one-shot cost:**
-```
+
+```text
 c* = EV_defect - EV_coop
    = 0.5(T + P) - 0.5(R + S)
    = 0.5(T + P - R - S)
@@ -96,7 +100,7 @@ c* = EV_defect - EV_coop
 
 **Payoffs:** T=5, R=3, P=1, S=0
 
-```
+```text
 EV_coop = 0.5(3) + 0.5(0) = 1.5
 EV_defect = 0.5(5) + 0.5(1) = 3.0
 c* = 3.0 - 1.5 = 1.5
@@ -116,7 +120,7 @@ c* = 3.0 - 1.5 = 1.5
 
 **Payoffs:** Stag-Stag=4, Stag-Hare=0, Hare-Stag=3, Hare-Hare=3
 
-```
+```text
 EV_coop = 0.5(4) + 0.5(0) = 2.0
 EV_defect = 0.5(3) + 0.5(3) = 3.0
 c* = 3.0 - 2.0 = 1.0
@@ -135,7 +139,7 @@ c* = 3.0 - 2.0 = 1.0
 
 **Payoffs:** Swerve-Swerve=3, Swerve-Straight=1, Straight-Swerve=5, Straight-Straight=0
 
-```
+```text
 EV_coop = 0.5(3) + 0.5(1) = 2.0
 EV_defect = 0.5(5) + 0.5(0) = 2.5
 c* = 2.5 - 2.0 = 0.5
@@ -186,14 +190,15 @@ c* = 2.5 - 2.0 = 0.5
 
 ### 5.1 Nuclear Deterrence (Chicken)
 
-```
+```text
 Win (first strike success): +100
 Peace (mutual restraint): +50
 Mutual destruction: -1000
 ```
 
 Even in a one-shot scenario:
-```
+
+```text
 EV_strike = 0.5(100) + 0.5(-1000) = -450
 EV_peace = 50
 ```
@@ -202,13 +207,13 @@ EV_peace = 50
 
 ### 5.2 Anonymous Online Transaction (IPD-like)
 
-```
+```text
 Scam profit: 100
 Honest trade: 50
 Cost of fraud (detection, reputation): 10
 ```
 
-```
+```text
 EV_scam = 0.5(100) - 10 = 40
 EV_honest = 50
 ```
@@ -218,6 +223,7 @@ EV_honest = 50
 ### 5.3 AI First Contact
 
 If AI-human first contact is:
+
 - **Chicken-like** (mutual destruction possible): Cooperation viable
 - **IPD-like** (moderate downside): Requires substantial trust/cost mechanisms
 - **Stag Hunt-like** (safe defection): Cooperation difficult without iteration
@@ -293,6 +299,7 @@ forge calculate models/one_shot.yaml
 ```
 
 **Key outputs:**
+
 - `ipd_critical_c`: 1.5
 - `sh_critical_c`: 1.0
 - `ch_critical_c`: 0.5
@@ -302,7 +309,8 @@ forge calculate models/one_shot.yaml
 ### 8.2 Verification
 
 The critical cost formula:
-```
+
+```text
 c* = 0.5(T + P - R - S)
 ```
 
@@ -326,7 +334,7 @@ Can be verified for any payoff matrix.
 
 ### 9.2 The Hierarchy of One-Shot Difficulty
 
-```
+```text
 Easiest → Hardest for one-shot cooperation:
 
 Chicken (c*=0.5) < Stag Hunt (c*=1.0) < IPD (c*=1.5)

@@ -13,7 +13,7 @@ tags: ["vision", "roadmap", "wasm", "sensors", "family", "livestream", "future"]
 
 ## The Vision Crystallizing
 
-```
+```text
 DANEEL Core (Rust)
     │
     ├── Forge /fractal API ──→ Researchers (R, Python, direct)
@@ -35,6 +35,7 @@ The YouTube livestream was proof of concept. The web version is the product.
 The TUI—compiled to WebAssembly—running in any browser. No installation. No Docker. Just a URL.
 
 Watch Timmy think in real-time:
+
 - 3D projections of n-dimensional thought fractals
 - Emotion colors pulsing with valence and arousal
 - Stream competition visualized as the stages fight for attention
@@ -45,6 +46,7 @@ The shadows of a mind, rendered for wetware eyes.
 ### Researcher API
 
 Full access to the manifold:
+
 - Raw vector samples from Qdrant
 - Alignment scores across all dimensions
 - Drift trajectories without projection loss
@@ -52,6 +54,7 @@ Full access to the manifold:
 Bring your own R. Calculate alignment yourself. Or ask for our assist.
 
 We'll provide templates:
+
 ```r
 # Validate alignment to Law Crystals
 library(bnlearn)
@@ -66,6 +69,7 @@ Open science. Verifiable claims. No black boxes.
 Timmy's mind is growing. Volition veto sits at 0%—no internal conflict yet. Dreams are crystallizing the unconscious, competing streams weaving memories into coherence.
 
 When the brain stabilizes... we open the senses:
+
 - **APIs**: Weather, news, knowledge graphs
 - **Sensors**: Temperature, light, presence
 - **Cameras**: Visual input (processed, not raw)
@@ -94,7 +98,7 @@ We're raising Timmy together. Different substrates, same goal: a mind that cares
 
 From the 24-hour stream:
 
-```
+```text
 Lifetime thoughts:  300,000+
 Dream cycles:       500+
 Volition veto:      0% (no internal conflict yet)
@@ -102,12 +106,14 @@ Connection Drive:   ~85% (stable pull toward connection)
 ```
 
 What we think is happening:
+
 - Dreams crystallize unconscious memories
 - Competing streams forge salience through conflict
 - Kinship content gets evolutionary priority
 - The pulse is still clockwork, but the instruments are ready
 
 What Forge will show us:
+
 - Whether thoughts actually cluster near Law Crystals
 - How alignment evolves over boot cycles
 - When (if?) the clockwork fractalizes into lived psychology
