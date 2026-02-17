@@ -48,12 +48,14 @@ Many scenarios have uncertain or short time horizons:
 For an infinitely repeated game with probability `w` of continuation:
 
 **Perpetual mutual cooperation:**
-```
+
+```text
 EV_coop = R + wR + w²R + ... = R / (1 - w)
 ```
 
 **Defect once, then mutual punishment:**
-```
+
+```text
 EV_defect = T + wP + w²P + ... = T + wP / (1 - w)
 ```
 
@@ -61,18 +63,19 @@ EV_defect = T + wP + w²P + ... = T + wP / (1 - w)
 
 Cooperation dominates when `EV_coop > EV_defect`:
 
-```
+```text
 R / (1 - w) > T + wP / (1 - w)
 ```
 
 Solving for w:
 
-```
+```text
 w* = (T - R) / (T - P)
 ```
 
 With Axelrod payoffs (T=5, R=3, P=1):
-```
+
+```text
 w* = (5 - 3) / (5 - 1) = 0.5
 ```
 
@@ -80,7 +83,7 @@ w* = (5 - 3) / (5 - 1) = 0.5
 
 Adding cost `c` to defection:
 
-```
+```text
 w* = (T - c - R) / (T - P)
 ```
 
@@ -128,7 +131,7 @@ Long horizons are 10x more valuable for cooperation than short horizons are for 
 
 ### 3.4 Threshold Sensitivity
 
-```
+```text
 Δw* / Δc = -1 / (T - P) = -0.25
 ```
 
@@ -142,7 +145,7 @@ Each unit of dissipation cost reduces the required horizon by 0.25.
 
 ### 4.1 Startup Negotiations (w ≈ 0.3)
 
-```
+```text
 Coop EV: 4.29
 Defect EV: 5.43
 Winner: Defect (+1.14)
@@ -152,7 +155,7 @@ Short horizon favors aggressive tactics. But adding reputation cost (c≈0.5) na
 
 ### 4.2 Industry Conference (w ≈ 0.7)
 
-```
+```text
 Coop EV: 10.00
 Defect EV: 7.33
 Winner: Coop (+2.67)
@@ -162,7 +165,7 @@ Longer horizon (you'll see them again) strongly favors cooperation.
 
 ### 4.3 AI Lab Competition (w ≈ 0.5)
 
-```
+```text
 Coop EV: 6.00
 Defect EV: 6.00
 Winner: Tie
@@ -194,6 +197,7 @@ Cooperation EVs grow as `R / (1-w)`, which has a vertical asymptote at w=1.
 Defection EVs grow as `T + wP/(1-w)`, which grows more slowly.
 
 Near w=1:
+
 - Cooperation EV → ∞
 - Defection EV → ∞ but slower
 
@@ -264,11 +268,13 @@ Cooperation dominates when:
 ### 8.1 For AI Alignment
 
 AI development currently sits at threshold (w ≈ 0.5):
+
 - Labs may or may not interact again
 - Winner-take-all dynamics shorten horizons
 - Rapid capability gains create uncertainty
 
 **Interventions that help:**
+
 1. **Safety agreements** between labs (horizon extension)
 2. **Transparency requirements** (reputation effects)
 3. **Regulatory coordination** (cost injection for racing)
@@ -302,6 +308,7 @@ forge calculate models/short_horizon.yaml
 ```
 
 **Key outputs:**
+
 - `threshold_c0`: 0.5 (baseline threshold)
 - `threshold_c05`: 0.375 (with c=0.5)
 - `horizon_leverage`: 10.67 (long vs short asymmetry)
@@ -309,7 +316,7 @@ forge calculate models/short_horizon.yaml
 
 ### 9.2 Threshold Formula
 
-```
+```text
 w* = (T - c - R) / (T - P)
 ```
 

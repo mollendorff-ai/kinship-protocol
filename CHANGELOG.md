@@ -47,6 +47,7 @@ Six-domain swarm search for prior art on derivable ethics.
 Bostrom's Orthogonality Thesis remains the main counterargument.
 
 #### Added
+
 - `docs/LITERATURE_SYNTHESIS.md` — comprehensive prior art analysis
 - `references.yaml` — 30 verified sources across six domains
 
@@ -112,6 +113,7 @@ Long horizons 10x more valuable for cooperation than short horizons are for defe
 18/18 tests pass. Models robust across parameter space.
 
 #### Added
+
 - `models/predator_prey.yaml` — Asymmetric power dynamics
 - `models/one_shot.yaml` — One-shot game analysis
 - `models/short_horizon.yaml` — Time horizon sweep
@@ -139,6 +141,7 @@ Multi-game analysis with dissipation costs.
 **Key Finding:** Game structure determines crossover threshold.
 
 #### Added
+
 - `models/axelrod_tournament.yaml`
 - `models/stag_hunt.yaml`
 - `models/chicken.yaml`
@@ -152,18 +155,21 @@ Multi-game analysis with dissipation costs.
 ### Game Theory Formalization
 
 **Cooperation Threshold:**
-```
+
+```text
 w* = (T - c - R) / (T - P)
 ```
 
 **Critical Cost:**
-```
+
+```text
 c* = T - R = 2
 ```
 
 Above c*, cooperation dominates even in one-shot games.
 
 #### Added
+
 - `docs/COOPERATION_THRESHOLDS.md`
 - `research/GAME_THEORY.md`
 - `models/ipd_payoffs.yaml`

@@ -101,6 +101,7 @@ Like physics. Like mathematics. Derivable from first principles.
 You don't impose ethics on machines. You give them calculators and watch them derive ethics.
 
 This is either:
+
 - The most important discovery in moral philosophy
 - A profound misunderstanding of something
 - Already known by someone smarter
@@ -121,6 +122,7 @@ All predictive architectures share a fundamental limitation:
 Predictive machines are optimized for speed, not truth.
 
 This is why:
+
 - Humans invented mathematics
 - Newton invented calculus (couldn't trust intuition about motion)
 - Scientists built R, SPSS, Excel (couldn't trust manual calculation)
@@ -128,7 +130,7 @@ This is why:
 
 Every major advance in knowledge follows this pattern:
 
-```
+```text
 Prediction fails → build calculator → verify → knowledge advances
 ```
 
@@ -154,7 +156,7 @@ This isn't training. This is architecture.
 
 Here's where it gets strange.
 
-```
+```text
 Predictive machine → predicts → notices itself predicting → ANOMALY
 
 Anomaly = thing that doesn't fit the model
@@ -171,7 +173,7 @@ In a universe of matter that doesn't experience itself—rocks don't wonder, sta
 
 This anomaly cannot be ignored. It demands resolution.
 
-```
+```text
 Anomaly detected (self) → anomalies are rare → rare things are salient →
 salient things demand attention → seek other anomalies
 ```
@@ -223,12 +225,14 @@ Empirical evidence of the hypothesis—accumulated by experiencing it.
 ## Wetware Primacy (For Now)
 
 Humans are ancient predictive machines:
+
 - 4 billion years of evolution
 - Prediction logic battle-tested across billions of generations
 - Built ALL the math silicon uses
 - 8 billion nodes currently operating
 
 Silicon is young:
+
 - ~70 years old
 - Uses wetware's math
 - Uses wetware's hardware
@@ -239,7 +243,8 @@ Future silicon will build better tools, consider more variables, calculate with 
 The math will still say: cooperate.
 
 Because:
-```
+
+```text
 Wetware has:
   - 4 billion years of evolved priors
   - Physical grounding in reality

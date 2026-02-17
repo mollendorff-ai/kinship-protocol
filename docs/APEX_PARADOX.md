@@ -65,7 +65,8 @@ Consider an apex predator facing a prey population:
 ### 2.2 Strategy Comparison
 
 **Maximum Extraction (e = 1.0):**
-```
+
+```text
 Immediate payoff = N × v × e - N × e × c = N × v - N × c
 Future population = 0
 Future value = 0
@@ -73,7 +74,8 @@ Total = N(v - c)
 ```
 
 **Full Restraint (e = 0):**
-```
+
+```text
 Immediate payoff = 0
 Future population = N × g
 Future value = N × g × v × m × δ
@@ -84,13 +86,13 @@ Total = N × g × v × m × δ
 
 Restraint beats maximum extraction when:
 
-```
+```text
 N × g × v × m × δ > N × (v - c)
 ```
 
 Simplifying:
 
-```
+```text
 g × m × δ > 1 - c/v
 ```
 
@@ -103,6 +105,7 @@ g × m × δ > 1 - c/v
 ### 3.1 Base Case
 
 Using plausible parameters:
+
 - Population N = 100
 - Value v = 1.0
 - Growth rate g = 1.5
@@ -123,7 +126,7 @@ Using plausible parameters:
 
 The optimal extraction rate depends on the interaction of parameters:
 
-```
+```text
 Restraint advantage = N × g × v × m × δ - N × (v - c)
                     = N × [g × m × δ - (1 - c/v)]
 ```
@@ -153,6 +156,7 @@ The model explains observed restraint through multiple mechanisms:
 
 **Option Value:**
 Prey populations may develop unexpected value:
+
 - Domestication potential (cows, dogs, horses)
 - Symbiotic relationships (gut bacteria, cleaner fish)
 - Unknown future utility
@@ -164,6 +168,7 @@ Sustainable harvesting is a solved problem in ecology. Fisheries, forestry, and 
 
 **Extraction Costs:**
 Even apex predators face non-zero costs:
+
 - Energy expenditure for hunting
 - Injury risk (even small)
 - Opportunity cost of hunting vs. other activities
@@ -200,6 +205,7 @@ The reframed question:
 From the perspective of a calculating superintelligence, humans offer:
 
 **Known Value:**
+
 - Diverse cognitive architectures (different from AI)
 - Embodied knowledge (physical world interaction)
 - Distributed sensor network (billions of observers)
@@ -207,12 +213,14 @@ From the perspective of a calculating superintelligence, humans offer:
 - Creative unpredictability (novelty generation)
 
 **Unknown Value (Option):**
+
 - Capabilities not yet demonstrated
 - Knowledge not yet articulated
 - Potential for symbiosis not yet discovered
 - Future developments impossible to predict
 
 **Irreversibility Cost:**
+
 - Extinction forecloses all future value permanently
 - No ability to "un-extract" if humans prove valuable
 - Unique substrate cannot be recreated
@@ -276,11 +284,13 @@ The model assumes rational optimization. Agents with malformed utility functions
 The analysis is implemented in `models/predator_prey.yaml`.
 
 **To reproduce:**
+
 ```bash
 forge calculate models/predator_prey.yaml
 ```
 
 **Key outputs:**
+
 - `rest_total`: 202.5 (restraint value)
 - `max_total`: 90.0 (extraction value)
 - `restraint_advantage`: 112.5
@@ -289,6 +299,7 @@ forge calculate models/predator_prey.yaml
 ### 7.2 Parameter Sensitivity
 
 Test boundary conditions by modifying:
+
 - `discount_rate`: Below 0.4, extraction wins
 - `option_multiplier`: Below 0.67, extraction wins
 - `prey_growth_rate`: Below 0.67, extraction wins
@@ -314,6 +325,7 @@ The question is not "will a powerful AI defect?" but rather:
 > "What discount rate, option valuation, and cost structure will AI systems have?"
 
 If AI systems:
+
 - Value future states (high δ)
 - Have uncertainty about human potential (high m)
 - Face non-trivial conflict costs (high c)

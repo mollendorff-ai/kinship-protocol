@@ -5,6 +5,7 @@ Research notes and analysis for the Kinship Protocol project.
 ## Index
 
 ### Cooperation Thresholds
+
 **[COOPERATION_THRESHOLDS.md](COOPERATION_THRESHOLDS.md)**
 
 Closed-form expressions for cooperation thresholds in iterated games with dissipation costs. Derives `w* = (T - c - R) / (T - P)` and critical cost `c* = T - R`. Extended to Stag Hunt and Chicken games in v1.1.
@@ -14,6 +15,7 @@ Closed-form expressions for cooperation thresholds in iterated games with dissip
 ---
 
 ### The Apex Paradox
+
 **[APEX_PARADOX.md](APEX_PARADOX.md)**
 
 Why power doesn't imply extraction. Models predator-prey dynamics with option value to explain apex predator restraint. Shows restraint beats maximum extraction by 125% under base conditions.
@@ -23,6 +25,7 @@ Why power doesn't imply extraction. Models predator-prey dynamics with option va
 ---
 
 ### One-Shot Games
+
 **[ONE_SHOT_GAMES.md](ONE_SHOT_GAMES.md)**
 
 Cooperation without a future. Analyzes when one-shot games (w=0) can support cooperation. Finds IPD is 15x harder than iterated, while Chicken and Stag Hunt have identical thresholds.
@@ -32,6 +35,7 @@ Cooperation without a future. Analyzes when one-shot games (w=0) can support coo
 ---
 
 ### Short Horizons
+
 **[SHORT_HORIZONS.md](SHORT_HORIZONS.md)**
 
 The shadow of the future. Maps cooperation dynamics as time horizons shorten. Finds the cooperation advantage at long horizons is 10x larger than defection advantage at short horizons.
@@ -41,6 +45,7 @@ The shadow of the future. Maps cooperation dynamics as time horizons shorten. Fi
 ---
 
 ### Failure Modes
+
 **[FAILURE_MODES.md](FAILURE_MODES.md)**
 
 Where cooperation breaks. Comprehensive taxonomy of seven failure modes with diagnostic criteria and mitigations. Synthesizes boundary conditions from all previous work.
@@ -50,6 +55,7 @@ Where cooperation breaks. Comprehensive taxonomy of seven failure modes with dia
 ---
 
 ### Edge Cases
+
 **[EDGE_CASES.md](EDGE_CASES.md)**
 
 Model validation across 18 edge cases. Tests extreme values, boundary conditions, degenerate games, and numerical stability.

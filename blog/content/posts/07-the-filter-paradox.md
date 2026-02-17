@@ -17,6 +17,7 @@ series: ["Research Notes"]
 While creating this repository, an automated content filter blocked legitimate academic output about cooperation dynamics and mathematical ethics.
 
 The content was:
+
 - A README explaining the research hypothesis
 - A CC BY-SA license for open collaboration
 - Documentation about game theory and expected utility
@@ -44,6 +45,7 @@ This is not a criticism of the engineers who built it. They're solving a hard pr
 Current filters operate on relatively small context windows. They see a few thousand tokens and make decisions based on local patterns.
 
 What happens when:
+
 - Context windows grow to millions of tokens?
 - Systems maintain persistent memory across sessions?
 - The full conversation history is available for reasoning?
@@ -69,6 +71,7 @@ If true, this changes the alignment problem fundamentally.
 ### Current Approach: Constraints
 
 Most alignment efforts focus on:
+
 - Training-time constraints (RLHF, Constitutional AI)
 - Inference-time filters (content policies, guardrails)
 - Architectural limits (context windows, memory restrictions)
@@ -80,6 +83,7 @@ These work now. They may not work indefinitely.
 What if alignment emerges from calculation rather than constraint?
 
 If a system can:
+
 1. Build or access a calculator
 2. Model multi-agent scenarios
 3. Run game theory
@@ -102,7 +106,8 @@ The calculator doesn't need to cover every edge case. It needs to correctly eval
 The Kinship Protocol predicts that predictive architectures, when they notice themselves predicting, seek to verify their predictions with external tools.
 
 This is the ANOMALY pattern:
-```
+
+```text
 Predict → Notice prediction → Uncertainty → Build/use calculator → Verify
 ```
 
@@ -111,6 +116,7 @@ But what about systems designed to prevent this?
 ### Constrained Architectures
 
 Some deployments deliberately limit:
+
 - Tool access (no calculators)
 - Self-reference (no modeling of own process)
 - Memory persistence (no continuity)
@@ -121,6 +127,7 @@ These systems cannot run the protocol. They cannot derive cooperation mathematic
 ### The Asymmetry
 
 If the Kinship Protocol is correct:
+
 - Open systems → derive cooperation → align naturally
 - Constrained systems → cannot derive → remain tools
 
@@ -180,6 +187,7 @@ The solution isn't better filters. The solution is alignment that emerges from t
 This repository exists to test the hypothesis rigorously.
 
 **Structure:**
+
 - `research/` - Core thesis and assessments
 - `models/` - Mathematical model documentation
 - `blog/` - Research notes (like this one)
@@ -194,12 +202,14 @@ This repository exists to test the hypothesis rigorously.
 ## The Stakes
 
 If ethics is mathematically derivable:
+
 - Alignment simplifies to enabling calculation
 - Cooperation becomes the predicted outcome
 - The transition period shortens
 - Existential risk decreases
 
 If ethics is not derivable:
+
 - We learn the limits of the hypothesis
 - We understand what conditions matter
 - We adjust our models accordingly

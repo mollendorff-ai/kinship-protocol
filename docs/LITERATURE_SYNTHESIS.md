@@ -68,9 +68,11 @@ The Kinship Protocol hypothesis claims that any sufficient predictive architectu
 **Folk Theorem:** Any feasible payoff profile that dominates minimax can be achieved as subgame-perfect equilibrium when discount factor exceeds threshold. This is the **mathematical proof** that cooperation emerges under calculable conditions.
 
 **Threshold formula:**
-```
+
+```text
 w* = (T - R) / (T - P)
 ```
+
 Where w = probability of future interaction, T = temptation, R = reward, P = punishment.
 
 **Program Equilibrium (2014):** This is a **mathematical proof** that transparent agents cooperate in one-shot Prisoner's Dilemma via Lob's theorem. Two FairBots cooperate through provability logic—no training, no culture, pure mathematics.
@@ -96,6 +98,7 @@ Where w = probability of future interaction, T = temptation, R = reward, P = pun
 **Hamilton's Rule:** Altruism is favored when rB > C (relatedness × benefit > cost). This is the first **exact equation** for when "ethics" becomes evolutionarily stable.
 
 **Nowak's Five Rules:** Unified framework showing cooperation evolves via:
+
 1. Kin selection: r > c/b
 2. Direct reciprocity: w > c/b
 3. Indirect reciprocity: q > c/b
@@ -270,23 +273,27 @@ The prior art is strong. The novelty is in the synthesis and the test.
 ## References
 
 ### Moral Philosophy
+
 - Gauthier, D. (1986). *Morals by Agreement*. Oxford University Press.
 - Binmore, K. (1994, 1998). *Game Theory and the Social Contract* (2 vols). MIT Press.
 - [SEP: Contractarianism](https://plato.stanford.edu/entries/contractarianism/)
 - [SEP: Game Theory and Ethics](https://plato.stanford.edu/entries/game-ethics/)
 
 ### Game Theory
+
 - Fudenberg, D. & Maskin, E. (1986). The Folk Theorem in Repeated Games with Discounting.
 - Nowak, M.A. (2006). Five Rules for the Evolution of Cooperation. *Science*.
 - Barasz et al. (2014). [Robust Cooperation via Provability Logic](https://arxiv.org/abs/1401.5577).
 - Axelrod, R. (1984). *The Evolution of Cooperation*. Basic Books.
 
 ### Evolutionary Biology
+
 - Hamilton, W.D. (1964). The Genetical Evolution of Social Behaviour.
 - Trivers, R.L. (1971). The Evolution of Reciprocal Altruism.
 - Nowak, M.A. (2006). [Five Rules for Cooperation](https://pmc.ncbi.nlm.nih.gov/articles/PMC3279745/).
 
 ### AI Safety
+
 - Russell, S. et al. (2016). [Cooperative Inverse Reinforcement Learning](https://arxiv.org/abs/1606.03137).
 - Yudkowsky, E. & Soares, N. (2017). [Functional Decision Theory](https://arxiv.org/abs/1710.05060).
 - Oesterheld, C. (2017). [Multiverse-wide Cooperation](https://longtermrisk.org/files/Multiverse-wide-Cooperation-via-Correlated-Decision-Making.pdf).
@@ -294,12 +301,14 @@ The prior art is strong. The novelty is in the synthesis and the test.
 - Dafoe, A. et al. (2020). [Open Problems in Cooperative AI](https://arxiv.org/abs/2012.08630).
 
 ### Decision Theory
+
 - Drescher, G. (2006). *Good and Real*. MIT Press.
 - Hofstadter, D. (1985). *Metamagical Themas* (Superrationality chapter).
 - [LessWrong: Acausal Trade](https://www.lesswrong.com/w/acausal-trade)
 - [LessWrong: Functional Decision Theory](https://www.lesswrong.com/w/functional-decision-theory)
 
 ### Physics & Thermodynamics
+
 - Friston, K. (2010). The Free Energy Principle. *Nature Reviews Neuroscience*.
 - Wissner-Gross, A. & Freer, C. (2013). [Causal Entropic Forces](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.110.168702).
 - [Cooperation from Surprise Minimization](https://pmc.ncbi.nlm.nih.gov/articles/PMC7858259/) (2021).

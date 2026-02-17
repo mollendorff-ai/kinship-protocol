@@ -55,6 +55,7 @@ forge calculate models/ipd_payoffs.yaml
 ## Documentation
 
 Full analysis in [docs/](../docs/README.md):
+
 - [COOPERATION_THRESHOLDS.md](../docs/COOPERATION_THRESHOLDS.md) — Threshold derivations
 - [APEX_PARADOX.md](../docs/APEX_PARADOX.md) — Power asymmetry analysis
 - [ONE_SHOT_GAMES.md](../docs/ONE_SHOT_GAMES.md) — One-shot viability

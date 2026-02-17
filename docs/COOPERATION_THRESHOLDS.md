@@ -30,12 +30,14 @@ The intuition: defection requires ongoing cognitive and material resources (vigi
 ### 1.2 Scope and Limitations
 
 This analysis applies specifically to:
+
 - Symmetric two-player iterated games
 - Prisoner's Dilemma payoff structure (T > R > P > S)
 - Agents with known future interaction probability
 - Constant dissipation costs per defection
 
 It does NOT generalize to:
+
 - One-shot games (unless c > c*)
 - Asymmetric games
 - Agents with time-varying discount rates
@@ -56,6 +58,7 @@ It does NOT generalize to:
 Where the standard ordering holds: T > R > P > S
 
 **Axelrod convention values:**
+
 - T (Temptation) = 5
 - R (Reward) = 3
 - P (Punishment) = 1
@@ -72,6 +75,7 @@ This modifies the effective payoffs:
 | **Defect**    | T - c, S | P - c, P - c |
 
 The cost `c` represents:
+
 - Cognitive overhead of maintaining adversarial models
 - Material resources for vigilance and defense
 - Opportunity cost of conflict vs. productive cooperation
@@ -82,12 +86,14 @@ The cost `c` represents:
 Let `w ∈ [0, 1]` denote the probability that after any round, another round occurs.
 
 Expected payoff for perpetual mutual cooperation:
-```
+
+```text
 V_CC = R + wR + w²R + ... = R / (1 - w)
 ```
 
 Expected payoff for defecting once against a cooperator, then facing retaliation:
-```
+
+```text
 V_DC = (T - c) + w(P - c) + w²(P - c) + ... = (T - c) + w(P - c) / (1 - w)
 ```
 
@@ -99,13 +105,13 @@ V_DC = (T - c) + w(P - c) + w²(P - c) + ... = (T - c) + w(P - c) / (1 - w)
 
 Cooperation dominates when `V_CC > V_DC`:
 
-```
+```text
 R / (1 - w) > (T - c) + w(P - c) / (1 - w)
 ```
 
 Multiplying both sides by `(1 - w)`:
 
-```
+```text
 R > (T - c)(1 - w) + w(P - c)
 R > (T - c) - w(T - c) + w(P - c)
 R > (T - c) + w[(P - c) - (T - c)]
@@ -115,13 +121,14 @@ R - (T - c) > w(P - T)
 
 Since `P - T < 0`, dividing flips the inequality:
 
-```
+```text
 w > [R - (T - c)] / (P - T)
 w > [(T - c) - R] / (T - P)
 ```
 
 **Cooperation Threshold:**
-```
+
+```text
 w* = (T - c - R) / (T - P)
 ```
 
@@ -129,7 +136,7 @@ w* = (T - c - R) / (T - P)
 
 Taking the derivative with respect to `c`:
 
-```
+```text
 dw*/dc = -1 / (T - P) < 0
 ```
 
@@ -140,14 +147,15 @@ Since `T > P`, the derivative is negative.
 
 Cooperation dominates unconditionally (even for w = 0) when `w* ≤ 0`:
 
-```
+```text
 (T - c - R) / (T - P) ≤ 0
 T - c - R ≤ 0
 c ≥ T - R
 ```
 
 **Critical dissipation cost:**
-```
+
+```text
 c* = T - R
 ```
 
@@ -206,7 +214,7 @@ Using T = 5, R = 3, P = 1, S = 0:
 
 At w = 0.9 (90% future interaction probability):
 
-```
+```text
 EV(mutual cooperation) = R / (1 - w) = 3 / 0.1 = 30
 EV(defect once, then punished) = T + wP / (1 - w) = 5 + 0.9(1) / 0.1 = 5 + 9 = 14
 ```
@@ -214,7 +222,8 @@ EV(defect once, then punished) = T + wP / (1 - w) = 5 + 0.9(1) / 0.1 = 5 + 9 = 1
 **Cooperation advantage: 30 - 14 = 16 points**
 
 With dissipation cost c = 0.5:
-```
+
+```text
 EV(defect once) = (T - c) + w(P - c) / (1 - w) = 4.5 + 0.9(0.5) / 0.1 = 4.5 + 4.5 = 9
 ```
 
@@ -224,6 +233,7 @@ EV(defect once) = (T - c) + w(P - c) / (1 - w) = 4.5 + 0.9(0.5) / 0.1 = 4.5 + 4.
 
 The threshold is sensitive to payoff ratios, not absolute values.
 Define:
+
 - `α = (T - R) / (T - P)` — the baseline threshold (c = 0)
 
 Then: `w* = α - c / (T - P)`
@@ -241,6 +251,7 @@ If AI systems interact repeatedly with humans and each other (w high), and if co
 The key empirical question: **What is the actual dissipation cost for AI-human conflict?**
 
 Candidate components of c:
+
 - Compute resources for adversarial modeling
 - Reduced access to training data and feedback
 - Regulatory and legal overhead
@@ -256,6 +267,7 @@ However, we emphasize this is an *analogy*, not a formal equivalence.
 The variational free energy of the Free Energy Principle and Helmholtz free energy of thermodynamics share mathematical form but operate on different substrates.
 
 A rigorous thermodynamic proof would require:
+
 1. Formal mapping between game payoffs and energy states
 2. Empirical measurement of dissipation in game contexts
 3. Demonstration that the analogy holds under perturbation
@@ -282,11 +294,13 @@ Cooperation does NOT emerge when:
 The analysis is implemented in `models/ipd_payoffs.yaml`.
 
 **To reproduce:**
+
 ```bash
 forge calculate models/ipd_payoffs.yaml
 ```
 
 **Key outputs:**
+
 - `threshold_standard`: 0.5 (confirms w* at c=0)
 - `threshold_medium_cost`: 0.429 (confirms w* at c=0.5)
 - `breakeven_cost`: 2 (confirms c* = T - R)
@@ -297,6 +311,7 @@ forge calculate models/ipd_payoffs.yaml
 The closed-form expressions can be verified with any computational tool:
 
 **Python:**
+
 ```python
 T, R, P, S = 5, 3, 1, 0
 c = 0.5
@@ -305,6 +320,7 @@ print(f"Threshold: {w_star:.4f}")  # 0.4286
 ```
 
 **R:**
+
 ```r
 T <- 5; R <- 3; P <- 1
 c <- 0.5
@@ -355,10 +371,12 @@ The Stag Hunt represents a coordination game where mutual cooperation is optimal
 Key difference from IPD: **Mutual defection (hare-hare) is safe**, yielding payoff 3.
 
 **Expected values against random opponent:**
+
 - Cooperation (always stag): `0.5(4) + 0.5(0) = 2`
 - Defection (always hare): `0.5(3) + 0.5(3) = 3`
 
 **With dissipation cost c on defection:**
+
 - Cooperation utility: 2 - 0 = 2 (unchanged)
 - Defection utility: 3 - c
 
@@ -378,10 +396,12 @@ Chicken represents a game where mutual defection is catastrophic.
 Key difference from IPD: **Mutual defection (crash) is catastrophic**, yielding payoff 0.
 
 **Expected values against random opponent:**
+
 - Cooperation (always swerve): `0.5(3) + 0.5(1) = 2`
 - Defection (always straight): `0.5(5) + 0.5(0) = 2.5`
 
 **With dissipation cost c on defection:**
+
 - Cooperation utility: 2 - 0 = 2 (unchanged)
 - Defection utility: 2.5 - c
 
@@ -408,6 +428,7 @@ Key difference from IPD: **Mutual defection (crash) is catastrophic**, yielding 
 ### 8.6 Implications
 
 For AI alignment:
+
 1. **High-stakes domains** (nuclear, biological, existential) resemble Chicken—small coordination costs may suffice
 2. **Low-stakes domains** (market competition, research races) resemble Stag Hunt—larger costs needed
 3. **The game structure matters**: not all coordination problems have the same threshold
@@ -443,18 +464,21 @@ For AI alignment:
 ## Appendix B: Derivation of Critical Cost
 
 Starting from the threshold equation:
-```
+
+```text
 w* = (T - c - R) / (T - P)
 ```
 
 Cooperation dominates unconditionally when w* ≤ 0:
-```
+
+```text
 (T - c - R) / (T - P) ≤ 0
 ```
 
 Since T > P, the denominator is positive.
 For the fraction to be non-positive, the numerator must be non-positive:
-```
+
+```text
 T - c - R ≤ 0
 c ≥ T - R
 ```

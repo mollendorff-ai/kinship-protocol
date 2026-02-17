@@ -17,6 +17,7 @@ We validate the cooperation threshold models against 18 edge cases covering extr
 ## 1. Purpose
 
 Edge case testing validates that:
+
 1. Models behave correctly at boundaries
 2. Formulas don't break with extreme inputs
 3. Results are consistent with theoretical predictions
@@ -112,7 +113,7 @@ Edge case testing validates that:
 
 ### 3.1 Test Results
 
-```
+```text
 Tests Passed: 18/18
 Pass Rate: 100%
 ```
@@ -132,6 +133,7 @@ Pass Rate: 100%
 ### 3.3 No Failures Found
 
 The models are robust across:
+
 - Extreme parameter values
 - Boundary conditions
 - Degenerate game structures
@@ -144,6 +146,7 @@ The models are robust across:
 ### 4.1 Model Confidence
 
 The threshold formula `w* = (T - c - R) / (T - P)` is validated across:
+
 - Standard ranges
 - Extreme values
 - Edge conditions
@@ -151,6 +154,7 @@ The threshold formula `w* = (T - c - R) / (T - P)` is validated across:
 ### 4.2 Safe to Use
 
 The models can be applied to:
+
 - Real-world scenarios with unusual parameters
 - Sensitivity analysis
 - Boundary exploration
@@ -168,6 +172,7 @@ forge calculate models/edge_cases.yaml
 ```
 
 Check results:
+
 - `tests_passed`: should be 18
 - `pass_rate`: should be 1.0
 

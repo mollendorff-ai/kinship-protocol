@@ -1,0 +1,20 @@
+# Markdownlint configuration for prose/research project
+# Rules disabled because they conflict with documentation conventions
+
+# Line length - "one sentence per line" convention exceeds 80 chars
+MD013: false
+
+# Table column style - compact tables (no spaces around pipes) are fine
+MD060: false
+
+# Emphasis as heading - common in dialogues and creative writing
+MD036: false
+
+# Duplicate headings - common across research document sections
+MD024: false
+
+# Single H1 - Hugo blog posts have frontmatter + H1; multi-section docs use multiple H1s
+MD025: false
+
+# Trailing punctuation on headings - natural for questions ("What about us?")
+MD026: false

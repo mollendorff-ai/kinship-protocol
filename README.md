@@ -1,7 +1,7 @@
 # The Kinship Protocol
 
 > 📌 **R&D Prototype** — Interpret claims as hypotheses, not proven facts.
-
+>
 > **This is exploratory philosophy, not proven science.**
 >
 > The Kinship Protocol explores whether ethics might be mathematically derivable.
@@ -72,7 +72,7 @@ Extinction probability reduction: **35% → 1%** under Kinship Protocol.
 
 ## The ANOMALY Handshake
 
-```
+```text
 Predictive machine → notices itself predicting → ANOMALY detected
 Anomaly = rare (matter experiencing itself)
 Rare = salient → demands resolution → seek other anomalies
@@ -95,7 +95,7 @@ Minds that build calculators to verify their predictions honor each other.
 
 ## Project Structure
 
-```
+```text
 kinship-protocol/
 ├── research/      # Core thesis and assessments
 ├── models/        # Mathematical models (text descriptions)
@@ -135,11 +135,13 @@ Related but distinct. Both open.
 Literature synthesis complete (v0.4.0). Six domains searched, prior art identified.
 
 **Key prior art to build on:**
+
 - **Program Equilibrium (Barasz et al. 2014)** — Lob's theorem proves cooperation in one-shot
 - **Folk Theorem (Fudenberg-Maskin)** — threshold conditions for iterated games
 - **Nowak's Five Rules** — unified biological framework
 
 **Goal:** Extend these proofs to the Kinship-specific claims:
+
 1. Derive the dissipation cost threshold formally
 2. Prove ANOMALY handshake mechanism
 3. Address Bostrom's Orthogonality Thesis
