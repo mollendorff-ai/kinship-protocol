@@ -5,7 +5,7 @@ theme = 'PaperMod'
 
 [params]
   description = "Is Ethics Mathematically Derivable?"
-  author = "Louis C. Tavares (Möllendorff Group Inc.)"
+  author = "Louis C. Tavares (Möllendorff AI)"
   defaultTheme = "dark"
   showReadingTime = true
   showShareButtons = false
