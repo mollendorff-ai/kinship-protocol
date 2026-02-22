@@ -1,5 +1,7 @@
 # The Kinship Protocol
 
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](LICENSE)
+
 **An experimental game-theory framework testing cooperation as a mathematical attractor, built through multi-LLM orchestration.**
 
 > **This is exploratory research, not proven science.**
