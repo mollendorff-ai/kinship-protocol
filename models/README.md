@@ -19,12 +19,16 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 
 ## Running Models
 
+Install Forge from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge`.
+Use `--dry-run` to print results without touching the file.
+Without it, `forge calculate` writes the results back into the model and keeps a `.bak` copy.
+
 ```bash
-# Calculate all formulas
-forge calculate models/<model>.yaml
+# Preview all formulas (no file changes)
+forge calculate models/<model>.yaml --dry-run
 
 # Example
-forge calculate models/ipd_payoffs.yaml
+forge calculate models/ipd_payoffs.yaml --dry-run
 ```
 
 ## Key Results Summary
@@ -67,7 +71,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-pip install forge-models  # or see github.com/mollendorff-ai/forge
+cargo install mollendorff-forge  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'
@@ -81,7 +85,7 @@ assumptions:
 EOF
 
 # Run
-forge calculate my_model.yaml
+forge calculate my_model.yaml --dry-run
 ```
 
 Disagreement advances understanding. If your results differ, share your assumptions.
