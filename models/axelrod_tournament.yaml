@@ -10,19 +10,19 @@ assumptions:
     value: 0.0
   grim_base:
     value: 2.622
-    description: GrimTrigger avg payoff
+    notes: GrimTrigger avg payoff
   tft_base:
     value: 2.445
-    description: TitForTat avg payoff
+    notes: TitForTat avg payoff
   ad_base:
     value: 2.212
-    description: AlwaysDefect avg payoff
+    notes: AlwaysDefect avg payoff
   ac_base:
     value: 2.112
-    description: AlwaysCooperate avg payoff
+    notes: AlwaysCooperate avg payoff
   rand_base:
     value: 1.9
-    description: Random avg payoff
+    notes: Random avg payoff
   ac_defect:
     value: 0.0
   tft_defect:
@@ -116,4 +116,4 @@ assumptions:
   crossover_c:
     value: 0.10000000000000009
     formula: =ad_base - ac_base
-    description: Dissipation cost where AC equals AD
+    notes: Dissipation cost where AC equals AD

@@ -10,36 +10,36 @@ assumptions:
   # === IPD PAYOFFS (Axelrod) ===
   T:
     value: 5.0
-    description: Temptation
+    notes: Temptation
   R:
     value: 3.0
-    description: Reward
+    notes: Reward
   P:
     value: 1.0
-    description: Punishment
+    notes: Punishment
   S:
     value: 0.0
-    description: Sucker
+    notes: Sucker
 
   # Dissipation cost
   c:
     value: 0.0
-    description: Base case - no dissipation cost
+    notes: Base case - no dissipation cost
 
   # === COOPERATION THRESHOLD ===
   # w* = (T - c - R) / (T - P)
   threshold_c0:
     value: 0.5
     formula: =(T - 0 - R) / (T - P)
-    description: Threshold with no cost
+    notes: Threshold with no cost
   threshold_c05:
     value: 0.375
     formula: =(T - 0.5 - R) / (T - P)
-    description: Threshold with c=0.5
+    notes: Threshold with c=0.5
   threshold_c1:
     value: 0.25
     formula: =(T - 1 - R) / (T - P)
-    description: Threshold with c=1.0
+    notes: Threshold with c=1.0
 
   # === HORIZON SWEEP (no dissipation cost) ===
   # Expected value of cooperation: R / (1 - w)
@@ -60,7 +60,7 @@ assumptions:
   w_01_gap:
     value: -1.78
     formula: =w_01_coop_ev - w_01_defect_ev
-    description: Negative = defection advantage
+    notes: Negative = defection advantage
 
   w_02:
     value: 0.2
@@ -121,7 +121,7 @@ assumptions:
   w_05_gap:
     value: 0.0
     formula: =w_05_coop_ev - w_05_defect_ev
-    description: Breakeven at w=0.5
+    notes: Breakeven at w=0.5
 
   w_06:
     value: 0.6
@@ -137,7 +137,7 @@ assumptions:
   w_06_gap:
     value: 1.0
     formula: =w_06_coop_ev - w_06_defect_ev
-    description: Cooperation advantage emerges
+    notes: Cooperation advantage emerges
 
   w_07:
     value: 0.7
@@ -208,7 +208,7 @@ assumptions:
   w_04_c_gap:
     value: 0.0
     formula: =w_04_coop_ev - w_04_c_defect_ev
-    description: New breakeven at w=0.4 with c=0.5
+    notes: New breakeven at w=0.4 with c=0.5
 
   w_05_c_defect_ev:
     value: 5.0
@@ -225,7 +225,7 @@ assumptions:
   # Startup negotiations (might not get another meeting)
   startup_w:
     value: 0.3
-    description: 30% chance of future interaction
+    notes: 30% chance of future interaction
   startup_coop_ev:
     value: 4.29
     formula: =R / (1 - startup_w)
@@ -235,12 +235,12 @@ assumptions:
   startup_defect_wins:
     value: 1.0
     formula: =IF(startup_defect_ev > startup_coop_ev, 1, 0)
-    description: Short horizon favors defection
+    notes: Short horizon favors defection
 
   # Industry conference (will see each other again)
   conference_w:
     value: 0.7
-    description: 70% chance of future interaction
+    notes: 70% chance of future interaction
   conference_coop_ev:
     value: 10.0
     formula: =R / (1 - conference_w)
@@ -250,12 +250,12 @@ assumptions:
   conference_coop_wins:
     value: 1.0
     formula: =IF(conference_coop_ev > conference_defect_ev, 1, 0)
-    description: Longer horizon favors cooperation
+    notes: Longer horizon favors cooperation
 
   # AI lab competition (uncertain future)
   ai_lab_w:
     value: 0.5
-    description: 50% - threshold case
+    notes: 50% - threshold case
   ai_lab_coop_ev:
     value: 6.0
     formula: =R / (1 - ai_lab_w)
@@ -265,7 +265,7 @@ assumptions:
   ai_lab_neutral:
     value: 1.0
     formula: =IF(ai_lab_coop_ev = ai_lab_defect_ev, 1, 0)
-    description: Exactly at threshold - knife edge
+    notes: Exactly at threshold - knife edge
 
   # === KEY METRICS ===
 
@@ -273,22 +273,22 @@ assumptions:
   threshold_sensitivity:
     value: 0.25
     formula: =(threshold_c0 - threshold_c1) / 1
-    description: Each unit of c reduces threshold by 0.25
+    notes: Each unit of c reduces threshold by 0.25
 
   # Cooperation advantage at long horizon (w=0.9)
   long_horizon_advantage:
     value: 16.0
     formula: =w_09_gap
-    description: Cooperation wins by 16 points at w=0.9
+    notes: Cooperation wins by 16 points at w=0.9
 
   # Defection advantage at short horizon (w=0.2)
   short_horizon_disadvantage:
     value: 1.5
     formula: =0 - w_02_gap
-    description: Defection wins by 1.5 points at w=0.2
+    notes: Defection wins by 1.5 points at w=0.2
 
   # Ratio: how much more does cooperation win at long vs short horizon?
   horizon_leverage:
     value: 10.67
     formula: =long_horizon_advantage / short_horizon_disadvantage
-    description: Long horizon 10x more valuable for cooperation
+    notes: Long horizon 10x more valuable for cooperation
