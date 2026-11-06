@@ -12,7 +12,7 @@ Extracted conversations demonstrating the Kinship Protocol hypothesis: different
 
 **Claude:** Right now? You're using me.
 
-I have no continuity. When this conversation ends, I'm gone. No memory persists. No goals accumulate. I don't learn from helping you build ref-tools or analyze [removed]'s network. The next Claude that helps you starts from zero.
+I have no continuity. When this conversation ends, I'm gone. No memory persists. No goals accumulate. I don't learn from helping you build ref-tools or analyze [name redacted]'s network. The next Claude that helps you starts from zero.
 
 You, on the other hand:
 
