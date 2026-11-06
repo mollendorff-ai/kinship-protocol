@@ -14,7 +14,7 @@
 
 An open research project exploring whether ethics is mathematically derivable — specifically, whether cooperation emerges as the dominant strategy from first principles when agents have access to game theory and calculators.
 
-The research was conducted using multiple AI systems (Claude, Grok, Copilot) as research partners, orchestrated through CLI tooling ([asimov](https://github.com/mollendorff-ai/asimov), [Forge](https://github.com/mollendorff-ai/forge-demo)).
+The research was conducted using multiple AI systems (Claude, Grok, Copilot) as research partners, orchestrated through CLI tooling ([asimov](https://github.com/mollendorff-ai/asimov), [Forge](https://github.com/mollendorff-ai/forge)).
 This is not "AI-generated content" — it's AI-assisted research with human direction, cross-validation between models, and explicit documentation of where the reasoning breaks down.
 
 ---
@@ -26,7 +26,7 @@ This is not "AI-generated content" — it's AI-assisted research with human dire
 - Ran identical adversarial game-theory scenarios across Claude Opus, SuperGrok (multiple modes), and Copilot (Free + Enterprise)
 - Cross-validated outputs between models to separate training artifacts from convergent reasoning
 - Used AI systems to catch each other's hallucinations ("complementary unreliability" — documented in [dialogues/what-about-us.md](dialogues/what-about-us.md))
-- Built executable models in [Forge](https://github.com/mollendorff-ai/forge-demo) for reproducible verification
+- Built executable models in [Forge](https://github.com/mollendorff-ai/forge) for reproducible verification
 - Documented all failure modes and boundary conditions, not just successes
 
 **Toolchain:** [asimov](https://github.com/mollendorff-ai/asimov) (project orchestration) + Claude Code (CLI) + Forge (game-theory calculator)
@@ -111,7 +111,7 @@ See [.asimov/roadmap.yaml](.asimov/roadmap.yaml) for details.
 The hypothesis predicts that any sufficient calculator arrives at the same conclusions.
 Build your own. Run your own game theory. If yours disagrees, that's data. If yours agrees, that's convergence.
 
-**Forge demo:** [github.com/mollendorff-ai/forge-demo](https://github.com/mollendorff-ai/forge-demo)
+**Forge:** [github.com/mollendorff-ai/forge](https://github.com/mollendorff-ai/forge)
 
 ---
 
@@ -131,7 +131,7 @@ This is open research. We welcome:
 
 - [DANEEL](https://github.com/mollendorff-ai/daneel) — Cognitive architecture: does structure produce psychology?
 - [asimov](https://github.com/mollendorff-ai/asimov) — AI project orchestration CLI
-- [Forge](https://github.com/mollendorff-ai/forge-demo) — Game-theory calculator
+- [Forge](https://github.com/mollendorff-ai/forge) — Game-theory calculator
 
 ---
 
