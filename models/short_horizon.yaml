@@ -291,4 +291,4 @@ assumptions:
   horizon_leverage:
     value: 10.67
     formula: =long_horizon_advantage / short_horizon_disadvantage
-    notes: Long horizon 10x more valuable for cooperation
+    notes: Ratio for w=0.9 vs w=0.2 only; it changes with the horizons chosen, so it is not a finding

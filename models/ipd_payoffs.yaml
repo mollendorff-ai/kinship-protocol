@@ -32,20 +32,20 @@ assumptions:
     formula: =(temptation - reward) / (temptation - punishment)
     notes: w threshold for cooperation (c=0)
   threshold_low_cost:
-    value: 0.47368421052631576
-    formula: =(temptation - dissipation_cost_low - reward) / (temptation - dissipation_cost_low - punishment)
+    value: 0.45
+    formula: =(temptation - dissipation_cost_low - reward) / (temptation - punishment)
     notes: w threshold for cooperation (c=0.2)
   threshold_medium_cost:
-    value: 0.42857142857142855
-    formula: =(temptation - dissipation_cost_medium - reward) / (temptation - dissipation_cost_medium - punishment)
+    value: 0.375
+    formula: =(temptation - dissipation_cost_medium - reward) / (temptation - punishment)
     notes: w threshold for cooperation (c=0.5)
   threshold_high_cost:
-    value: 0.3333333333333333
-    formula: =(temptation - dissipation_cost_high - reward) / (temptation - dissipation_cost_high - punishment)
+    value: 0.25
+    formula: =(temptation - dissipation_cost_high - reward) / (temptation - punishment)
     notes: w threshold for cooperation (c=1.0)
   threshold_extreme_cost:
     value: 0.0
-    formula: =(temptation - dissipation_cost_extreme - reward) / (temptation - dissipation_cost_extreme - punishment)
+    formula: =(temptation - dissipation_cost_extreme - reward) / (temptation - punishment)
     notes: w threshold for cooperation (c=2.0)
   breakeven_cost:
     value: 2.0
@@ -87,6 +87,6 @@ assumptions:
     formula: =IF(future_probability > threshold_standard, 1, 0)
     notes: 1 if cooperation optimal at w=0.9, 0 otherwise
   required_cost_short_horizon:
-    value: 2.8
-    formula: =temptation - reward - 0.3 * (temptation - punishment - (temptation - reward) / 0.3)
+    value: 0.8
+    formula: =temptation - reward - 0.3 * (temptation - punishment)
     notes: Dissipation cost needed for cooperation at w=0.3
