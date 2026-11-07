@@ -190,25 +190,25 @@ assumptions:
     value: 0.5
 
   w_03_c_defect_ev:
-    value: 4.93
+    value: 4.71
     formula: =T - c_cost + (w_03 * (P - c_cost)) / (1 - w_03)
   w_03_c_coop_wins:
     value: 0.0
     formula: =IF(w_03_coop_ev > w_03_c_defect_ev, 1, 0)
   w_03_c_gap:
-    value: -0.64
+    value: -0.43
     formula: =w_03_coop_ev - w_03_c_defect_ev
 
   w_04_c_defect_ev:
-    value: 5.0
+    value: 4.83
     formula: =T - c_cost + (w_04 * (P - c_cost)) / (1 - w_04)
   w_04_c_coop_wins:
-    value: 0.0
+    value: 1.0
     formula: =IF(w_04_coop_ev > w_04_c_defect_ev, 1, 0)
   w_04_c_gap:
-    value: 0.0
+    value: 0.17
     formula: =w_04_coop_ev - w_04_c_defect_ev
-    notes: New breakeven at w=0.4 with c=0.5
+    notes: Cooperation already wins at w=0.4 with c=0.5 (exact breakeven is w=0.375)
 
   w_05_c_defect_ev:
     value: 5.0
