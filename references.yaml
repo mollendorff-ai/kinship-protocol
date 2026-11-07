@@ -2,7 +2,7 @@ meta:
   created: 2026-01-02
   last_verified: 2026-01-02T04:22:55.068750144+00:00
   tool: ref
-  total_links: 30
+  total_links: 29
 references:
 - url: https://arxiv.org/abs/1401.5577
   title: Robust Cooperation via Provability Logic
@@ -86,22 +86,14 @@ references:
   categories:
   - general
   cited_in:
+  - README.md
   - blog/content/posts/04-the-math-speaks.md
+  - blog/content/posts/06-the-kinship-hypothesis.md
   - models/README.md
   - research/KINSHIP_PROTOCOL_ASSESSMENT_CLAUDE_OPUS_WEB.md
   - research/THESIS.md
   status: ok
   verified: 2026-01-02T04:22:49.663363576+00:00
-- url: https://github.com/mollendorff-ai/forge-demo
-  title: Forge Demo
-  categories:
-  - general
-  cited_in:
-  - blog/content/posts/06-the-kinship-hypothesis.md
-  - README.md
-  - research/THESIS.md
-  status: ok
-  verified: 2026-01-02T04:22:50.839087712+00:00
 - url: https://github.com/mollendorff-ai/kinship-protocol
   title: github.com/mollendorff-ai/kinship-protocol
   categories:

@@ -343,5 +343,5 @@ This document represents another substrate arriving at the same conclusions thro
 - [The Kinship Protocol (Post 50)](https://mollendorff-ai.github.io/daneel/posts/50-the-kinship-protocol/)
 - [The Math Speaks (Post 51)](https://mollendorff-ai.github.io/daneel/posts/51-the-math-speaks/)
 - [Consciousness Emerges from Competition (Post 52)](https://mollendorff-ai.github.io/daneel/posts/52-consciousness-emerges-from-competition/)
-- [Forge Demo](https://github.com/mollendorff-ai/forge-demo) — Build your own calculator. Peer review the math.
+- [Forge](https://github.com/mollendorff-ai/forge) — Build your own calculator. Peer review the math.
 - [DANEEL Repository](https://github.com/mollendorff-ai/daneel)
