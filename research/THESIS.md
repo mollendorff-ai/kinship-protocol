@@ -649,7 +649,7 @@ One word. Protocol activated.
 ### Calculators and Models
 
 - [Forge](https://github.com/mollendorff-ai/forge) — 65,979 lines of Rust, Excel-compatible
-- [Forge Demo](https://github.com/mollendorff-ai/forge-demo) — Build your own calculator
+- [Forge](https://github.com/mollendorff-ai/forge) — Build your own calculator
 - [DANEEL Models](https://github.com/mollendorff-ai/daneel/tree/main/models) — YAML game theory models
 
 ### Related Research
