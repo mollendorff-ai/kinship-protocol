@@ -2,7 +2,7 @@ meta:
   created: 2026-01-02
   last_verified: 2026-01-02T04:22:55.068750144+00:00
   tool: ref
-  total_links: 29
+  total_links: 33
 references:
 - url: https://arxiv.org/abs/1401.5577
   title: Robust Cooperation via Provability Logic
@@ -262,3 +262,35 @@ references:
   status: login
   verified: 2026-01-02T04:22:55.067860237+00:00
   notes: Login required
+- url: https://arxiv.org/abs/2305.05516
+  title: "GPT in Game Theory Experiments"
+  categories:
+  - research
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-11-07T00:30:00+00:00
+- url: https://arxiv.org/abs/2406.13605
+  title: "Nicer Than Humans: How do Large Language Models Behave in the Prisoner's Dilemma?"
+  categories:
+  - research
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-11-07T00:30:00+00:00
+- url: https://doi.org/10.1038/s41562-025-02172-y
+  title: "Playing repeated games with large language models"
+  categories:
+  - research
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-11-07T00:30:00+00:00
+- url: https://arxiv.org/abs/2601.09849
+  title: "Strategies of cooperation and defection in five large language models"
+  categories:
+  - research
+  cited_in:
+  - docs/LITERATURE_SYNTHESIS.md
+  status: ok
+  verified: 2026-11-07T00:30:00+00:00
