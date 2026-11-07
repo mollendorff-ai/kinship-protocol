@@ -10,7 +10,7 @@
 
 ## Abstract
 
-Standard game theory holds that one-shot games favor defection—without future interactions, there's no shadow of the future to enforce cooperation. We analyze when this conventional wisdom breaks down. Using dissipation cost extensions across three canonical games (Prisoner's Dilemma, Stag Hunt, Chicken), we find that game structure dramatically affects one-shot viability. Chicken-like games with catastrophic mutual defection can support cooperation even without future interactions, while Prisoner's Dilemma requires 15x higher costs in one-shot versus iterated contexts. This has direct implications for AI alignment scenarios that may be effectively one-shot.
+Standard game theory holds that one-shot games favor defection—without future interactions, there's no shadow of the future to enforce cooperation. We analyze when this conventional wisdom breaks down. Using dissipation cost extensions across three canonical games (Prisoner's Dilemma, Stag Hunt, Chicken), we find that game structure dramatically affects one-shot viability. Chicken-like games with catastrophic mutual defection can support cooperation even without future interactions, while the Prisoner's Dilemma needs the largest cost of the three (c* = 1.5 against an opponent who cooperates half the time, 2 against any opponent); iterated with w > 0.5, it needs no cost at all. This has direct implications for AI alignment scenarios that may be effectively one-shot.
 
 ---
 
@@ -168,11 +168,11 @@ c* = 2.5 - 2.0 = 0.5
 
 ### 4.2 Comparison: One-Shot vs Iterated
 
-| Game | One-Shot c* | Iterated Crossover | Difficulty Ratio |
-|------|-------------|-------------------|------------------|
-| IPD | 1.5 | 0.1 | **15x** |
-| Stag Hunt | 1.0 | 1.0 | 1x |
-| Chicken | 0.5 | 0.5 | 1x |
+In the iterated Prisoner's Dilemma, cooperation needs no dissipation cost once w > 0.5 (see [COOPERATION_THRESHOLDS.md](COOPERATION_THRESHOLDS.md)).
+In one shot it needs c ≥ 1.5 against a 50/50 opponent, or c ≥ 2 against any opponent.
+Iteration is what makes cooperation free here, so there is no meaningful "times harder" ratio: the iterated requirement is zero.
+
+The Axelrod-tournament crossover (c = 0.1, in `models/axelrod_tournament.yaml`) measures something else, when AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's, and should not be compared with the one-shot costs above.
 
 ### 4.3 The Key Insight
 
@@ -303,7 +303,7 @@ forge calculate models/one_shot.yaml
 - `ipd_critical_c`: 1.5
 - `sh_critical_c`: 1.0
 - `ch_critical_c`: 0.5
-- `ipd_difficulty_ratio`: 15
+- `ipd_critical_c_any_opponent`: 2 (defection pays against no opponent)
 - `nuke_coop_wins`: 1 (peace beats first strike)
 
 ### 8.2 Verification
@@ -315,6 +315,7 @@ c* = 0.5(T + P - R - S)
 ```
 
 Can be verified for any payoff matrix.
+Against any opponent, rather than a 50/50 one, the critical cost is `max(T - R, P - S)`.
 
 ---
 
@@ -326,7 +327,7 @@ Can be verified for any payoff matrix.
 
 2. **Chicken-like games support one-shot cooperation** with minimal costs (c* = 0.5).
 
-3. **IPD is uniquely hard** for one-shot cooperation—15x harder than iterated.
+3. **IPD is the hardest of the three in one shot** (c* = 1.5 against a 50/50 opponent, 2 against any opponent); iterated with w > 0.5, it needs no cost.
 
 4. **Catastrophic mutual defection helps cooperation** by making defection inherently costly.
 

@@ -5,7 +5,7 @@ identity:
   name: "kinship-protocol"
   type: docs
 
-description: "Game-theoretic research proving cooperation dominance via kinship signaling"
+description: "Game-theoretic research exploring when cooperation dominates, and where it fails"
 
 stack:
   - "markdown"

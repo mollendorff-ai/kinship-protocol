@@ -18,7 +18,7 @@ Closed-form expressions for cooperation thresholds in iterated games with dissip
 
 **[APEX_PARADOX.md](APEX_PARADOX.md)**
 
-Why power doesn't imply extraction. Models predator-prey dynamics with option value to explain apex predator restraint. Shows restraint beats maximum extraction by 125% under base conditions.
+Why power doesn't imply extraction. Models predator-prey dynamics with option value to explain apex predator restraint. Under the base parameters restraint scores 202.5 against 90 for maximum extraction; with a discount rate below 0.4, extraction wins.
 
 **Key result:** Power asymmetry doesn't predict defection. Discount rate and option value matter more.
 
@@ -28,7 +28,7 @@ Why power doesn't imply extraction. Models predator-prey dynamics with option va
 
 **[ONE_SHOT_GAMES.md](ONE_SHOT_GAMES.md)**
 
-Cooperation without a future. Analyzes when one-shot games (w=0) can support cooperation. Finds IPD is 15x harder than iterated, while Chicken and Stag Hunt have identical thresholds.
+Cooperation without a future. Analyzes when one-shot games (w=0) can support cooperation. One-shot IPD needs a dissipation cost of 1.5 (against a 50/50 opponent) or 2 (against anyone); Stag Hunt needs 1.0 and Chicken 0.5.
 
 **Key result:** Game structure matters more than iteration. Frame existential scenarios as Chicken, not IPD.
 
@@ -38,7 +38,7 @@ Cooperation without a future. Analyzes when one-shot games (w=0) can support coo
 
 **[SHORT_HORIZONS.md](SHORT_HORIZONS.md)**
 
-The shadow of the future. Maps cooperation dynamics as time horizons shorten. Finds the cooperation advantage at long horizons is 10x larger than defection advantage at short horizons.
+The shadow of the future. Maps cooperation dynamics as time horizons shorten. Finds the defection advantage at short horizons is capped at 2, while the cooperation advantage grows without bound as w → 1.
 
 **Key result:** Horizon extension is high leverage. Any intervention that extends time horizons disproportionately favors cooperation.
 
@@ -68,10 +68,10 @@ Model validation across 18 edge cases. Tests extreme values, boundary conditions
 
 | Document | Topic | Key Finding |
 |----------|-------|-------------|
-| COOPERATION_THRESHOLDS | IPD + multi-game thresholds | `c* = T - R` makes cooperation dominant |
+| COOPERATION_THRESHOLDS | IPD + multi-game thresholds | `c ≥ max(T - R, P - S)` makes cooperation dominant |
 | APEX_PARADOX | Asymmetric power dynamics | Restraint > extraction under uncertainty |
 | ONE_SHOT_GAMES | One-shot viability | Chicken enables one-shot cooperation |
-| SHORT_HORIZONS | Time horizon dynamics | Long horizons 10x more valuable for cooperation |
+| SHORT_HORIZONS | Time horizon dynamics | Defection advantage capped; cooperation advantage unbounded as w → 1 |
 | FAILURE_MODES | Boundary conditions | 7 failure modes with diagnostics and mitigations |
 | EDGE_CASES | Model validation | 18/18 tests pass, models robust |
 

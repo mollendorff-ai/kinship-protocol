@@ -125,24 +125,26 @@ Defection becomes less attractive as c increases.
 The break-even point shifts:
 
 ```text
-w > (T - c - R) / (T - c - P)
+w > (T - c - R) / (T - P)
 ```
+
+The cost appears on both T and P, so it cancels in the denominator (derivation in [docs/COOPERATION_THRESHOLDS.md](../docs/COOPERATION_THRESHOLDS.md) §3.1).
 
 With c = 0.5 and standard values:
 
 ```text
-w > (5 - 0.5 - 3) / (5 - 0.5 - 1) = 1.5 / 3.5 = 0.43
+w > (5 - 0.5 - 3) / (5 - 1) = 1.5 / 4 = 0.375
 ```
 
 **Observation:** Dissipation costs lower the cooperation threshold.
 
 ### Boundary Condition: What c Makes Defection Never Optimal?
 
-When T - c < R, even one-shot defection loses:
+Defection loses against any opponent, even in one shot, when it pays neither against a cooperator (T - c < R) nor against a defector (P - c < S):
 
 ```text
-c > T - R
-c > 5 - 3 = 2
+c > max(T - R, P - S)
+c > max(5 - 3, 1 - 0) = 2
 ```
 
 With c > 2, cooperation dominates even in one-shot games.
@@ -189,7 +191,7 @@ Cooperation emerges as optimal when:
 | Condition | Threshold | Notes |
 |-----------|-----------|-------|
 | Future interaction probability | w > 0.5 | Standard PD |
-| With dissipation cost c=0.5 | w > 0.43 | Lower threshold |
+| With dissipation cost c=0.5 | w > 0.375 | Lower threshold |
 | With dissipation cost c=2.0 | w > 0 | Always cooperate |
 | One-shot game, c=0 | Never | Defection dominates |
 | Short horizon (w < 0.5) | Never | Defection dominates |
@@ -280,13 +282,13 @@ w > (T - R) / (T - P)
 ### With Dissipation Cost c
 
 ```text
-w > (T - c - R) / (T - c - P)
+w > (T - c - R) / (T - P)
 ```
 
 ### Cooperation Always Dominates When
 
 ```text
-c > T - R
+c > max(T - R, P - S)
 ```
 
 ### KL Divergence Formulation (for reference)

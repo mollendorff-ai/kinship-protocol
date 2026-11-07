@@ -10,7 +10,7 @@
 
 ## Abstract
 
-The "shadow of the future" is game theory's term for how future interactions discipline present behavior. We analyze how cooperation dynamics change as this shadow shortens. Using IPD with dissipation costs, we map the transition from short-horizon defection to long-horizon cooperation. Key finding: the cooperation advantage at long horizons is 10x larger than the defection advantage at short horizons. This asymmetry suggests that extending time horizons—even modestly—disproportionately favors cooperation.
+The "shadow of the future" is game theory's term for how future interactions discipline present behavior. We analyze how cooperation dynamics change as this shadow shortens. Using IPD with dissipation costs, we map the transition from short-horizon defection to long-horizon cooperation. Key finding: the defection advantage at short horizons is capped at T - R = 2, while the cooperation advantage at long horizons grows without bound as w → 1 (16 at w = 0.9). This asymmetry suggests that extending time horizons—even modestly—disproportionately favors cooperation.
 
 ---
 
@@ -109,15 +109,18 @@ Each unit of c reduces threshold by `1 / (T - P) = 0.25`.
 
 ### 3.2 The Asymmetry
 
-**Key finding:** The cooperation advantage at long horizons vastly exceeds the defection advantage at short horizons.
+**Key finding:** The two advantages are not symmetric.
+Defection's advantage at short horizons is capped: it is largest at w = 0, where it equals T - R = 2.
+Cooperation's advantage at long horizons has no cap: it is 16 at w = 0.9 and 196 at w = 0.99.
 
 | Metric | Value |
 |--------|-------|
+| Defection advantage at w=0 (its maximum) | 2.00 |
 | Defection advantage at w=0.2 | 1.50 |
 | Cooperation advantage at w=0.9 | 16.00 |
-| **Ratio** | **10.67x** |
+| Cooperation advantage at w=0.99 | 196.00 |
 
-Long horizons are 10x more valuable for cooperation than short horizons are for defection.
+A single ratio between the two (for example 16 / 1.5 ≈ 10.7) depends entirely on which horizons are compared, so it is not reported as a finding.
 
 ### 3.3 With Dissipation Cost (c=0.5)
 
@@ -284,7 +287,7 @@ AI development currently sits at threshold (w ≈ 0.5):
 
 The short horizon analysis suggests:
 
-1. **Horizon extension is high leverage** — 10x asymmetry favors cooperation at long horizons
+1. **Horizon extension is high leverage** — cooperation's advantage grows without bound as w → 1, while defection's is capped at 2
 2. **Threshold is knife-edge** — Small changes around w=0.5 flip outcomes
 3. **Interventions compound** — Horizon extension + cost injection together are more effective than either alone
 
@@ -311,7 +314,8 @@ forge calculate models/short_horizon.yaml
 
 - `threshold_c0`: 0.5 (baseline threshold)
 - `threshold_c05`: 0.375 (with c=0.5)
-- `horizon_leverage`: 10.67 (long vs short asymmetry)
+- `long_horizon_advantage`: 16 (cooperation advantage at w=0.9)
+- `short_horizon_disadvantage`: 1.5 (defection advantage at w=0.2)
 - `w_05_gap`: 0 (breakeven point)
 
 ### 9.2 Threshold Formula
@@ -330,7 +334,7 @@ Verify for any payoff matrix.
 
 1. **Threshold is sharp:** At w=0.5 (standard IPD), cooperation and defection are exactly equal.
 
-2. **Long horizons favor cooperation 10x more:** The asymmetry strongly favors extending time horizons.
+2. **Long horizons favor cooperation without limit:** defection's advantage never exceeds T - R = 2, so the asymmetry strongly favors extending time horizons.
 
 3. **Dissipation costs lower threshold:** Each unit of c reduces required horizon by 0.25.
 
