@@ -4,6 +4,17 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
+### Corrected
+
+- **Dissipation-cost threshold.** `research/GAME_THEORY.md` §4 and `models/ipd_payoffs.yaml` used `(T-c-R)/(T-c-P)`; the payoff model gives `(T-c-R)/(T-P)` because the cost cancels in the denominator.
+  At c = 0.5 the threshold is 0.375, not 0.43. The table and Python/R examples in `docs/COOPERATION_THRESHOLDS.md` §4.2 and §6 printed values from the wrong formula and now match.
+- **Required cost at w = 0.3** in `ipd_payoffs.yaml`: 0.8, not 2.8.
+- **Two one-shot critical costs.** `c* = 2` (against any opponent, `max(T-R, P-S)`) and `c* = 1.5` (against a 50/50 opponent) are now named as different benchmarks.
+- **"15x harder".** The ratio divided a one-shot cost by an unrelated tournament crossover (0.1), and the Stag Hunt and Chicken "iterated" values were the one-shot values. Removed: iterated IPD with w > 0.5 needs no cost at all.
+- **Crossover vs mutual-defection payoff.** c* is the average gain from defecting, `½[(T-R)+(P-S)]`, not a function of the mutual-defection payoff alone.
+- **"+125%" and "10x".** Restated as what the models show under their chosen parameters (202.5 vs 90; defection advantage capped at 2, cooperation advantage unbounded as w → 1).
+- **18/18 edge cases.** Seven were hard-coded as passing; all 18 are now computed.
+
 ### Changed
 
 - **Rebrand: RoyalBit to Möllendorff AI**

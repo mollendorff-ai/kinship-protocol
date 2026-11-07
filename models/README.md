@@ -11,11 +11,11 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [axelrod_tournament.yaml](axelrod_tournament.yaml) | 5-strategy tournament sweep | Crossover at c = 0.1 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [stag_hunt.yaml](stag_hunt.yaml) | Stag Hunt with costs | Crossover at c = 1.0 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [chicken.yaml](chicken.yaml) | Chicken with costs | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
-| [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint +125% over extraction | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
-| [one_shot.yaml](one_shot.yaml) | One-shot game analysis | IPD 15x harder than iterated | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
-| [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Long horizon 10x leverage | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
+| [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
+| [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
+| [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
 | [edge_cases.yaml](edge_cases.yaml) | Model validation | 18/18 tests pass | [EDGE_CASES](../docs/EDGE_CASES.md) |
-| [kinship_scenarios.yaml](kinship_scenarios.yaml) | Scenario comparison | Kinship +314 over chaos | — |
+| [kinship_scenarios.yaml](kinship_scenarios.yaml) | Scenario comparison | Kinship +314 over chaos (follows from the assumed defection rates and costs) | — |
 
 ## Running Models
 
@@ -33,28 +33,24 @@ forge calculate models/ipd_payoffs.yaml --dry-run
 
 ## Key Results Summary
 
-### Game Crossover Thresholds (Iterated)
+### Critical Dissipation Cost
 
-| Game | Mutual Defect | Crossover c |
-|------|---------------|-------------|
-| IPD | 1 (moderate) | 0.1 |
-| Chicken | 0 (catastrophic) | 0.5 |
-| Stag Hunt | 3 (safe) | 1.0 |
+| Game | One-shot c* (50/50 opponent) | One-shot c* (any opponent) | Iterated IPD, w > 0.5 |
+|------|------------------------------|----------------------------|-----------------------|
+| IPD | 1.5 | 2 | 0 (no cost needed) |
+| Stag Hunt | 1.0 | — | — |
+| Chicken | 0.5 | — | — |
 
-### One-Shot vs Iterated
-
-| Game | One-Shot c* | Iterated c* | Ratio |
-|------|-------------|-------------|-------|
-| IPD | 1.5 | 0.1 | 15x |
-| Chicken | 0.5 | 0.5 | 1x |
-| Stag Hunt | 1.0 | 1.0 | 1x |
+The Axelrod-tournament crossover (c = 0.1 in `axelrod_tournament.yaml`) is when AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's; it is a different measure from the costs above.
 
 ### Asymmetric Power (Predator-Prey)
 
 | Strategy | Total Value |
 |----------|-------------|
 | Max extraction | 90 |
-| Restraint | 202.5 (+125%) |
+| Restraint | 202.5 |
+
+Restraint wins whenever g·m·δ > 1 - c/v; at the base parameters that holds, and below a discount rate of 0.4 it does not.
 
 ## Documentation
 

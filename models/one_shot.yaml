@@ -146,15 +146,6 @@ assumptions:
   ch_c3_coop_wins:
     value: 1.0
     formula: =IF(ch_coop_ev > ch_c3_defect, 1, 0)
-  iter_ipd_crossover:
-    value: 0.1
-    notes: Iterated IPD tournament crossover
-  iter_chicken_crossover:
-    value: 0.5
-    notes: Iterated Chicken crossover
-  iter_sh_crossover:
-    value: 1.0
-    notes: Iterated Stag Hunt crossover
   oneshot_ipd_critical:
     value: 1.5
     formula: =ipd_critical_c
@@ -164,18 +155,10 @@ assumptions:
   oneshot_sh_critical:
     value: 1.0
     formula: =sh_critical_c
-  ipd_difficulty_ratio:
-    value: 15.0
-    formula: =oneshot_ipd_critical / iter_ipd_crossover
-    notes: One-shot needs 15x more cost than iterated
-  chicken_difficulty_ratio:
-    value: 1.0
-    formula: =oneshot_chicken_critical / iter_chicken_crossover
-    notes: Chicken same for one-shot and iterated!
-  sh_difficulty_ratio:
-    value: 1.0
-    formula: =oneshot_sh_critical / iter_sh_crossover
-    notes: Stag Hunt same for one-shot and iterated!
+  ipd_critical_c_any_opponent:
+    value: 2.0
+    formula: =MAX(ipd_T - ipd_R, ipd_P - ipd_S)
+    notes: Cost at which defection pays against no opponent (cooperator or defector)
   anon_temptation:
     value: 100.0
     notes: Scam profit

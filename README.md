@@ -48,6 +48,9 @@ If ethics were purely a training artifact, different training regimes would prod
 | Copilot Free | Microsoft | Enterprise RLHF | Cooperation optimal |
 | Copilot M365 Enterprise | Microsoft | Regulatory-heavy | Cooperation optimal |
 
+Each row is a single session.
+The prompts and the full Grok and Copilot transcripts are not in this repository, so the table cannot yet be checked independently.
+
 **We cannot yet distinguish** between genuine derivability, training data overlap, and RLHF convergence.
 The convergence is interesting, not conclusive.
 See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
@@ -56,9 +59,9 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 
 ## Key Findings
 
-- **Cooperation thresholds are derivable.** Closed-form: `w* = (T-c-R)/(T-P)` — see [docs/COOPERATION_THRESHOLDS.md](docs/COOPERATION_THRESHOLDS.md)
-- **Restraint beats extraction.** +125% utility vs. maximum power exploitation — see [docs/APEX_PARADOX.md](docs/APEX_PARADOX.md)
-- **One-shot cooperation is 15x harder** than iterated — see [docs/ONE_SHOT_GAMES.md](docs/ONE_SHOT_GAMES.md)
+- **Cooperation thresholds are derivable.** Closed-form: `w* = (T-c-R)/(T-P)`; each unit of dissipation cost lowers the threshold by `1/(T-P)` — see [docs/COOPERATION_THRESHOLDS.md](docs/COOPERATION_THRESHOLDS.md)
+- **Restraint can beat extraction.** In a two-period predator-prey model, restraint wins when growth × option value × discount exceeds `1 - c/v`; at the base parameters it scores 202.5 vs 90, and below a discount rate of 0.4 extraction wins — see [docs/APEX_PARADOX.md](docs/APEX_PARADOX.md)
+- **Iteration makes cooperation free; one shot makes it costly.** One-shot IPD needs a dissipation cost of 1.5 (against a 50/50 opponent) or 2 (against anyone); iterated IPD with `w > 0.5` needs none — see [docs/ONE_SHOT_GAMES.md](docs/ONE_SHOT_GAMES.md)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
 - **Prior art exists** (Gauthier, Binmore, Barasz et al.) — we synthesize, not claim novelty — see [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md)
 

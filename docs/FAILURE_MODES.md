@@ -51,11 +51,12 @@ Where:
 | # | Failure Mode | Critical Parameter | Threshold | Mitigation |
 |---|--------------|-------------------|-----------|------------|
 | 1 | Short Horizon | w | w < 0.5 | Extend time horizon |
-| 2 | One-Shot IPD | w = 0, c < 1.5 | c* = 1.5 | Add costs or change game |
+| 2 | One-Shot IPD | w = 0, c < 1.5 | c* = 1.5 (50/50 opponent), 2 (any opponent) | Add costs or change game |
 | 3 | Low Discount Rate | δ | δ < 0.4 | Increase future valuation |
 | 4 | No Option Value | m | m < 0.67 | Preserve uncertainty |
 | 5 | Zero Dissipation | c | c = 0 | Add conflict costs |
 | 6 | Terminal Round | known endpoint | — | Remove endpoint knowledge |
+| 7 | Anonymous Defection | no reputation | — | Increase observability |
 | 7 | Anonymous Defection | reputation = 0 | — | Add observability |
 
 ---
@@ -368,7 +369,7 @@ When cooperation is failing, prioritize interventions by leverage:
 
 | Intervention | Leverage | Difficulty |
 |--------------|----------|------------|
-| Extend horizon (w) | High (10x asymmetry) | Medium |
+| Extend horizon (w) | High (cooperation advantage grows without bound as w → 1) | Medium |
 | Add costs (c) | Medium | Low |
 | Change game structure | High | High |
 | Increase observability | Medium | Medium |
@@ -457,11 +458,12 @@ To ensure cooperation viability:
 | Failure Mode | Condition | Threshold | Primary Mitigation |
 |--------------|-----------|-----------|-------------------|
 | Short Horizon | w < w* | w* = 0.5 (IPD) | Extend horizon |
-| One-Shot IPD | w = 0, c < 1.5 | c* = 1.5 | Add costs or reframe as Chicken |
+| One-Shot IPD | w = 0, c < 1.5 | c* = 1.5 (50/50 opponent), 2 (any opponent) | Add costs or reframe as Chicken |
 | Low Discount | δ < 0.4 | δ* ≈ 0.4 | Design for long-term valuation |
 | No Option Value | m < 0.67 | m* ≈ 0.67 | Preserve uncertainty |
 | Zero Dissipation | c = 0 | c > 0 needed | Add monitoring/enforcement |
 | Terminal Round | known endpoint | — | Remove endpoint or add legacy |
+| Anonymous Defection | no reputation | — | Increase observability |
 | Anonymous | unobservable | — | Add accountability |
 
 ---
