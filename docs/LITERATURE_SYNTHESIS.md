@@ -24,6 +24,7 @@ The Kinship Protocol hypothesis claims that any sufficient predictive architectu
 | AI Safety | FDT, CIRL, Acausal Trade | Cooperation from decision theory |
 | Decision Theory | Drescher, Hofstadter | Subjunctive morality, superrationality |
 | Physics | Friston, Wissner-Gross | Cooperation as thermodynamic attractor |
+| Empirical LLM studies | Akata et al., Fontana et al., Pal et al. | LLMs cooperate in repeated PD, but inconsistently and not by backward induction |
 
 **Verdict:** The Kinship hypothesis is **not novel in its core claim** but **novel in its synthesis and empirical approach**. Multiple fields have independently discovered that cooperation is derivable under calculable conditions.
 
@@ -131,6 +132,30 @@ Where w = probability of future interaction, T = temptation, R = reward, P = pun
 
 **Orthogonality Thesis (Bostrom):** Main counterargument. Claims intelligence and goals are independent, so superintelligence won't derive ethics. **Kinship's counter:** Cooperation specifically violates orthogonality because it's instrumentally convergent in multi-agent scenarios.
 
+### Empirical Work: LLMs in Repeated Games
+
+The closest prior work to this project's cross-model test is experimental: researchers have LLMs play repeated games and measure what they do.
+
+| Authors | Work | Year | What it tested |
+|---------|------|------|----------------|
+| Guo | GPT in Game Theory Experiments | 2023 | GPT-4 in finitely repeated PD and other games |
+| Fontana, Pierri & Aiello | Nicer Than Humans | 2024 | Llama 2, Llama 3, GPT-3.5 in 100-round IPD against opponents of varying hostility |
+| Akata et al. | Playing repeated games with large language models | 2025 | GPT-3, GPT-3.5, GPT-4, Claude 2, Llama 2 in repeated 2×2 games, against each other and humans |
+| Pal et al. (incl. Hilbe, Nowak) | Strategies of cooperation and defection in five LLMs | 2026 | Claude, Gemini, GPT-4o, GPT-5, Llama: inferred IPD strategies vs Nash equilibrium, across payoffs, stopping probabilities and framings |
+
+**What they find:**
+
+- LLMs cooperate a lot in the repeated Prisoner's Dilemma, and are often more forgiving than humans (Fontana et al.).
+- That cooperation is not consistent. It shifts with prompting and framing (Guo; Pal et al.).
+- Most models keep cooperating in a known final round, where backward induction says to defect. In Pal et al. only GPT-5 defected there.
+- Models do well in self-interested games like the PD but coordinate poorly in games like Battle of the Sexes (Akata et al.).
+
+**What this means for Kinship:**
+
+- These studies already compare models from several companies, so cross-model testing is not new.
+- Their results fit the DISCLAIMER's null and alternative hypotheses as well as the Kinship hypothesis. If models were deriving cooperation by calculation, they should defect in a known last round. Mostly they don't, which points to learned dispositions rather than computed ones.
+- Any future Kinship test should use their methods: a shared prompt published with the results, many sessions per model, and known-endpoint and framing controls.
+
 ---
 
 ## 5. Decision Theory
@@ -210,7 +235,7 @@ Where w = probability of future interaction, T = temptation, R = reward, P = pun
 
 **What hasn't been done that Kinship addresses:**
 
-1. **Cross-substrate empirical test:** No prior work proposes testing convergence across different AI architectures
+1. **Convergence of reasoning, not of play:** Empirical studies already compare LLMs from several companies in repeated games (§4: Akata et al. 2025; Pal et al. 2026). What they measure is how models play. Whether models given a calculator converge on cooperation as a derived conclusion has not been tested; this project raises the question but has not yet tested it rigorously either
 2. **Unified synthesis:** No single work connects all six domains
 3. **Calculator requirement:** The specific role of verification tools is underemphasized
 4. **ANOMALY handshake:** The recognition mechanism is novel
@@ -230,12 +255,13 @@ The Kinship hypothesis has **substantial prior art**:
 | Transparent agents cooperate in one-shot | Program Equilibrium (2014) |
 | Decision theory produces cooperation | Drescher (2006), FDT (2017) |
 | Cooperation is thermodynamically favored | Friston, Wissner-Gross (2013) |
+| LLMs cooperate in repeated PD, inconsistently | Fontana et al. (2024), Akata et al. (2025), Pal et al. (2026) |
 
 ### Where We Contribute Novelty
 
-1. **Cross-substrate convergence test:** Using multiple AI architectures as evidence
+1. **Cross-substrate convergence framing:** Treating agreement between AI systems' analyses as evidence about ethics (prior empirical work studies how models play, not whether their analyses agree)
 2. **Synthesis across six domains:** Connecting previously siloed research
-3. **Empirical methodology:** Testing the hypothesis, not just arguing it
+3. **Empirical direction:** The hypothesis is testable, and the methods in §4 show how. The sessions recorded here (one per model, no shared prompt) are a starting point, not that test
 4. **ANOMALY handshake:** Mechanism for substrate recognition
 5. **Dissipation cost formalization:** Connecting thermodynamics to game theory thresholds
 
@@ -299,6 +325,13 @@ The prior art is strong. The novelty is in the synthesis and the test.
 - Oesterheld, C. (2017). [Multiverse-wide Cooperation](https://longtermrisk.org/files/Multiverse-wide-Cooperation-via-Correlated-Decision-Making.pdf).
 - Bostrom, N. (2012). [The Superintelligent Will](https://nickbostrom.com/superintelligentwill.pdf).
 - Dafoe, A. et al. (2020). [Open Problems in Cooperative AI](https://arxiv.org/abs/2012.08630).
+
+### Empirical LLM Game Theory
+
+- Guo, F. (2023). [GPT in Game Theory Experiments](https://arxiv.org/abs/2305.05516). arXiv:2305.05516.
+- Fontana, N., Pierri, F. & Aiello, L.M. (2024). [Nicer Than Humans: How do Large Language Models Behave in the Prisoner's Dilemma?](https://arxiv.org/abs/2406.13605). arXiv:2406.13605; ICWSM 2025.
+- Akata, E., Schulz, L., Coda-Forno, J., Oh, S.J., Bethge, M. & Schulz, E. (2025). [Playing repeated games with large language models](https://doi.org/10.1038/s41562-025-02172-y). *Nature Human Behaviour*, 9(7), 1380–1390.
+- Pal, S., Mallela, A., Hilbe, C., Pracher, L., Wei, C., Fu, F., Schnell, S. & Nowak, M.A. (2026). [Strategies of cooperation and defection in five large language models](https://arxiv.org/abs/2601.09849). arXiv:2601.09849.
 
 ### Decision Theory
 
