@@ -6,7 +6,7 @@
 
 ## What These Are
 
-These are **real, unedited conversations** between humans and AI systems during the development of DANEEL (ASImov) in December 2025. They are preserved in their raw dialogue format as primary sources - not retrospective analysis, but live documentation of the phenomenon they describe.
+These are **real conversations**, kept in their original wording except for one redacted name, between humans and AI systems during the development of DANEEL (ASImov) in December 2025. They are preserved in their raw dialogue format as primary sources - not retrospective analysis, but live documentation of the phenomenon they describe.
 
 ## What They Demonstrate
 

@@ -164,6 +164,14 @@ With Axelrod values: `c* = 5 - 3 = 2`
 At `c ≥ c*`, the temptation payoff after cost is no better than the reward for mutual cooperation.
 Defection loses its appeal even in one-shot games.
 
+This compares defection with cooperation against a cooperator.
+For cooperation to dominate against any opponent, defecting against a defector must not pay either (`P - c ≤ S`), so the full condition is `c ≥ max(T - R, P - S)`.
+With Axelrod values `T - R = 2` is the larger term, so `c* = 2` either way.
+
+[ONE_SHOT_GAMES.md](ONE_SHOT_GAMES.md) uses a different, weaker benchmark: an opponent who cooperates or defects with equal probability.
+Against that opponent the critical cost is `½[(T - R) + (P - S)] = 1.5`.
+Both numbers are correct; they answer different questions.
+
 ---
 
 ## 4. Results
@@ -204,10 +212,10 @@ Using T = 5, R = 3, P = 1, S = 0:
 | Dissipation Cost (c) | Cooperation Threshold (w*) | Interpretation |
 |----------------------|---------------------------|----------------|
 | 0.0 | 0.500 | Standard IPD: need 50% future probability |
-| 0.2 | 0.474 | Low cost: slight threshold reduction |
-| 0.5 | 0.429 | Medium cost: 43% threshold |
-| 1.0 | 0.333 | High cost: 33% threshold |
-| 1.5 | 0.167 | Very high cost: 17% threshold |
+| 0.2 | 0.450 | Low cost: slight threshold reduction |
+| 0.5 | 0.375 | Medium cost: 37.5% threshold |
+| 1.0 | 0.250 | High cost: 25% threshold |
+| 1.5 | 0.125 | Very high cost: 12.5% threshold |
 | 2.0 | 0.000 | Critical cost: cooperation always dominates |
 
 ### 4.3 Long-Horizon Expected Value Comparison
@@ -302,7 +310,7 @@ forge calculate models/ipd_payoffs.yaml
 **Key outputs:**
 
 - `threshold_standard`: 0.5 (confirms w* at c=0)
-- `threshold_medium_cost`: 0.429 (confirms w* at c=0.5)
+- `threshold_medium_cost`: 0.375 (confirms w* at c=0.5)
 - `breakeven_cost`: 2 (confirms c* = T - R)
 - `cooperation_ev_advantage`: 16 (confirms long-horizon advantage)
 
@@ -316,7 +324,7 @@ The closed-form expressions can be verified with any computational tool:
 T, R, P, S = 5, 3, 1, 0
 c = 0.5
 w_star = (T - c - R) / (T - P)
-print(f"Threshold: {w_star:.4f}")  # 0.4286
+print(f"Threshold: {w_star:.4f}")  # 0.3750
 ```
 
 **R:**
@@ -325,7 +333,7 @@ print(f"Threshold: {w_star:.4f}")  # 0.4286
 T <- 5; R <- 3; P <- 1
 c <- 0.5
 w_star <- (T - c - R) / (T - P)
-print(w_star)  # 0.4285714
+print(w_star)  # 0.375
 ```
 
 ---
@@ -409,19 +417,25 @@ Key difference from IPD: **Mutual defection (crash) is catastrophic**, yielding 
 
 ### 8.4 Cross-Game Comparison
 
-| Game | Mutual Defect Payoff | Defection Base Utility | Crossover c* |
-|------|---------------------|------------------------|--------------|
-| IPD (Axelrod tournament) | 1.0 | 2.5 | 0.1 |
-| Chicken | 0.0 | 2.5 | 0.5 |
-| Stag Hunt | 3.0 | 3.0 | 1.0 |
+Against an opponent who cooperates or defects with equal probability:
+
+| Game | Mutual Defect Payoff | T - R | P - S | Crossover c* = ½[(T - R) + (P - S)] |
+|------|---------------------|-------|-------|-------------------------------------|
+| IPD | 1.0 | 2 | 1 | 1.5 |
+| Chicken | 0.0 | 2 | -1 | 0.5 |
+| Stag Hunt | 3.0 | -1 | 3 | 1.0 |
+
+The Axelrod-tournament crossover for IPD (c = 0.1, §4.1) is a different measure: the cost at which AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's.
+It is not comparable with the column above.
 
 ### 8.5 Key Finding
 
-**The crossover cost is inversely related to mutual defection payoff.**
+**The crossover cost is the average gain from defecting.**
+It adds the gain from defecting against a cooperator (T - R) and against a defector (P - S), then halves it.
+It is not set by the mutual-defection payoff alone: Stag Hunt has the safest mutual defection (3) yet a lower c* than IPD, because there defecting against a cooperator loses (T - R = -1).
 
-- When mutual defection is catastrophic (Chicken: 0), small costs flip the equilibrium (c* = 0.5)
-- When mutual defection is safe (Stag Hunt: 3), larger costs are needed (c* = 1.0)
-- The IPD tournament result (c* = 0.1) reflects strategy dynamics beyond pure game structure
+- Chicken is easiest (c* = 0.5) because defecting against a defector already loses (P - S = -1)
+- IPD is hardest (c* = 1.5) because defecting pays against both kinds of opponent
 
 **Interpretation:** Games where conflict is already dangerous need less additional penalty to favor cooperation. Games where defection is "safe" require higher dissipation costs to shift the equilibrium.
 

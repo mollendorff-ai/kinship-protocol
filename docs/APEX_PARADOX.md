@@ -120,7 +120,9 @@ Using plausible parameters:
 | Conservative | 15% | 185.6 |
 | **Full restraint** | 0% | **202.5** |
 
-**Finding:** Full restraint yields 125% more value than maximum extraction.
+**Finding:** Under these base parameters, full restraint yields 202.5 against 90 for maximum extraction.
+This follows directly from the inequality in §2.3 (g × m × δ = 2.03 > 1 - c/v = 0.9), so the result is set by the chosen parameters.
+§3.3 shows the reverse: with δ < 0.4, maximum extraction wins.
 
 ### 3.2 Strategy Spectrum
 
