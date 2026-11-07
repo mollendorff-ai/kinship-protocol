@@ -2,22 +2,22 @@ _forge_version: 1.0.0
 assumptions:
   stag_stag:
     value: 4.0
-    description: Both hunt stag - high reward
+    notes: Both hunt stag - high reward
   stag_hare:
     value: 0.0
-    description: I hunt stag, you hunt hare - I starve
+    notes: I hunt stag, you hunt hare - I starve
   hare_stag:
     value: 3.0
-    description: I hunt hare, you hunt stag - I eat alone
+    notes: I hunt hare, you hunt stag - I eat alone
   hare_hare:
     value: 3.0
-    description: Both hunt hare - safe but low
+    notes: Both hunt hare - safe but low
   coop_defect:
     value: 0.0
-    description: Pure cooperator never hunts hare
+    notes: Pure cooperator never hunts hare
   defect_defect:
     value: 1.0
-    description: Pure defector always hunts hare
+    notes: Pure defector always hunts hare
   mixed_defect:
     value: 0.5
   coop_base:
@@ -73,4 +73,4 @@ assumptions:
   crossover_c:
     value: 1.0
     formula: =defect_base - coop_base
-    description: Dissipation cost where cooperation equals defection
+    notes: Dissipation cost where cooperation equals defection

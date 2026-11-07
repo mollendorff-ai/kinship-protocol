@@ -2,22 +2,22 @@ _forge_version: 1.0.0
 assumptions:
   swerve_swerve:
     value: 3.0
-    description: Both swerve - safe, moderate reward
+    notes: Both swerve - safe, moderate reward
   swerve_straight:
     value: 1.0
-    description: I swerve, you go straight - I lose face
+    notes: I swerve, you go straight - I lose face
   straight_swerve:
     value: 5.0
-    description: I go straight, you swerve - I win big
+    notes: I go straight, you swerve - I win big
   straight_straight:
     value: 0.0
-    description: Both go straight - crash, disaster
+    notes: Both go straight - crash, disaster
   coop_defect:
     value: 0.0
-    description: Pure cooperator always swerves
+    notes: Pure cooperator always swerves
   defect_defect:
     value: 1.0
-    description: Pure defector always goes straight
+    notes: Pure defector always goes straight
   coop_base:
     value: 2.0
     formula: =0.5 * swerve_swerve + 0.5 * swerve_straight
@@ -71,4 +71,4 @@ assumptions:
   crossover_c:
     value: 0.5
     formula: =defect_base - coop_base
-    description: Dissipation cost where cooperation equals defection
+    notes: Dissipation cost where cooperation equals defection
