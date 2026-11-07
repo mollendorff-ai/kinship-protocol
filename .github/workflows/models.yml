@@ -1,0 +1,48 @@
+# Check that every Forge model still runs and that no stored value has drifted
+# from its formula. Runs on its own for every push and pull request that
+# touches the models; nothing to start by hand.
+name: Check models
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'models/**'
+      - 'scripts/check_models.py'
+      - '.github/workflows/models.yml'
+  pull_request:
+    paths:
+      - 'models/**'
+      - 'scripts/check_models.py'
+      - '.github/workflows/models.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FORGE_VERSION: 10.0.0-rc.1
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Forge
+        id: cache-forge
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/forge
+          key: forge-${{ runner.os }}-${{ env.FORGE_VERSION }}
+
+      - name: Install Forge
+        if: steps.cache-forge.outputs.cache-hit != 'true'
+        run: cargo install mollendorff-forge --version "$FORGE_VERSION" --locked
+
+      - name: Install PyYAML
+        run: python3 -m pip install --user pyyaml
+
+      - name: Check models
+        run: python3 scripts/check_models.py
