@@ -123,11 +123,11 @@ Long horizons are 10x more valuable for cooperation than short horizons are for 
 
 | Horizon (w) | Coop EV | Defect EV (with c) | Gap | Winner |
 |-------------|---------|-------------------|-----|--------|
-| 0.3 | 4.29 | 4.93 | -0.64 | Defect |
-| 0.4 | 5.00 | 5.00 | 0.00 | Tie |
+| 0.3 | 4.29 | 4.71 | -0.43 | Defect |
+| 0.4 | 5.00 | 4.83 | +0.17 | Coop |
 | 0.5 | 6.00 | 5.00 | +1.00 | Coop |
 
-**Threshold shift:** From w=0.5 to w≈0.375 with c=0.5.
+**Threshold shift:** From w=0.5 to w=0.375 with c=0.5 (exact tie at w=0.375: both EVs are 4.80).
 
 ### 3.4 Threshold Sensitivity
 

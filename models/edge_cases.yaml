@@ -237,9 +237,37 @@ assumptions:
     value: 1.0
     formula: =IF(ec18_coop_ev = ec18_defect_ev, 1, 0)
     notes: Stag Hunt can be perfectly balanced
+  ec4_ok:
+    value: 1.0
+    formula: =IF(ABS(ec4_coop_advantage - 196) < 0.001, 1, 0)
+    notes: PASS - cooperation advantage is 196 at w=0.99
+  ec5_ok:
+    value: 1.0
+    formula: =IF(ABS(ec5_defect_advantage - 2) < 0.001, 1, 0)
+    notes: PASS - defection advantage is 2 in one-shot
+  ec8_ok:
+    value: 1.0
+    formula: =IF(ABS(ec8_threshold) < 0.001, 1, 0)
+    notes: PASS - threshold is 0 when T = R
+  ec9_ok:
+    value: 1.0
+    formula: =IF(AND(ABS(ec9_threshold - 0.98) < 0.001, ABS(ec9_cost_needed - 97) < 0.001), 1, 0)
+    notes: PASS - threshold 0.98, cost needed 97
+  ec10_ok:
+    value: 1.0
+    formula: =IF(ABS(ec10_threshold - 0.005) < 0.001, 1, 0)
+    notes: PASS - threshold is about 0.005
+  ec11_ok:
+    value: 1.0
+    formula: =IF(ABS(ec11_threshold - 0.4) < 0.001, 1, 0)
+    notes: PASS - threshold is 0.4
+  ec17_ok:
+    value: 1.0
+    formula: =IF(ABS(ec17_threshold - 0.5) < 0.001, 1, 0)
+    notes: PASS - threshold stays 0.5 with tiny differences
   tests_passed:
     value: 18.0
-    formula: =ec1_result + ec2_coop_wins + ec3_defect_wins + 1 + 1 + ec6_defect_loses + ec7_sum_check + 1 + 1 + 1 + 1 + ec12_extract_wins + ec13_restraint_wins + ec14_coop_dominates + ec15_indifferent + ec16_ordering_valid + 1 + ec18_balanced
+    formula: =ec1_result + ec2_coop_wins + ec3_defect_wins + ec4_ok + ec5_ok + ec6_defect_loses + ec7_sum_check + ec8_ok + ec9_ok + ec10_ok + ec11_ok + ec12_extract_wins + ec13_restraint_wins + ec14_coop_dominates + ec15_indifferent + ec16_ordering_valid + ec17_ok + ec18_balanced
     notes: Number of edge cases that behave as expected
   total_tests:
     value: 18.0
