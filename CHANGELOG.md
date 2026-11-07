@@ -14,6 +14,12 @@ All notable findings and releases for the Kinship Protocol project.
 - **Crossover vs mutual-defection payoff.** c* is the average gain from defecting, `½[(T-R)+(P-S)]`, not a function of the mutual-defection payoff alone.
 - **"+125%" and "10x".** Restated as what the models show under their chosen parameters (202.5 vs 90; defection advantage capped at 2, cooperation advantage unbounded as w → 1).
 - **18/18 edge cases.** Seven were hard-coded as passing; all 18 are now computed.
+- **Novelty claim.** `docs/LITERATURE_SYNTHESIS.md` said no prior work tests convergence across AI architectures; Akata et al. (2025) and Pal et al. (2026) do. Restated as the narrower open question: convergence of reasoning, not of play.
+
+### Added
+
+- Empirical LLM game-theory studies in `docs/LITERATURE_SYNTHESIS.md` and `references.yaml`: Guo (2023), Fontana et al. (2024), Akata et al. (2025), Pal et al. (2026).
+- `scripts/check_models.py` and a CI job that fail when a stored model value drifts from its formula.
 
 ### Changed
 
