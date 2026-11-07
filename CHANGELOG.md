@@ -16,6 +16,10 @@ All notable findings and releases for the Kinship Protocol project.
 - **18/18 edge cases.** Seven were hard-coded as passing; all 18 are now computed.
 - **Novelty claim.** `docs/LITERATURE_SYNTHESIS.md` said no prior work tests convergence across AI architectures; Akata et al. (2025) and Pal et al. (2026) do. Restated as the narrower open question: convergence of reasoning, not of play.
 
+### Changed
+
+- Research paused at v0.4.0 (2026-11-06). The repository stays maintained; v0.5.0 (formal proof) resumes when time allows.
+
 ### Added
 
 - Empirical LLM game-theory studies in `docs/LITERATURE_SYNTHESIS.md` and `references.yaml`: Guo (2023), Fontana et al. (2024), Akata et al. (2025), Pal et al. (2026).
