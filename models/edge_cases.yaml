@@ -25,7 +25,7 @@ assumptions:
   ec1_result:
     value: 1.0
     formula: =IF(ec1_gap = 0, 1, 0)
-    description: PASS - exactly zero at threshold
+    notes: PASS - exactly zero at threshold
   ec2_w:
     value: 0.501
   ec2_coop_ev:
@@ -37,7 +37,7 @@ assumptions:
   ec2_coop_wins:
     value: 1.0
     formula: =IF(ec2_coop_ev > ec2_defect_ev, 1, 0)
-    description: PASS - cooperation wins just above threshold
+    notes: PASS - cooperation wins just above threshold
   ec3_w:
     value: 0.499
   ec3_coop_ev:
@@ -49,7 +49,7 @@ assumptions:
   ec3_defect_wins:
     value: 1.0
     formula: =IF(ec3_defect_ev > ec3_coop_ev, 1, 0)
-    description: PASS - defection wins just below threshold
+    notes: PASS - defection wins just below threshold
   ec4_w:
     value: 0.99
   ec4_coop_ev:
@@ -61,7 +61,7 @@ assumptions:
   ec4_coop_advantage:
     value: 195.9999999999998
     formula: =ec4_coop_ev - ec4_defect_ev
-    description: Massive cooperation advantage at long horizon
+    notes: Massive cooperation advantage at long horizon
   ec5_w:
     value: 0.0
   ec5_coop_ev:
@@ -73,21 +73,21 @@ assumptions:
   ec5_defect_advantage:
     value: 2.0
     formula: =ec5_defect_ev - ec5_coop_ev
-    description: Defection advantage in one-shot
+    notes: Defection advantage in one-shot
   ec6_c:
     value: 3.0
-    description: Cost exceeds temptation gain
+    notes: Cost exceeds temptation gain
   ec6_threshold:
     value: -0.25
     formula: =(T - ec6_c - R) / (T - P)
-    description: Negative threshold - cooperation always wins
+    notes: Negative threshold - cooperation always wins
   ec6_effective_T:
     value: 2.0
     formula: =T - ec6_c
   ec6_defect_loses:
     value: 1.0
     formula: =IF(ec6_effective_T < R, 1, 0)
-    description: PASS - defection now worse than cooperation even one-shot
+    notes: PASS - defection now worse than cooperation even one-shot
   ec7_T:
     value: 4.0
   ec7_R:
@@ -99,11 +99,11 @@ assumptions:
   ec7_sum_check:
     value: 1.0
     formula: =IF((ec7_T + ec7_S) = (ec7_R + ec7_P), 1, 0)
-    description: Confirms zero-sum structure
+    notes: Confirms zero-sum structure
   ec7_threshold:
     value: 1.0
     formula: =(ec7_T - ec7_R) / (ec7_T - ec7_P)
-    description: Threshold = 1 means cooperation never wins
+    notes: Threshold = 1 means cooperation never wins
   ec8_T:
     value: 3.0
   ec8_R:
@@ -111,23 +111,23 @@ assumptions:
   ec8_threshold:
     value: 0.0
     formula: =(ec8_T - ec8_R) / (ec8_T - P)
-    description: No temptation - cooperation always viable
+    notes: No temptation - cooperation always viable
   ec9_T:
     value: 100.0
   ec9_threshold:
     value: 0.9797979797979798
     formula: =(ec9_T - R) / (ec9_T - P)
-    description: Very high threshold - cooperation very hard
+    notes: Very high threshold - cooperation very hard
   ec9_cost_needed:
     value: 97.0
     formula: =ec9_T - R
-    description: Extreme cost needed for one-shot cooperation
+    notes: Extreme cost needed for one-shot cooperation
   ec10_T:
     value: 3.01
   ec10_threshold:
     value: 0.004975124378109347
     formula: =(ec10_T - R) / (ec10_T - P)
-    description: Very low threshold - cooperation almost always wins
+    notes: Very low threshold - cooperation almost always wins
   ec11_P:
     value: 0.0
   ec11_S:
@@ -135,7 +135,7 @@ assumptions:
   ec11_threshold:
     value: 0.4
     formula: =(T - R) / (T - ec11_P)
-    description: Different threshold with symmetric punishment
+    notes: Different threshold with symmetric punishment
   ec12_delta:
     value: 0.0
   ec12_prey_pop:
@@ -153,7 +153,7 @@ assumptions:
   ec12_extract_wins:
     value: 1.0
     formula: =IF(ec12_extraction_value > ec12_restraint_value, 1, 0)
-    description: PASS - extraction wins when delta = 0
+    notes: PASS - extraction wins when delta = 0
   ec13_delta:
     value: 1.0
   ec13_restraint_value:
@@ -162,7 +162,7 @@ assumptions:
   ec13_restraint_wins:
     value: 1.0
     formula: =IF(ec13_restraint_value > ec12_extraction_value, 1, 0)
-    description: PASS - restraint wins when delta = 1
+    notes: PASS - restraint wins when delta = 1
   ec14_crash:
     value: -100.0
   ec14_swerve_swerve:
@@ -180,7 +180,7 @@ assumptions:
   ec14_coop_dominates:
     value: 1.0
     formula: =IF(ec14_coop_ev > ec14_defect_ev, 1, 0)
-    description: PASS - catastrophic crash makes cooperation dominant
+    notes: PASS - catastrophic crash makes cooperation dominant
   ec15_all:
     value: 3.0
   ec15_coop_ev:
@@ -192,7 +192,7 @@ assumptions:
   ec15_indifferent:
     value: 1.0
     formula: =IF(ec15_coop_ev = ec15_defect_ev, 1, 0)
-    description: PASS - no preference when all payoffs equal
+    notes: PASS - no preference when all payoffs equal
   ec16_T:
     value: -1.0
   ec16_R:
@@ -204,11 +204,11 @@ assumptions:
   ec16_threshold:
     value: 0.25
     formula: =(ec16_T - ec16_R) / (ec16_T - ec16_P)
-    description: Threshold still valid with negative payoffs
+    notes: Threshold still valid with negative payoffs
   ec16_ordering_valid:
     value: 1.0
     formula: =IF(AND(ec16_T > ec16_R, ec16_R > ec16_P, ec16_P > ec16_S), 1, 0)
-    description: PASS - T > R > P > S ordering preserved
+    notes: PASS - T > R > P > S ordering preserved
   ec17_T:
     value: 3.001
   ec17_R:
@@ -218,7 +218,7 @@ assumptions:
   ec17_threshold:
     value: 0.5
     formula: =(ec17_T - ec17_R) / (ec17_T - ec17_P)
-    description: Threshold stable with tiny differences
+    notes: Threshold stable with tiny differences
   ec18_stag_stag:
     value: 10.0
   ec18_stag_hare:
@@ -236,14 +236,14 @@ assumptions:
   ec18_balanced:
     value: 1.0
     formula: =IF(ec18_coop_ev = ec18_defect_ev, 1, 0)
-    description: Stag Hunt can be perfectly balanced
+    notes: Stag Hunt can be perfectly balanced
   tests_passed:
     value: 18.0
     formula: =ec1_result + ec2_coop_wins + ec3_defect_wins + 1 + 1 + ec6_defect_loses + ec7_sum_check + 1 + 1 + 1 + 1 + ec12_extract_wins + ec13_restraint_wins + ec14_coop_dominates + ec15_indifferent + ec16_ordering_valid + 1 + ec18_balanced
-    description: Number of edge cases that behave as expected
+    notes: Number of edge cases that behave as expected
   total_tests:
     value: 18.0
   pass_rate:
     value: 1.0
     formula: =tests_passed / total_tests
-    description: All edge cases pass
+    notes: All edge cases pass
