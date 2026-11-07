@@ -8,7 +8,9 @@
 
 current:
   version: "0.5.0"
-  status: pending
+  status: paused
+  paused_since: 2026-11-06
+  note: "Paused; the models, docs and CI are maintained. Resumes when time allows."
   summary: "Formal Mathematical Proof"
   goal: "Rigorous proof of cooperation dominance"
   deliverables:

@@ -99,7 +99,9 @@ kinship-protocol/
 
 ## Roadmap
 
-**Current (v0.5.0):** Formal mathematical proof — extend Folk Theorem and Program Equilibrium to Kinship-specific claims.
+**Status:** v0.4.0 is complete and maintained (models run, CI checks them, claims match the math). Active research is **paused** as of November 2026.
+
+**Paused (v0.5.0):** Formal mathematical proof — extend Folk Theorem and Program Equilibrium to Kinship-specific claims.
 Address Bostrom's Orthogonality Thesis, which directly contradicts the core hypothesis.
 
 **Next:** N-player extensions (v0.6.0), asymmetric information (v0.7.0).
