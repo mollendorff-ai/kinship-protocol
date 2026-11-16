@@ -9,13 +9,39 @@
 current:
   version: "0.4.0"
   status: complete
-  note: "Where the project stops. The models, docs and CI are maintained; no further research is planned."
+  note: "The models, docs and CI are maintained. The next research is v0.5.0, more games, and it waits on Forge."
+
+# Planned: these wait on Forge's game sections (Forge roadmap T2-GAME-THEORY,
+# after Forge's stable release). Each game is a Forge model run in CI, and every
+# equilibrium or ranking is checked against an outside tool or a hand calculation.
+next:
+  version: "0.5.0"
+  title: "More games, calculated by Forge"
+  status: planned
+  waits_on: "Forge T2-GAME-THEORY (github.com/mollendorff-ai/forge, .asimov/roadmap.yaml)"
+  deliverables:
+    - "Rewrite stag_hunt.yaml, chicken.yaml and axelrod_tournament.yaml as Forge game sections, giving the results they store today or explaining the difference"
+    - "Axelrod tournament: average payoffs calculated by Forge, no longer typed in (grim_base 2.622 and the rest)"
+    - "Audit the AI (inspection game): an AI complies or cheats, a human audits or trusts. No pure equilibrium, only a mixed one; a tornado on the penalty shows that a harsher penalty lowers how often the human audits, not how often the AI cheats (Tsebelis)"
+    - "Forgiveness pays (noisy tournament): each move is mistaken with a small seeded probability; tit-for-tat falls apart and a forgiving strategy (generous tit-for-tat) wins (Nowak and Sigmund, 1992)"
+  optional:
+    - "Whose conventions? (battle of the sexes): human and AI both want to coordinate but prefer different norms; two pure equilibria and one mixed, which shows how often they miss each other"
+    - "Continuation sweep: the tournament run across the continuation probability, showing cooperation taking over near the threshold w* = (T-c-R)/(T-P) that the models derive by formula"
+
+later:
+  version: "0.6.0"
+  title: "Five AIs in one game"
+  status: parked
+  waits_on: "Forge T2-GAME-THEORY-MORE (games with more than two players, strategies that spread)"
+  deliverables:
+    - "A five-player public goods game, the project's own setup, with its pure equilibria checked"
+    - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.
 ideas:
-  - "Formal proof using Folk Theorem foundations and Program Equilibrium applied to Kinship (the old v0.5.0)"
+  - "Formal proof using Folk Theorem foundations and Program Equilibrium applied to Kinship (once planned as v0.5.0)"
   - "Address the Orthogonality Thesis (Bostrom) mathematically"
-  - "N-player extensions: coalitions, public goods, tragedy of the commons"
+  - "N-player extensions beyond v0.6.0: coalitions, tragedy of the commons"
   - "Asymmetric information: Bayesian games, signalling, reputation"
   - "Put the Grok and Copilot transcripts in the repo so the cross-AI table can be checked"
   - "KL divergence / FEP formalization (only if a rigorous mapping is found)"

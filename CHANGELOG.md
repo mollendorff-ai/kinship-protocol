@@ -19,7 +19,7 @@ All notable findings and releases for the Kinship Protocol project.
 ### Changed
 
 - README now says up front what the project is (a hobby thought experiment, partly serious, partly a joke) and sorts each part into textbook, checked, anecdote or poetry. The cross-AI table is labelled an anecdote.
-- Research stops at v0.4.0. The formal proof (old v0.5.0), N-player games and asymmetric information are listed as ideas, not plans, in `.asimov/roadmap.yaml`.
+- Roadmap: v0.4.0 is complete; v0.5.0 plans more games (stag hunt, chicken and the Axelrod tournament as Forge game sections, an inspection game and a tournament with mistakes), waiting on Forge's game sections, and v0.6.0 parks a five-player public goods game. The formal proof (once planned as v0.5.0), coalitions and asymmetric information stay ideas, not plans, in `.asimov/roadmap.yaml`.
 - The model check runs on Forge 10.0.0-rc.27 (release binary, checksum-verified) instead of rc.1 built from source.
 
 ### Added
