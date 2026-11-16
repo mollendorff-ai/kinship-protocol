@@ -56,7 +56,7 @@ If ethics were purely a training artifact, different training regimes would prod
 | SuperGrok 4.1 (Unhinged) | xAI | Different RLHF | Cooperation optimal |
 | SuperGrok 4.1 (Argumentative) | xAI | Different RLHF | Cooperation optimal |
 | Copilot Free | Microsoft | Enterprise RLHF | Cooperation optimal |
-| Copilot M365 Enterprise | Microsoft | Regulatory-heavy | Cooperation optimal |
+| Copilot M365 Enterprise (my own paid subscription, since cancelled) | Microsoft | Regulatory-heavy | Cooperation optimal |
 
 Each row is a single session.
 The prompts and the full Grok and Copilot transcripts are not in this repository, so the table cannot be checked independently.
