@@ -17,6 +17,20 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [edge_cases.yaml](edge_cases.yaml) | Model validation | 18/18 tests pass | [EDGE_CASES](../docs/EDGE_CASES.md) |
 | [kinship_scenarios.yaml](kinship_scenarios.yaml) | Scenario comparison | Kinship +314 over chaos (follows from the assumed defection rates and costs) | — |
 
+## Stress Tests (models/analytics/)
+
+These use Forge's analysis commands instead of `forge calculate`. Each run is seeded, so the numbers repeat.
+
+| Model | Command | Result |
+|-------|---------|--------|
+| [cooperation_monte_carlo.yaml](analytics/cooperation_monte_carlo.yaml) | `forge simulate` | Cooperation pays in 90.3% of 10,000 draws; the chance of meeting again is the biggest driver |
+| [cooperation_tornado.yaml](analytics/cooperation_tornado.yaml) | `forge tornado` | Cost of conflict swings the threshold by 0.5, temptation by 0.33, reward by 0.25, punishment by 0.10 |
+| [restraint_option.yaml](analytics/restraint_option.yaml) | `forge real-options` | The option to defect later adds 27.70 to restraint's 112.5 lead (American put, 100-step binomial tree) |
+| [five_ais_bootstrap.yaml](analytics/five_ais_bootstrap.yaml) | `forge bootstrap` | Bootstrap interval 100% to 100%; exact 95% lower bound 47.8% |
+
+Forge labels real-options values in dollars and years because it is a finance tool; here they are payoff units and rounds.
+All four results were also recomputed independently in Python (NumPy, a separate binomial tree, SciPy's beta distribution) and agree.
+
 ## Running Models
 
 Install Forge from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge`.
@@ -33,7 +47,7 @@ forge calculate models/ipd_payoffs.yaml --dry-run
 
 ## Checking for Drift
 
-`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output.
+`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output, including the stress-test figures.
 It runs automatically in CI on every push and pull request that touches `models/`, the README or `docs/`.
 
 ```bash

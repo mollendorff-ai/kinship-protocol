@@ -24,6 +24,7 @@ All notable findings and releases for the Kinship Protocol project.
 
 ### Added
 
+- Stress tests in `models/analytics/`: Monte Carlo on the cooperation threshold, a tornado chart, restraint priced as a real option, and a bootstrap of the five AI answers. New README section; CI checks their figures.
 - `scripts/check_models.py` also checks six headline figures (0.375, 202.5 vs 90, the 0.4 discount rate, the one-shot costs 1.5 and 2) against what Forge computes, and fails if the README or docs stop quoting them.
 - Empirical LLM game-theory studies in `docs/LITERATURE_SYNTHESIS.md` and `references.yaml`: Guo (2023), Fontana et al. (2024), Akata et al. (2025), Pal et al. (2026).
 - `scripts/check_models.py` and a CI job that fail when a stored model value drifts from its formula.

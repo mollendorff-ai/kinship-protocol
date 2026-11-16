@@ -1,0 +1,38 @@
+_forge_version: "5.4.0"
+
+# Restraint as a real option.
+# From predator_prey.yaml: taking everything now is worth 90; restraint
+# (letting the prey grow) is worth 202.5. Destroying the prey is irreversible.
+# Keeping it alive is like holding a project you can abandon later: you keep
+# its uncertain value, and you keep the right to take the 90 at any time.
+# The abandon option prices that right. Its value is what restraint gains
+# from staying flexible, on top of the 112.5 it already wins by.
+# Run: forge real-options models/analytics/restraint_option.yaml
+
+real_options:
+  name: "Restraint keeps the option to defect"
+  method: binomial
+  underlying:
+    current_value: 202.5   # restraint_total in predator_prey.yaml
+    volatility: 0.60       # the prey's future value is very uncertain
+    risk_free_rate: 0.05
+    time_horizon: 10       # periods the predator can still change its mind
+    dividend_yield: 0
+  binomial_steps: 100
+  traditional_npv: 112.5   # 202.5 - 90: what restraint wins by, with no flexibility
+  options:
+    - type: abandon
+      name: "Take everything later instead of now"
+      salvage_value: 90    # max_total in predator_prey.yaml
+
+assumptions:
+  restraint_value:
+    value: 202.5
+    notes: Value of restraint (predator_prey.yaml)
+  grab_now:
+    value: 90
+    notes: Value of taking everything now (predator_prey.yaml)
+  restraint_advantage:
+    value: 112.5
+    formula: "=restraint_value - grab_now"
+    notes: What restraint wins by before counting flexibility

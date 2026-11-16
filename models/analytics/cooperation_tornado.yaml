@@ -1,0 +1,40 @@
+_forge_version: "5.4.0"
+
+# Which assumption moves the cooperation threshold most?
+# Each input swings from low to high while the others stay at the textbook
+# values (T=5, R=3, P=1, c=0.5). Same ranges as cooperation_monte_carlo.yaml.
+# Run: forge tornado models/analytics/cooperation_tornado.yaml
+
+tornado:
+  output: assumptions.threshold
+  inputs:
+    - name: temptation
+      low: 4
+      high: 6
+    - name: reward
+      low: 2.5
+      high: 3.5
+    - name: punishment
+      low: 0.5
+      high: 1.5
+    - name: dissipation_cost
+      low: 0
+      high: 2
+
+assumptions:
+  temptation:
+    value: 5
+    notes: T - payoff for defecting against a cooperator
+  reward:
+    value: 3
+    notes: R - payoff for mutual cooperation
+  punishment:
+    value: 1
+    notes: P - payoff for mutual defection
+  dissipation_cost:
+    value: 0.5
+    notes: c - cost of conflict
+  threshold:
+    value: 0.375
+    formula: "=(temptation - dissipation_cost - reward) / (temptation - punishment)"
+    notes: w* - cooperation pays when the chance of meeting again is above this

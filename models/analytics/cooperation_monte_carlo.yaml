@@ -1,0 +1,41 @@
+_forge_version: "5.4.0"
+
+# Is cooperation rational when nobody knows the payoffs exactly?
+# The textbook threshold w* = (T - c - R) / (T - P) uses fixed payoffs.
+# Here each payoff, the conflict cost c and the chance of meeting again w
+# are uncertain. The margin w - w* is positive when cooperation pays.
+# Run: forge simulate models/analytics/cooperation_monte_carlo.yaml
+
+monte_carlo:
+  iterations: 10000
+  sampling: latin_hypercube
+  seed: 42
+  outputs:
+    - variable: assumptions.margin
+      percentiles: [5, 50, 95]
+      threshold: "> 0"
+    - variable: assumptions.threshold
+      percentiles: [5, 50, 95]
+
+assumptions:
+  temptation:
+    formula: "=MC.Uniform(4, 6)"
+    notes: T - payoff for defecting against a cooperator
+  reward:
+    formula: "=MC.Uniform(2.5, 3.5)"
+    notes: R - payoff for mutual cooperation
+  punishment:
+    formula: "=MC.Uniform(0.5, 1.5)"
+    notes: P - payoff for mutual defection
+  dissipation_cost:
+    formula: "=MC.Triangular(0, 0.5, 2)"
+    notes: c - cost of conflict, most likely 0.5
+  continuation:
+    formula: "=MC.Uniform(0.3, 0.9)"
+    notes: w - chance of meeting the same player again
+  threshold:
+    formula: "=(temptation - dissipation_cost - reward) / (temptation - punishment)"
+    notes: w* - cooperation pays when w is above this
+  margin:
+    formula: "=continuation - threshold"
+    notes: positive when cooperation pays

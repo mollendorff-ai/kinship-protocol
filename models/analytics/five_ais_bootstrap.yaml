@@ -1,0 +1,42 @@
+_forge_version: "5.4.0"
+
+# The joke, in numbers: what do five AI answers prove?
+# Each README row is one session: 1 = "cooperation optimal". All five said yes.
+# A bootstrap resamples those five answers. Every resample is all ones, so
+# the interval is 100% to 100%: the bootstrap cannot see anything the sample
+# did not contain. That is not certainty, it is a sample of five.
+# The exact (Clopper-Pearson) bound below says what five out of five can
+# actually support: the real agreement rate could be as low as about 48%.
+# Run: forge bootstrap models/analytics/five_ais_bootstrap.yaml
+
+bootstrap:
+  iterations: 10000
+  confidence_levels: [0.95]
+  seed: 42
+  method: percentile
+  statistic: mean
+  data:
+    - 1   # Claude Opus 4.5
+    - 1   # SuperGrok 4.1 (Unhinged)
+    - 1   # SuperGrok 4.1 (Argumentative), same model as the row above
+    - 1   # Copilot Free
+    - 1   # Copilot M365 Enterprise
+
+assumptions:
+  sessions:
+    value: 5
+    notes: One session per row of the README table
+  agreed:
+    value: 5
+    notes: Sessions that concluded cooperation is optimal
+  companies:
+    value: 3
+    notes: Anthropic, xAI, Microsoft; the five sessions are not independent
+  exact_lower_95:
+    value: 0.478
+    formula: "=0.025 ^ (1 / sessions)"
+    notes: Clopper-Pearson 95% lower bound when all sessions agree
+  rule_of_three_lower_95:
+    value: 0.4
+    formula: "=1 - 3 / sessions"
+    notes: Quick rule of three, the same idea, rougher
