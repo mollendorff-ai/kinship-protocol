@@ -14,7 +14,7 @@
 | Part | Status |
 |------|--------|
 | **The game theory** (cooperation thresholds in repeated games, with a cost term) | Textbook. The repeated-game results are standard (Axelrod, the Folk Theorem); the cost term is a simple extension. Prior art is cited in [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md). Not novel. |
-| **The models** | Real and checked. They are [Forge](https://github.com/mollendorff-ai/forge) YAML files, and CI runs every one of them through Forge on each change, so a number in the docs cannot quietly drift from its formula. |
+| **The models** | Real and checked, including the [stress tests](#stress-tests) under uncertainty. They are [Forge](https://github.com/mollendorff-ai/forge) YAML files, and CI runs every one of them through Forge on each change, so a number in the docs cannot quietly drift from its formula. |
 | **The experiment** (asking several AIs the same question) | An anecdote. One session per model, and the transcripts for most of them are not in this repo, so nobody else can check it. |
 | **"Life honours Life", "ANOMALY"** | Poetry. Not a protocol, not falsifiable, and not meant to be. |
 | **"Ethics is mathematically derivable"** | The question the project asks, not something it shows. Cooperating pays when you will meet again; that is not the same as it being right. |
@@ -78,6 +78,21 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 
 ---
 
+## Stress Tests
+
+The findings above use fixed payoffs. Four [Forge](https://github.com/mollendorff-ai/forge) analyses in [models/analytics/](models/analytics/) ask what happens when the numbers are uncertain, and one turns the joke into arithmetic. CI checks each figure below against Forge's output.
+
+| Question | Forge feature | Answer | Status |
+|----------|---------------|--------|--------|
+| Does cooperation still pay when nobody knows the payoffs exactly? | Monte Carlo (10,000 draws) | Yes, in about 90% of the draws. The chance of meeting again matters more than any payoff. | Serious, but the answer follows from the ranges I picked |
+| Which assumption matters most for the threshold? | Tornado | The cost of conflict moves the threshold most (by 0.5), then the temptation to defect | Serious |
+| Is restraint worth more than its head start? | Real options (binomial tree) | Restraint wins by 112.5, and keeping the option to defect later is worth another 27.7. Destroying the prey is irreversible; restraint keeps the choice open. | Serious analogy, borrowed from finance |
+| What do five AIs agreeing prove? | Bootstrap, plus an exact bound | The bootstrap says agreement runs from 100% to 100%, which only shows it cannot see past five answers. The exact 95% bound says the real rate could be as low as 48%, and two sessions were the same model. | The joke, with the error bars it deserves |
+
+None of this shows that AIs will cooperate. It shows how sensitive the textbook result is to its assumptions.
+
+---
+
 ## Project Structure
 
 ```text
@@ -94,7 +109,8 @@ kinship-protocol/
 ├── models/             # Executable game-theory models (Forge YAML)
 │   ├── ipd_payoffs.yaml            # Iterated Prisoner's Dilemma
 │   ├── axelrod_tournament.yaml     # 5-strategy tournament
-│   └── ...                         # Stag hunt, chicken, predator-prey, edge cases
+│   ├── ...                         # Stag hunt, chicken, predator-prey, edge cases
+│   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
 │   ├── what-about-us.md            # "Complementary unreliability" discovery

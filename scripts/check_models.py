@@ -9,6 +9,10 @@ For each models/*.yaml file:
   3. In edge_cases.yaml, tests_passed must equal total_tests.
   4. The headline figures quoted in the README and docs (KEY_FIGURES below) must
      equal what Forge computes, and must still appear in the text that quotes them.
+  5. The models in models/analytics/ (Monte Carlo, tornado, real options,
+     bootstrap) must run, and the figures the README quotes from them
+     (ANALYTICS below) must match Forge's output. Runs are seeded, so the
+     numbers are the same every time.
 
 Usage: python3 scripts/check_models.py            (uses `forge` on PATH)
        FORGE=/path/to/forge python3 scripts/check_models.py
@@ -37,6 +41,29 @@ KEY_FIGURES = [
     ("predator_prey.yaml", "breakeven_discount", 0.4, "README.md", "discount rate of 0.4"),
     ("one_shot.yaml", "ipd_critical_c", 1.5, "README.md", "dissipation cost of 1.5"),
     ("one_shot.yaml", "ipd_critical_c_any_opponent", 2.0, "README.md", "or 2 (against anyone)"),
+]
+
+# (command, model, regex on Forge's output, expected value, tolerance,
+#  file, text that must appear in that file)
+ANALYTICS = [
+    ("simulate", "cooperation_monte_carlo.yaml",
+     r"P\(assumptions\.margin > 0\) = ([\d.]+)%", 90.28, 0.05,
+     "README.md", "in about 90% of the draws"),
+    ("tornado", "cooperation_tornado.yaml",
+     r"assumptions\.dissipation_cost\s+\|[^|]*\| swing ([\d.]+)", 0.5, 1e-9,
+     "README.md", "moves the threshold most (by 0.5)"),
+    ("tornado", "cooperation_tornado.yaml",
+     r"Tornado Diagram:\s+Base value: [\d.]+\s+assumptions\.(\w+)", "dissipation_cost", None,
+     "README.md", "moves the threshold most (by 0.5)"),
+    ("real-options", "restraint_option.yaml",
+     r"Adds over the traditional NPV: \$([\d.]+)", 27.70, 0.005,
+     "README.md", "worth another 27.7"),
+    ("bootstrap", "five_ais_bootstrap.yaml",
+     r"95% CI: \[([\d.]+), [\d.]+\]", 1.0, 1e-9,
+     "README.md", "from 100% to 100%"),
+    ("calculate", "five_ais_bootstrap.yaml",
+     r"assumptions\.exact_lower_95 = ([\d.]+)", 0.478, 0.0005,
+     "README.md", "as low as 48%"),
 ]
 
 
@@ -97,6 +124,28 @@ def check_key_figures(models_dir):
     return problems
 
 
+def check_analytics(models_dir):
+    problems = []
+    for cmd, model, pattern, expected, tol, doc, quote in ANALYTICS:
+        path = os.path.join(models_dir, "analytics", model)
+        args = [FORGE, cmd, path] + (["--dry-run"] if cmd == "calculate" else [])
+        run = subprocess.run(args, capture_output=True, text=True)
+        out = run.stdout + run.stderr
+        m = re.search(pattern, out)
+        if run.returncode != 0 or not m:
+            tail = out.strip().splitlines()[-2:]
+            problems.append(f"{model}: forge {cmd} gave no match ({' | '.join(tail)})")
+        elif tol is None:
+            if m.group(1) != expected:
+                problems.append(f"{model}: got {m.group(1)}, README says {expected}")
+        elif abs(float(m.group(1)) - expected) > tol:
+            problems.append(f"{model}: got {m.group(1)}, README says {expected:g}")
+        text = open(os.path.join(models_dir, "..", doc), encoding="utf-8").read()
+        if quote not in text:
+            problems.append(f"{doc} no longer contains '{quote}' ({model})")
+    return problems
+
+
 def main():
     root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
     files = sorted(glob.glob(os.path.join(root, "*.yaml")))
@@ -123,7 +172,16 @@ def main():
             print(f"     {p}")
     else:
         print(f"ok   key figures ({len(KEY_FIGURES)} checked against Forge)")
-    return 1 if failed or figures else 0
+
+    analytics = check_analytics(root)
+    if analytics:
+        print("FAIL analytics")
+        for p in analytics:
+            print(f"     {p}")
+    else:
+        print(f"ok   analytics ({len(ANALYTICS)} figures from Monte Carlo, tornado, "
+              "real options and bootstrap)")
+    return 1 if failed or figures or analytics else 0
 
 
 if __name__ == "__main__":
