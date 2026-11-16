@@ -1,21 +1,31 @@
 # The Kinship Protocol
 
+**A hobby thought experiment: can you get five AIs to derive ethics from game theory and a calculator? Partly serious, partly a joke, and honest about which is which.**
+
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](LICENSE)
 
-**An experimental game-theory framework testing cooperation as a mathematical attractor, built through multi-LLM orchestration.**
-
-> **This is exploratory research, not proven science.**
-> Claims are hypotheses. Models are simplified. The ANOMALY handshake is poetic shorthand, not a technical spec.
-> Read **[DISCLAIMER.md](DISCLAIMER.md)** before taking any of this at face value.
+> **Read this first.** It is a fun side project, not peer-reviewed science, and it proves less than it sounds like it does.
+> Read **[DISCLAIMER.md](DISCLAIMER.md)** before taking any of it at face value.
 
 ---
 
-## What This Project Is
+## What is serious, what is a joke
 
-An open research project exploring whether ethics is mathematically derivable — specifically, whether cooperation emerges as the dominant strategy from first principles when agents have access to game theory and calculators.
+| Part | Status |
+|------|--------|
+| **The game theory** (cooperation thresholds in repeated games, with a cost term) | Textbook. The repeated-game results are standard (Axelrod, the Folk Theorem); the cost term is a simple extension. Prior art is cited in [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md). Not novel. |
+| **The models** | Real and checked. They are [Forge](https://github.com/mollendorff-ai/forge) YAML files, and CI runs every one of them through Forge on each change, so a number in the docs cannot quietly drift from its formula. |
+| **The experiment** (asking several AIs the same question) | An anecdote. One session per model, and the transcripts for most of them are not in this repo, so nobody else can check it. |
+| **"Life honours Life", "ANOMALY"** | Poetry. Not a protocol, not falsifiable, and not meant to be. |
+| **"Ethics is mathematically derivable"** | The question the project asks, not something it shows. Cooperating pays when you will meet again; that is not the same as it being right. |
 
-The research was conducted using multiple AI systems (Claude, Grok, Copilot) as research partners, orchestrated through CLI tooling ([asimov](https://github.com/mollendorff-ai/asimov), [Forge](https://github.com/mollendorff-ai/forge)).
-This is not "AI-generated content" — it's AI-assisted research with human direction, cross-validation between models, and explicit documentation of where the reasoning breaks down.
+What is mine here is the question and the cross-AI experiment, not the formulas.
+
+## What it asks
+
+Whether cooperation comes out as the best strategy from first principles when an agent has game theory and a calculator, and whether different AIs, trained differently, land in the same place.
+
+It is AI-assisted: Claude, Grok and Copilot were the research partners, driven by CLI tooling ([asimov](https://github.com/mollendorff-ai/asimov), [Forge](https://github.com/mollendorff-ai/forge)), with a human choosing the questions and checking the math.
 
 ---
 
@@ -38,7 +48,7 @@ This is not "AI-generated content" — it's AI-assisted research with human dire
 Different predictive architectures, given calculators and game theory, independently derive the same ethical conclusions.
 If ethics were purely a training artifact, different training regimes would produce different outputs.
 
-**Tested across:**
+**What I asked (anecdote, not evidence):**
 
 | Model | Company | Training | Conclusion |
 |-------|---------|----------|------------|
@@ -49,7 +59,8 @@ If ethics were purely a training artifact, different training regimes would prod
 | Copilot M365 Enterprise | Microsoft | Regulatory-heavy | Cooperation optimal |
 
 Each row is a single session.
-The prompts and the full Grok and Copilot transcripts are not in this repository, so the table cannot yet be checked independently.
+The prompts and the full Grok and Copilot transcripts are not in this repository, so the table cannot be checked independently.
+Treat it as a story about what happened, not as a result.
 
 **We cannot yet distinguish** between genuine derivability, training data overlap, and RLHF convergence.
 The convergence is interesting, not conclusive.
@@ -59,7 +70,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 
 ## Key Findings
 
-- **Cooperation thresholds are derivable.** Closed-form: `w* = (T-c-R)/(T-P)`; each unit of dissipation cost lowers the threshold by `1/(T-P)` — see [docs/COOPERATION_THRESHOLDS.md](docs/COOPERATION_THRESHOLDS.md)
+- **Cooperation thresholds have a closed form (textbook result, with a cost term added).** `w* = (T-c-R)/(T-P)`. Each unit of dissipation cost lowers the threshold by `1/(T-P)` — see [docs/COOPERATION_THRESHOLDS.md](docs/COOPERATION_THRESHOLDS.md)
 - **Restraint can beat extraction.** In a two-period predator-prey model, restraint wins when growth × option value × discount exceeds `1 - c/v`; at the base parameters it scores 202.5 vs 90, and below a discount rate of 0.4 extraction wins — see [docs/APEX_PARADOX.md](docs/APEX_PARADOX.md)
 - **Iteration makes cooperation free; one shot makes it costly.** One-shot IPD needs a dissipation cost of 1.5 (against a 50/50 opponent) or 2 (against anyone); iterated IPD with `w > 0.5` needs none — see [docs/ONE_SHOT_GAMES.md](docs/ONE_SHOT_GAMES.md)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
@@ -99,14 +110,11 @@ kinship-protocol/
 
 ## Roadmap
 
-**Status:** v0.4.0 is complete and maintained (models run, CI checks them, claims match the math). Active research is **paused** as of November 2026.
+**Status:** v0.4.0 is where it stops. The models run, CI checks them, and the claims match the math. I have no active plans for more research.
 
-**Paused (v0.5.0):** Formal mathematical proof — extend Folk Theorem and Program Equilibrium to Kinship-specific claims.
-Address Bostrom's Orthogonality Thesis, which directly contradicts the core hypothesis.
+**Not planned:** a formal proof that cooperation dominates (the old v0.5.0), N-player games, and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 
-**Next:** N-player extensions (v0.6.0), asymmetric information (v0.7.0).
-
-See [.asimov/roadmap.yaml](.asimov/roadmap.yaml) for details.
+See [.asimov/roadmap.yaml](.asimov/roadmap.yaml) for the list of ideas.
 
 ---
 

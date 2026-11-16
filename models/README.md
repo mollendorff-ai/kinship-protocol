@@ -33,8 +33,8 @@ forge calculate models/ipd_payoffs.yaml --dry-run
 
 ## Checking for Drift
 
-`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass).
-It runs automatically in CI on every push and pull request that touches `models/`.
+`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output.
+It runs automatically in CI on every push and pull request that touches `models/`, the README or `docs/`.
 
 ```bash
 python3 scripts/check_models.py

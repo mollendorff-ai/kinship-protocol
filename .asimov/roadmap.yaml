@@ -7,39 +7,15 @@
 # See: README.md for project overview
 
 current:
-  version: "0.5.0"
-  status: paused
-  paused_since: 2026-11-06
-  note: "Paused; the models, docs and CI are maintained. Resumes when time allows."
-  summary: "Formal Mathematical Proof"
-  goal: "Rigorous proof of cooperation dominance"
-  deliverables:
-    - "Formal proof using Folk Theorem foundations"
-    - "Program Equilibrium application to Kinship"
-    - "Prove dissipation cost threshold rigorously"
-    - "Address Orthogonality Thesis mathematically"
+  version: "0.4.0"
+  status: complete
+  note: "Where the project stops. The models, docs and CI are maintained; no further research is planned."
 
-next:
-  - version: "0.6.0"
-    summary: "N-Player Extensions"
-    goal: "Scale from 2-player to N-player games"
-    deliverables:
-      - "N-player cooperation dynamics"
-      - "Coalition formation analysis"
-      - "Public goods game integration"
-      - "Tragedy of the commons conditions"
-
-  - version: "0.7.0"
-    summary: "Asymmetric Information"
-    goal: "Model cooperation under incomplete knowledge"
-    deliverables:
-      - "Bayesian game formulation"
-      - "Signaling and screening mechanisms"
-      - "Reputation under uncertainty"
-      - "Information asymmetry thresholds"
-
-backlog:
-  - "KL divergence / FEP formalization (if rigorous mapping found)"
-  - "Cross-Model Validation (run same scenarios on multiple LLMs)"
-  - "DANEEL cognitive architecture integration"
-  - "Publication Readiness - LAST"
+# Ideas, not plans. Nobody is working on these. Pull requests welcome.
+ideas:
+  - "Formal proof using Folk Theorem foundations and Program Equilibrium applied to Kinship (the old v0.5.0)"
+  - "Address the Orthogonality Thesis (Bostrom) mathematically"
+  - "N-player extensions: coalitions, public goods, tragedy of the commons"
+  - "Asymmetric information: Bayesian games, signalling, reputation"
+  - "Put the Grok and Copilot transcripts in the repo so the cross-AI table can be checked"
+  - "KL divergence / FEP formalization (only if a rigorous mapping is found)"
