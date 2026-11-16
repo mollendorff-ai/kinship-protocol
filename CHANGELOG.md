@@ -18,10 +18,13 @@ All notable findings and releases for the Kinship Protocol project.
 
 ### Changed
 
-- Research paused at v0.4.0 (2026-11-06). The repository stays maintained; v0.5.0 (formal proof) resumes when time allows.
+- README now says up front what the project is (a hobby thought experiment, partly serious, partly a joke) and sorts each part into textbook, checked, anecdote or poetry. The cross-AI table is labelled an anecdote.
+- Research stops at v0.4.0. The formal proof (old v0.5.0), N-player games and asymmetric information are listed as ideas, not plans, in `.asimov/roadmap.yaml`.
+- The model check runs on Forge 10.0.0-rc.27 (release binary, checksum-verified) instead of rc.1 built from source.
 
 ### Added
 
+- `scripts/check_models.py` also checks six headline figures (0.375, 202.5 vs 90, the 0.4 discount rate, the one-shot costs 1.5 and 2) against what Forge computes, and fails if the README or docs stop quoting them.
 - Empirical LLM game-theory studies in `docs/LITERATURE_SYNTHESIS.md` and `references.yaml`: Guo (2023), Fontana et al. (2024), Akata et al. (2025), Pal et al. (2026).
 - `scripts/check_models.py` and a CI job that fail when a stored model value drifts from its formula.
 
