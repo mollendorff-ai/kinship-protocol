@@ -126,9 +126,11 @@ kinship-protocol/
 
 ## Roadmap
 
-**Status:** v0.4.0 is where it stops. The models run, CI checks them, and the claims match the math. I have no active plans for more research.
+**Status:** v0.4.0 is complete. The models run, CI checks them, and the claims match the math.
 
-**Not planned:** a formal proof that cooperation dominates (the old v0.5.0), N-player games, and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
+**Next, v0.5.0: more games.** It waits on [Forge](https://github.com/mollendorff-ai/forge) learning to work out equilibria and run tournaments itself (its roadmap item T2-GAME-THEORY). Then: the stag hunt, chicken and the Axelrod tournament rewritten so Forge calculates what is typed in today, plus two new games. In *Audit the AI* (an inspection game), a harsher penalty makes the human audit less, not the AI cheat less. In *Forgiveness pays* (a tournament with mistakes), tit-for-tat falls apart and a forgiving strategy wins. After that, parked: five AIs in one public goods game.
+
+**Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 
 See [.asimov/roadmap.yaml](.asimov/roadmap.yaml) for the list of ideas.
 
