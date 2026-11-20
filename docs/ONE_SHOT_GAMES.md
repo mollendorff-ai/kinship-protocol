@@ -172,7 +172,7 @@ In the iterated Prisoner's Dilemma, cooperation needs no dissipation cost once w
 In one shot it needs c ≥ 1.5 against a 50/50 opponent, or c ≥ 2 against any opponent.
 Iteration is what makes cooperation free here, so there is no meaningful "times harder" ratio: the iterated requirement is zero.
 
-The Axelrod-tournament crossover (c = 0.1, in `models/axelrod_tournament.yaml`) measures something else, when AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's, and should not be compared with the one-shot costs above.
+The Axelrod-tournament crossover (c = 0.108, in `models/axelrod_tournament.yaml`, where Forge plays the matches; the hand-typed table gave 0.1) measures something else, when AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's, and should not be compared with the one-shot costs above.
 
 ### 4.3 The Key Insight
 
