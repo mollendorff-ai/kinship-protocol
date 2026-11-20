@@ -15,6 +15,7 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [inspection.yaml](inspection.yaml) | Audit the AI (inspection game) | Harsher penalty: less auditing, same cheating (1/3); cheaper audits: cheating 1/6 | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies, moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10% | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [conventions.yaml](conventions.yaml) | Human and AI prefer different norms | Mixed play misses 52% of the time; a cost of conflict hardly helps | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [five_ais.yaml](five_ais.yaml) | The five AIs in two public goods games (32 cells each) | No cost: nobody gives (1 equilibrium); threshold of 3: 11 equilibria, two free riders | [FIVE_AIS](../docs/FIVE_AIS.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
@@ -50,7 +51,7 @@ forge calculate models/<model>.yaml --dry-run
 forge calculate models/ipd_payoffs.yaml --dry-run
 ```
 
-The game models (`stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`, `continuation.yaml`, `inspection.yaml`, `noisy_tournament.yaml`, `conventions.yaml`) also run with `forge game`, which prints the equilibria or the tournament table. Each cost is a scenario:
+The game models (`stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`, `continuation.yaml`, `inspection.yaml`, `noisy_tournament.yaml`, `conventions.yaml`, `five_ais.yaml`) also run with `forge game`, which prints the equilibria or the tournament table. Each cost is a scenario:
 
 ```bash
 forge game models/axelrod_tournament.yaml
@@ -60,7 +61,8 @@ forge tornado models/inspection.yaml   # which input moves the audit rate
 
 ## Checking for Drift
 
-`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output, including the stress-test figures, and the results of the v0.5.0 games in each scenario (each checked outside Forge with nashpy, the Python axelrod library, or by hand).
+`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output, including the stress-test figures, and the results of the v0.5.0 games and `five_ais.yaml` in each scenario (each checked outside Forge with nashpy, the Python axelrod library, by brute force over every cell, or by hand).
+`five_ais.yaml`'s 64 payoff cells are written by `scripts/make_five_ais.py`; edit the inputs and per-k formulas, or the script, not the cells.
 It runs automatically in CI on every push and pull request that touches `models/`, the README or `docs/`.
 
 ```bash
@@ -96,6 +98,8 @@ Full analysis in [docs/](../docs/README.md):
 - [APEX_PARADOX.md](../docs/APEX_PARADOX.md) — Power asymmetry analysis
 - [ONE_SHOT_GAMES.md](../docs/ONE_SHOT_GAMES.md) — One-shot viability
 - [SHORT_HORIZONS.md](../docs/SHORT_HORIZONS.md) — Time horizon dynamics
+- [MORE_GAMES.md](../docs/MORE_GAMES.md) — Horizons, audits, mistakes and norms
+- [FIVE_AIS.md](../docs/FIVE_AIS.md) — Five AIs in a public goods game
 - [FAILURE_MODES.md](../docs/FAILURE_MODES.md) — Boundary conditions
 - [EDGE_CASES.md](../docs/EDGE_CASES.md) — Model validation
 

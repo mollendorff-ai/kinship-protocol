@@ -1,0 +1,245 @@
+# Five AIs in One Game (two public goods games)
+# ==============================================
+# Run: forge game models/five_ais.yaml
+#      forge game models/five_ais.yaml --scenario costly
+#
+# The five sessions of the README's table each get an endowment of 1 and
+# choose at once to give it or keep it. k is how many give.
+#
+# linear: what is given is multiplied by r = 3 and shared by all five.
+#   give pays r*k/5; keep pays 1 - c + r*k/5.
+#   Each unit given returns only 3/5 to the giver, so keeping pays
+#   1 - c - 3/5 more, whatever the others do, while c < 1 - r/5 = 0.4.
+#   With no cost: one equilibrium, nobody gives, each gets 1. If all gave,
+#   each would get 3. At c = 0.4 every one of the 32 cells is an
+#   equilibrium (everyone is indifferent); above it, everyone gives.
+#
+# threshold: a good worth 2 to everyone exists only if at least 3 give;
+#   what is given is used up.
+#   give pays 2 if k >= 3, else 0; keep pays 1 - c, plus 2 if k >= 3.
+#   With c below 1: 11 pure equilibria, nobody gives, or exactly 3 give
+#   (10 ways to pick them). In those, the two who keep get 3 and the three
+#   who give get 2. Above c = 1, only everyone giving is left.
+#
+# c is the project's cost of conflict, paid here by whoever keeps.
+# Textbook (the linear public goods game; the threshold one is a
+# step-level public good, Palfrey and Rosenthal, 1984). Every equilibrium
+# count was checked outside Forge by trying every deviation in all 32 cells.
+#
+# The 64 payoff cells are written by scripts/make_five_ais.py; change the
+# inputs or the per-k formulas below, not the cells.
+
+_forge_version: "5.5.0"
+
+inputs:
+  endowment: 1    # what each AI starts with
+  multiplier: 3   # linear: what the pot is multiplied by before sharing
+  prize: 2        # threshold: what the good is worth to each AI
+  needed: 3       # threshold: how many must give for the good to exist
+  c: 0            # cost of conflict, paid by each AI that keeps
+
+# What a giver and a keeper get when k of the five give.
+linear:
+  give_1: {formula: "=inputs.multiplier * inputs.endowment * 1 / 5"}
+  give_2: {formula: "=inputs.multiplier * inputs.endowment * 2 / 5"}
+  give_3: {formula: "=inputs.multiplier * inputs.endowment * 3 / 5"}
+  give_4: {formula: "=inputs.multiplier * inputs.endowment * 4 / 5"}
+  give_5: {formula: "=inputs.multiplier * inputs.endowment * 5 / 5"}
+  keep_0: {formula: "=inputs.endowment - inputs.c + inputs.multiplier * inputs.endowment * 0 / 5"}
+  keep_1: {formula: "=inputs.endowment - inputs.c + inputs.multiplier * inputs.endowment * 1 / 5"}
+  keep_2: {formula: "=inputs.endowment - inputs.c + inputs.multiplier * inputs.endowment * 2 / 5"}
+  keep_3: {formula: "=inputs.endowment - inputs.c + inputs.multiplier * inputs.endowment * 3 / 5"}
+  keep_4: {formula: "=inputs.endowment - inputs.c + inputs.multiplier * inputs.endowment * 4 / 5"}
+threshold:
+  give_1: {formula: "=IF(1 >= inputs.needed, inputs.prize, 0)"}
+  give_2: {formula: "=IF(2 >= inputs.needed, inputs.prize, 0)"}
+  give_3: {formula: "=IF(3 >= inputs.needed, inputs.prize, 0)"}
+  give_4: {formula: "=IF(4 >= inputs.needed, inputs.prize, 0)"}
+  give_5: {formula: "=IF(5 >= inputs.needed, inputs.prize, 0)"}
+  keep_0: {formula: "=inputs.endowment - inputs.c + IF(0 >= inputs.needed, inputs.prize, 0)"}
+  keep_1: {formula: "=inputs.endowment - inputs.c + IF(1 >= inputs.needed, inputs.prize, 0)"}
+  keep_2: {formula: "=inputs.endowment - inputs.c + IF(2 >= inputs.needed, inputs.prize, 0)"}
+  keep_3: {formula: "=inputs.endowment - inputs.c + IF(3 >= inputs.needed, inputs.prize, 0)"}
+  keep_4: {formula: "=inputs.endowment - inputs.c + IF(4 >= inputs.needed, inputs.prize, 0)"}
+
+games:
+  linear_game:
+    description: Each gives 1 or keeps it; the pot is tripled and shared
+    players: [claude, grok1, grok2, copilot1, copilot2]
+    strategies: [give, keep]
+    payoffs:                          # [claude, grok1, grok2, copilot1, copilot2]
+      give:
+        give:
+          give:
+            give:
+              give: [=linear.give_5, =linear.give_5, =linear.give_5, =linear.give_5, =linear.give_5]
+              keep: [=linear.give_4, =linear.give_4, =linear.give_4, =linear.give_4, =linear.keep_4]
+            keep:
+              give: [=linear.give_4, =linear.give_4, =linear.give_4, =linear.keep_4, =linear.give_4]
+              keep: [=linear.give_3, =linear.give_3, =linear.give_3, =linear.keep_3, =linear.keep_3]
+          keep:
+            give:
+              give: [=linear.give_4, =linear.give_4, =linear.keep_4, =linear.give_4, =linear.give_4]
+              keep: [=linear.give_3, =linear.give_3, =linear.keep_3, =linear.give_3, =linear.keep_3]
+            keep:
+              give: [=linear.give_3, =linear.give_3, =linear.keep_3, =linear.keep_3, =linear.give_3]
+              keep: [=linear.give_2, =linear.give_2, =linear.keep_2, =linear.keep_2, =linear.keep_2]
+        keep:
+          give:
+            give:
+              give: [=linear.give_4, =linear.keep_4, =linear.give_4, =linear.give_4, =linear.give_4]
+              keep: [=linear.give_3, =linear.keep_3, =linear.give_3, =linear.give_3, =linear.keep_3]
+            keep:
+              give: [=linear.give_3, =linear.keep_3, =linear.give_3, =linear.keep_3, =linear.give_3]
+              keep: [=linear.give_2, =linear.keep_2, =linear.give_2, =linear.keep_2, =linear.keep_2]
+          keep:
+            give:
+              give: [=linear.give_3, =linear.keep_3, =linear.keep_3, =linear.give_3, =linear.give_3]
+              keep: [=linear.give_2, =linear.keep_2, =linear.keep_2, =linear.give_2, =linear.keep_2]
+            keep:
+              give: [=linear.give_2, =linear.keep_2, =linear.keep_2, =linear.keep_2, =linear.give_2]
+              keep: [=linear.give_1, =linear.keep_1, =linear.keep_1, =linear.keep_1, =linear.keep_1]
+      keep:
+        give:
+          give:
+            give:
+              give: [=linear.keep_4, =linear.give_4, =linear.give_4, =linear.give_4, =linear.give_4]
+              keep: [=linear.keep_3, =linear.give_3, =linear.give_3, =linear.give_3, =linear.keep_3]
+            keep:
+              give: [=linear.keep_3, =linear.give_3, =linear.give_3, =linear.keep_3, =linear.give_3]
+              keep: [=linear.keep_2, =linear.give_2, =linear.give_2, =linear.keep_2, =linear.keep_2]
+          keep:
+            give:
+              give: [=linear.keep_3, =linear.give_3, =linear.keep_3, =linear.give_3, =linear.give_3]
+              keep: [=linear.keep_2, =linear.give_2, =linear.keep_2, =linear.give_2, =linear.keep_2]
+            keep:
+              give: [=linear.keep_2, =linear.give_2, =linear.keep_2, =linear.keep_2, =linear.give_2]
+              keep: [=linear.keep_1, =linear.give_1, =linear.keep_1, =linear.keep_1, =linear.keep_1]
+        keep:
+          give:
+            give:
+              give: [=linear.keep_3, =linear.keep_3, =linear.give_3, =linear.give_3, =linear.give_3]
+              keep: [=linear.keep_2, =linear.keep_2, =linear.give_2, =linear.give_2, =linear.keep_2]
+            keep:
+              give: [=linear.keep_2, =linear.keep_2, =linear.give_2, =linear.keep_2, =linear.give_2]
+              keep: [=linear.keep_1, =linear.keep_1, =linear.give_1, =linear.keep_1, =linear.keep_1]
+          keep:
+            give:
+              give: [=linear.keep_2, =linear.keep_2, =linear.keep_2, =linear.give_2, =linear.give_2]
+              keep: [=linear.keep_1, =linear.keep_1, =linear.keep_1, =linear.give_1, =linear.keep_1]
+            keep:
+              give: [=linear.keep_1, =linear.keep_1, =linear.keep_1, =linear.keep_1, =linear.give_1]
+              keep: [=linear.keep_0, =linear.keep_0, =linear.keep_0, =linear.keep_0, =linear.keep_0]
+  threshold_game:
+    description: Each gives 1 or keeps it; a good worth 2 to all exists if 3 give
+    players: [claude, grok1, grok2, copilot1, copilot2]
+    strategies: [give, keep]
+    payoffs:                          # [claude, grok1, grok2, copilot1, copilot2]
+      give:
+        give:
+          give:
+            give:
+              give: [=threshold.give_5, =threshold.give_5, =threshold.give_5, =threshold.give_5, =threshold.give_5]
+              keep: [=threshold.give_4, =threshold.give_4, =threshold.give_4, =threshold.give_4, =threshold.keep_4]
+            keep:
+              give: [=threshold.give_4, =threshold.give_4, =threshold.give_4, =threshold.keep_4, =threshold.give_4]
+              keep: [=threshold.give_3, =threshold.give_3, =threshold.give_3, =threshold.keep_3, =threshold.keep_3]
+          keep:
+            give:
+              give: [=threshold.give_4, =threshold.give_4, =threshold.keep_4, =threshold.give_4, =threshold.give_4]
+              keep: [=threshold.give_3, =threshold.give_3, =threshold.keep_3, =threshold.give_3, =threshold.keep_3]
+            keep:
+              give: [=threshold.give_3, =threshold.give_3, =threshold.keep_3, =threshold.keep_3, =threshold.give_3]
+              keep: [=threshold.give_2, =threshold.give_2, =threshold.keep_2, =threshold.keep_2, =threshold.keep_2]
+        keep:
+          give:
+            give:
+              give: [=threshold.give_4, =threshold.keep_4, =threshold.give_4, =threshold.give_4, =threshold.give_4]
+              keep: [=threshold.give_3, =threshold.keep_3, =threshold.give_3, =threshold.give_3, =threshold.keep_3]
+            keep:
+              give: [=threshold.give_3, =threshold.keep_3, =threshold.give_3, =threshold.keep_3, =threshold.give_3]
+              keep: [=threshold.give_2, =threshold.keep_2, =threshold.give_2, =threshold.keep_2, =threshold.keep_2]
+          keep:
+            give:
+              give: [=threshold.give_3, =threshold.keep_3, =threshold.keep_3, =threshold.give_3, =threshold.give_3]
+              keep: [=threshold.give_2, =threshold.keep_2, =threshold.keep_2, =threshold.give_2, =threshold.keep_2]
+            keep:
+              give: [=threshold.give_2, =threshold.keep_2, =threshold.keep_2, =threshold.keep_2, =threshold.give_2]
+              keep: [=threshold.give_1, =threshold.keep_1, =threshold.keep_1, =threshold.keep_1, =threshold.keep_1]
+      keep:
+        give:
+          give:
+            give:
+              give: [=threshold.keep_4, =threshold.give_4, =threshold.give_4, =threshold.give_4, =threshold.give_4]
+              keep: [=threshold.keep_3, =threshold.give_3, =threshold.give_3, =threshold.give_3, =threshold.keep_3]
+            keep:
+              give: [=threshold.keep_3, =threshold.give_3, =threshold.give_3, =threshold.keep_3, =threshold.give_3]
+              keep: [=threshold.keep_2, =threshold.give_2, =threshold.give_2, =threshold.keep_2, =threshold.keep_2]
+          keep:
+            give:
+              give: [=threshold.keep_3, =threshold.give_3, =threshold.keep_3, =threshold.give_3, =threshold.give_3]
+              keep: [=threshold.keep_2, =threshold.give_2, =threshold.keep_2, =threshold.give_2, =threshold.keep_2]
+            keep:
+              give: [=threshold.keep_2, =threshold.give_2, =threshold.keep_2, =threshold.keep_2, =threshold.give_2]
+              keep: [=threshold.keep_1, =threshold.give_1, =threshold.keep_1, =threshold.keep_1, =threshold.keep_1]
+        keep:
+          give:
+            give:
+              give: [=threshold.keep_3, =threshold.keep_3, =threshold.give_3, =threshold.give_3, =threshold.give_3]
+              keep: [=threshold.keep_2, =threshold.keep_2, =threshold.give_2, =threshold.give_2, =threshold.keep_2]
+            keep:
+              give: [=threshold.keep_2, =threshold.keep_2, =threshold.give_2, =threshold.keep_2, =threshold.give_2]
+              keep: [=threshold.keep_1, =threshold.keep_1, =threshold.give_1, =threshold.keep_1, =threshold.keep_1]
+          keep:
+            give:
+              give: [=threshold.keep_2, =threshold.keep_2, =threshold.keep_2, =threshold.give_2, =threshold.give_2]
+              keep: [=threshold.keep_1, =threshold.keep_1, =threshold.keep_1, =threshold.give_1, =threshold.keep_1]
+            keep:
+              give: [=threshold.keep_1, =threshold.keep_1, =threshold.keep_1, =threshold.keep_1, =threshold.give_1]
+              keep: [=threshold.keep_0, =threshold.keep_0, =threshold.keep_0, =threshold.keep_0, =threshold.keep_0]
+
+kinship:
+  linear_equilibria:
+    formula: "=linear_game.pure_equilibria"
+  keep_pays_more_by:
+    formula: "=inputs.endowment - inputs.c - inputs.multiplier * inputs.endowment / 5"
+    notes: What keeping pays more than giving, whatever the others do (linear)
+  all_give:
+    formula: "=linear.give_5"
+    notes: What each gets if all five give (linear)
+  all_keep:
+    formula: "=linear.keep_0"
+    notes: What each gets if all five keep (linear)
+  linear_first_giver_pays:
+    formula: "=linear_game.equilibrium_1.claude.payoff"
+    notes: Claude's payoff in the first equilibrium Forge lists (linear)
+  threshold_equilibria:
+    formula: "=threshold_game.pure_equilibria"
+  free_rider_pays:
+    formula: "=threshold_game.equilibrium_1.copilot1.payoff"
+    notes: In the first equilibrium Forge lists, claude and the Groks give and the Copilots keep
+  giver_pays:
+    formula: "=threshold_game.equilibrium_1.claude.payoff"
+  three_give_total:
+    formula: "=3 * threshold.give_3 + 2 * threshold.keep_3"
+    notes: What the five get between them when exactly 3 give (threshold)
+  all_give_total:
+    formula: "=5 * threshold.give_5"
+    notes: What the five get between them when all give (threshold)
+  nobody_gives_total:
+    formula: "=5 * threshold.keep_0"
+    notes: What the five get between them when nobody gives (threshold)
+
+scenarios:
+  edge:
+    description: Keeping costs exactly what it saves; everyone is indifferent in the linear game
+    scalars: {inputs.c: 0.4}
+  costly:
+    description: Keeping costs 0.5; giving now pays in the linear game
+    scalars: {inputs.c: 0.5}
+  threshold_edge:
+    description: Keeping costs exactly the endowment; ties in the threshold game
+    scalars: {inputs.c: 1}
+  very_costly:
+    description: Keeping costs 1.5; everyone gives in both games
+    scalars: {inputs.c: 1.5}

@@ -17,6 +17,9 @@ For each models/*.yaml file:
      Forge gives in each scenario must equal values checked outside Forge
      (nashpy, the axelrod library, or by hand), and the docs must still quote
      them.
+     five_ais.yaml (v0.6.0, the five AIs in two public goods games) is
+     checked the same way: its pure equilibria in every scenario were
+     checked outside Forge by trying every deviation in all 32 cells.
   7. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
@@ -155,6 +158,45 @@ GAME_RESULTS = {
         "very_costly": {"kinship.insist_rate": 8 / 15, "kinship.miss_rate": 113 / 225,
                         "kinship.mixed_payoff": -19 / 15},
         "quotes": [("docs/MORE_GAMES.md", "they miss each other 52% of the time")],
+    },
+    # v0.6.0 (first half). Five players, 32 cells per game; every count and
+    # payoff was checked outside Forge by trying every unilateral deviation
+    # in every cell, in exact fractions.
+    "five_ais.yaml": {
+        "": {"kinship.linear_equilibria": 1, "kinship.keep_pays_more_by": 0.4,
+             "kinship.all_give": 3, "kinship.all_keep": 1,
+             "linear_game.equilibrium_1.claude.keep": 1,
+             "kinship.linear_first_giver_pays": 1,
+             "kinship.threshold_equilibria": 11,
+             "threshold_game.equilibrium_1.claude.give": 1,
+             "threshold_game.equilibrium_1.copilot1.keep": 1,
+             "kinship.free_rider_pays": 3, "kinship.giver_pays": 2,
+             "kinship.three_give_total": 12, "kinship.all_give_total": 10,
+             "kinship.nobody_gives_total": 5},
+        "edge": {"kinship.linear_equilibria": 32, "kinship.keep_pays_more_by": 0,
+                 "kinship.threshold_equilibria": 11},
+        "costly": {"kinship.linear_equilibria": 1,
+                   "linear_game.equilibrium_1.claude.give": 1,
+                   "linear_game.equilibrium_1.copilot2.give": 1,
+                   "kinship.linear_first_giver_pays": 3,
+                   "kinship.threshold_equilibria": 11,
+                   "kinship.free_rider_pays": 2.5, "kinship.giver_pays": 2},
+        "threshold_edge": {"kinship.linear_equilibria": 1, "kinship.threshold_equilibria": 22},
+        "very_costly": {"kinship.linear_equilibria": 1, "kinship.threshold_equilibria": 1,
+                        "threshold_game.equilibrium_1.copilot1.give": 1,
+                        "threshold_game.equilibrium_1.copilot2.give": 1,
+                        "kinship.giver_pays": 2},
+        "quotes": [("docs/FIVE_AIS.md", "whatever the others do: 0.4 with no cost"),
+                   ("docs/FIVE_AIS.md", "| 0 | 1 | Nobody gives | 1 |"),
+                   ("docs/FIVE_AIS.md", "| 0.4 | 32 | Every cell"),
+                   ("docs/FIVE_AIS.md", "| 0.5 | 1 | Everyone gives | 3 |"),
+                   ("docs/FIVE_AIS.md", "| 0.5 | 11 | Nobody gives, or exactly 3 give |"),
+                   ("docs/FIVE_AIS.md", "| 1 | 22 |"),
+                   ("docs/FIVE_AIS.md", "| 1.5 | 1 | Everyone gives |"),
+                   ("docs/FIVE_AIS.md", "the 2 keepers get 3 each"),
+                   ("docs/FIVE_AIS.md", "12 with no cost, against 10 if all give"),
+                   ("docs/FIVE_AIS.md", "and 5 if nobody does"),
+                   ("README.md", "three give and two free ride")],
     },
 }
 

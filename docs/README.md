@@ -54,6 +54,16 @@ Four Forge games added in v0.5.0: the cooperation threshold played as a tourname
 
 ---
 
+### Five AIs in One Game
+
+**[FIVE_AIS.md](FIVE_AIS.md)**
+
+The README's five AI sessions in a five-player public goods game, linear and with a threshold of three givers. Forge finds every pure equilibrium; each is checked by brute force over all 32 cells.
+
+**Key result:** With no cost, nobody gives. With a threshold, three give and two free ride, or nobody gives. A cost of conflict helps only as a fine on keeping.
+
+---
+
 ### Failure Modes
 
 **[FAILURE_MODES.md](FAILURE_MODES.md)**
@@ -83,6 +93,7 @@ Model validation across 18 edge cases. Tests extreme values, boundary conditions
 | ONE_SHOT_GAMES | One-shot viability | Chicken enables one-shot cooperation |
 | SHORT_HORIZONS | Time horizon dynamics | Defection advantage capped; cooperation advantage unbounded as w → 1 |
 | MORE_GAMES | Inspection, noise, coordination, threshold as tournament | Penalties, forgiveness and costs each fail somewhere |
+| FIVE_AIS | Five-player public goods | One-shot, nobody gives unless keeping is fined |
 | FAILURE_MODES | Boundary conditions | 7 failure modes with diagnostics and mitigations |
 | EDGE_CASES | Model validation | 18/18 tests pass, models robust |
 

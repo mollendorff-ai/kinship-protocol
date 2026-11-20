@@ -4,7 +4,15 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
-*Next, parked: v0.6.0, five AIs in one public goods game.*
+v0.6.0, five AIs in one game: the public goods game is done; replicator dynamics are still parked until Forge has them.
+
+### Added
+
+- **`models/five_ais.yaml` and `docs/FIVE_AIS.md`:** the README's five AI sessions (Claude, two Groks, two Copilots) in two five-player public goods games, 32 cells each. Forge finds every pure equilibrium in five scenarios of the cost of conflict c, paid by whoever keeps.
+  - Linear (pot tripled and shared): with no cost, one equilibrium, nobody gives (each gets 1; all giving would pay 3). At c = 0.4 all 32 cells tie; from 0.5, everyone gives.
+  - Threshold (a good worth 2 exists if 3 give): 11 pure equilibria for c below 1, nobody gives or exactly 3 do; the 2 keepers get 3, the givers 2. 22 at c = 1; above it, only everyone giving.
+  - Checked outside Forge by trying every unilateral deviation in every cell, in exact fractions; `scripts/check_models.py` checks every figure in each scenario. Pure equilibria only: Forge finds mixed ones only with two players.
+- `scripts/make_five_ais.py` writes the 64 payoff cells, which only name per-k formulas in the model.
 
 ---
 

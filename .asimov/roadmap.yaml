@@ -10,17 +10,20 @@ current:
   version: "0.5.0"
   status: complete
   released: "2026-11-20"
-  note: "The models, docs and CI are maintained. Nothing is in progress; v0.6.0 is parked."
+  note: "The models, docs and CI are maintained. v0.6.0 is half done: the public goods game is in; replicator dynamics wait on Forge."
 
-# Parked: waits on Forge. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md.
+# Half done. The public goods game is in CHANGELOG.md [Unreleased] and docs/FIVE_AIS.md.
 next:
   version: "0.6.0"
   title: "Five AIs in one game"
-  status: parked
-  waits_on: "Forge T2-GAME-THEORY-MORE (strategies that spread; rc.30 already finds pure equilibria with more than two players)"
+  status: half done
+  waits_on: "Forge T2-GAME-THEORY-MORE (strategies that spread over generations)"
   deliverables:
-    - "A five-player public goods game, the project's own setup, with its pure equilibria checked"
-    - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
+    - item: "A five-player public goods game, the project's own setup, with its pure equilibria checked"
+      status: done
+      where: "models/five_ais.yaml, docs/FIVE_AIS.md"
+    - item: "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
+      status: parked
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.
 ideas:
