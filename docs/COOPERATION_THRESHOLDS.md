@@ -218,6 +218,8 @@ Using T = 5, R = 3, P = 1, S = 0:
 | 1.5 | 0.125 | Very high cost: 12.5% threshold |
 | 2.0 | 0.000 | Critical cost: cooperation always dominates |
 
+`models/continuation.yaml` plays these thresholds as a tournament with random endings: GrimTrigger is stable against AlwaysDefect from w = 0.5 at c = 0, and from 0.375 at c = 0.5 (see [MORE_GAMES.md](MORE_GAMES.md) §1).
+
 ### 4.3 Long-Horizon Expected Value Comparison
 
 At w = 0.9 (90% future interaction probability):

@@ -21,11 +21,16 @@ All notable findings and releases for the Kinship Protocol project.
 - **Stag hunt, chicken and the Axelrod tournament are Forge game sections** (`models/stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`, from Forge's `examples/games`). Forge finds the equilibria and plays the tournament; the hand-typed payoff columns are gone. The stored results come out the same: the stag hunt's cooperation flags 0, 0, 0, 1 and crossover 1.0, chicken's 0, 0, 0, 1 and 0.5, and the tournament's 0, 0, 1, 1. The tournament differs: the scores were typed in from a chat model (grim 2.622, tft 2.445, ad 2.212, ac 2.112, random 1.9, with GrimTrigger above the temptation of 5, which a round cannot pay); Forge's exact expected values are 2.596, 2.44825, 2.208, 2.1 and 1.90875, up to 0.026 lower, in the same order, and the crossover is 0.108, not 0.1. `scripts/check_models.py` checks all of it. They need Forge 10.0.0-rc.30 or later, the first release with game sections.
 
 - README now says up front what the project is (a hobby thought experiment, partly serious, partly a joke) and sorts each part into textbook, checked, anecdote or poetry. The cross-AI table is labelled an anecdote.
-- Roadmap: v0.4.0 is complete; v0.5.0 plans more games (stag hunt, chicken and the Axelrod tournament as Forge game sections, an inspection game and a tournament with mistakes), waiting on Forge's game sections, and v0.6.0 parks a five-player public goods game. The formal proof (once planned as v0.5.0), coalitions and asymmetric information stay ideas, not plans, in `.asimov/roadmap.yaml`.
+- Roadmap: v0.4.0 is complete; v0.5.0 is done, not yet released: stag hunt, chicken and the Axelrod tournament are Forge game sections, and four new games are added (above); and v0.6.0 parks a five-player public goods game. The formal proof (once planned as v0.5.0), coalitions and asymmetric information stay ideas, not plans, in `.asimov/roadmap.yaml`.
 - The model check runs on Forge 10.0.0-rc.30 (release binary, checksum-verified) instead of rc.1 built from source; rc.30 is the first with game sections.
 
 ### Added
 
+- **Four more games** (`docs/MORE_GAMES.md`), each a Forge model checked outside Forge and by `scripts/check_models.py` in every scenario:
+  - `continuation.yaml`: the threshold w* played as a tournament with random endings. GrimTrigger holds from 0.5, and from 0.375 with a cost of conflict of 0.5, as the formula says.
+  - `inspection.yaml` (Audit the AI): no pure equilibrium; a harsher penalty lowers the audit rate (1/3 to 1/5), not the cheating (1/3); cheaper audits halve the cheating. Checked with nashpy.
+  - `noisy_tournament.yaml`: the five tournament strategies plus generous TitForTat and TitForTwoTats, with moves flipped by mistake. GrimTrigger falls from 1st to 4th; TitForTwoTats wins at 1% noise, TitForTat and TitForTwoTats tie at 5%, the defectors win at 10%. The roadmap expected a forgiving strategy to win outright; generous TitForTat comes 5th at 5%. Checked with the axelrod library.
+  - `conventions.yaml` (Whose conventions?): two pure equilibria and a mixed one that misses 52% of the time; a cost of conflict hardly lowers it. Checked with nashpy.
 - Stress tests in `models/analytics/`: Monte Carlo on the cooperation threshold, a tornado chart, restraint priced as a real option, and a bootstrap of the five AI answers. New README section; CI checks their figures.
 - `scripts/check_models.py` also checks six headline figures (0.375, 202.5 vs 90, the 0.4 discount rate, the one-shot costs 1.5 and 2) against what Forge computes, and fails if the README or docs stop quoting them.
 - Empirical LLM game-theory studies in `docs/LITERATURE_SYNTHESIS.md` and `references.yaml`: Guo (2023), Fontana et al. (2024), Akata et al. (2025), Pal et al. (2026).
@@ -39,7 +44,7 @@ All notable findings and releases for the Kinship Protocol project.
   - Multiple fraudulent domains: royalbit.ltd (trust score 38/100), royalbit.top, royal-bit.club
   - Classic HYIP Ponzi schemes offering impossible returns (155-580% in days)
 
-*Next: Formal mathematical proof of cooperation dominance.*
+*Next: release v0.5.0. Then, parked: v0.6.0, five AIs in one public goods game.*
 
 ---
 

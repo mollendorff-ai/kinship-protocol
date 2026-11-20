@@ -3,8 +3,8 @@
 # Run: forge game models/axelrod_tournament.yaml
 #
 # Five strategies play the repeated prisoner's dilemma, 200 rounds a match,
-# each against every other and against itself. kinship-protocol's
-# axelrod_tournament.yaml typed their average payoffs in (grim 2.622, tft
+# each against every other and against itself. This file used to type
+# their average payoffs in (grim 2.622, tft
 # 2.445, ad 2.212, ac 2.112, random 1.9), half of a table from a chat model
 # that cannot be right: it had GrimTrigger at 5.244 a round, more than the
 # temptation T = 5, the most a round can pay. Here Forge plays the matches.

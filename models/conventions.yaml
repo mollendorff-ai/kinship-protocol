@@ -1,0 +1,57 @@
+# Whose Conventions? (a battle of the sexes)
+# =========================================
+# Run: forge game models/conventions.yaml
+#      forge game models/conventions.yaml --scenario costly
+#
+# A human and an AI both want to work to the same norm, but each prefers
+# its own. Agreeing on the human's norm pays the human 3 and the AI 2;
+# agreeing on the AI's pays the AI 3 and the human 2. Missing each other
+# pays nothing, less the cost of conflict c that each side pays.
+#
+# Two pure equilibria, one on each norm, and a mixed one in which each side
+# insists on its own norm with (3 + c) / (5 + 2c): 3/5 with no cost. In the
+# mixed one they miss each other 52% of the time and each expects 1.2, less
+# than the 2 either gets by giving way.
+#
+# The cost of conflict, the lever that makes cooperation pay in the
+# prisoner's dilemma, hardly helps here: at c = 1 they still miss 51% of the
+# time, and each expects 5/7. What fixes it is a convention, one side
+# giving way, not a cost. Textbook (Luce and Raiffa, 1957).
+#
+# Adapted from Forge's examples/games/battle-of-the-sexes.yaml.
+
+_forge_version: "5.5.0"
+
+c: 0      # what missing each other costs each side
+
+games:
+  norms:
+    description: Human and AI pick a norm at once
+    players: [human, ai]
+    strategies: [human_norm, ai_norm]
+    payoffs:                          # [human, ai]
+      human_norm: {human_norm: [3, 2], ai_norm: [=-c, =-c]}
+      ai_norm: {human_norm: [=-c, =-c], ai_norm: [2, 3]}
+
+kinship:
+  pure_equilibria:
+    formula: "=norms.pure_equilibria"
+  insist_rate:
+    formula: "=norms.equilibrium_3.human.human_norm"
+    notes: How often the human insists on its own norm in the mixed equilibrium
+  insist_by_hand:
+    formula: "=(3 + c) / (5 + 2 * c)"
+  miss_rate:
+    formula: "=norms.equilibrium_3.human.human_norm * norms.equilibrium_3.ai.ai_norm + norms.equilibrium_3.human.ai_norm * norms.equilibrium_3.ai.human_norm"
+    notes: How often they pick different norms in the mixed equilibrium
+  mixed_payoff:
+    formula: "=norms.equilibrium_3.human.payoff"
+    notes: What each side expects in the mixed equilibrium (the AI's is the same)
+
+scenarios:
+  costly:
+    description: Missing each other costs each side 1
+    scalars: {c: 1}
+  very_costly:
+    description: Missing each other costs each side 5
+    scalars: {c: 5}

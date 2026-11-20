@@ -73,6 +73,10 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 - **Cooperation thresholds have a closed form (textbook result, with a cost term added).** `w* = (T-c-R)/(T-P)`. Each unit of dissipation cost lowers the threshold by `1/(T-P)` — see [docs/COOPERATION_THRESHOLDS.md](docs/COOPERATION_THRESHOLDS.md)
 - **Restraint can beat extraction.** In a two-period predator-prey model, restraint wins when growth × option value × discount exceeds `1 - c/v`; at the base parameters it scores 202.5 vs 90, and below a discount rate of 0.4 extraction wins — see [docs/APEX_PARADOX.md](docs/APEX_PARADOX.md)
 - **Iteration makes cooperation free; one shot makes it costly.** One-shot IPD needs a dissipation cost of 1.5 (against a 50/50 opponent) or 2 (against anyone); iterated IPD with `w > 0.5` needs none — see [docs/ONE_SHOT_GAMES.md](docs/ONE_SHOT_GAMES.md)
+- **The threshold holds when the games are played, not just derived.** In a tournament with random endings, AlwaysDefect does better against GrimTrigger than GrimTrigger does against itself below `w*`, and not above it; a cost of conflict of 0.5 moves the flip from 0.5 to 0.375 — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
+- **Punishment is not always the lever.** In an inspection game a harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less (textbook, Tsebelis) — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
+- **Mistakes break the unforgiving, but forgiveness only pays while they are rare.** With 1% of moves flipped by mistake, TitForTwoTats wins and GrimTrigger falls from 1st to 4th; at 10%, the defectors come first. This is not what the roadmap expected — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
+- **A cost of conflict does not fix coordination.** When human and AI prefer different norms, they miss each other about half the time whatever a miss costs; a convention fixes it — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
 - **Prior art exists** (Gauthier, Binmore, Barasz et al.) — we synthesize, not claim novelty — see [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md)
 
@@ -110,6 +114,7 @@ kinship-protocol/
 │   ├── ipd_payoffs.yaml            # Iterated Prisoner's Dilemma
 │   ├── axelrod_tournament.yaml     # 5-strategy tournament
 │   ├── ...                         # Stag hunt, chicken, predator-prey, edge cases
+│   ├── continuation.yaml, inspection.yaml, noisy_tournament.yaml, conventions.yaml  # v0.5.0 games
 │   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
@@ -126,9 +131,11 @@ kinship-protocol/
 
 ## Roadmap
 
-**Status:** v0.4.0 is complete. The models run, CI checks them, and the claims match the math.
+**Status:** v0.4.0 is released. v0.5.0, more games, is done but not yet released.
 
-**Next, v0.5.0: more games.** It waits on [Forge](https://github.com/mollendorff-ai/forge) learning to work out equilibria and run tournaments itself (its roadmap item T2-GAME-THEORY). Then: the stag hunt, chicken and the Axelrod tournament rewritten so Forge calculates what is typed in today, plus two new games. In *Audit the AI* (an inspection game), a harsher penalty makes the human audit less, not the AI cheat less. In *Forgiveness pays* (a tournament with mistakes), tit-for-tat falls apart and a forgiving strategy wins. After that, parked: five AIs in one public goods game.
+**v0.5.0: more games.** [Forge](https://github.com/mollendorff-ai/forge) works out equilibria and plays tournaments itself since 10.0.0-rc.30 (its game sections). The stag hunt, chicken and the Axelrod tournament are rewritten that way: Forge calculates what used to be typed in, and the tournament's crossover came out 0.108, not 0.1. Four new games are in [docs/MORE_GAMES.md](docs/MORE_GAMES.md): the threshold played as a tournament, an inspection game, a tournament with mistakes and a coordination game. The tournament with mistakes was expected to show a forgiving strategy winning; with this project's roster it does only when mistakes are rare.
+
+**Next, parked: v0.6.0, five AIs in one public goods game,** with replicator dynamics (strategies that spread). Forge can already find pure equilibria with more than two players; strategies that spread over generations are still on its roadmap.
 
 **Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 

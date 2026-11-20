@@ -1,0 +1,97 @@
+# Does Forgiveness Pay? (a tournament with mistakes)
+# ==================================================
+# Run: forge game models/noisy_tournament.yaml
+#      forge game models/noisy_tournament.yaml --scenario careful
+#      forge game models/noisy_tournament.yaml --scenario careless
+#
+# The five strategies of axelrod_tournament.yaml, plus two that forgive:
+# generous TitForTat (forgives a defection with chance 1/3) and TitForTwoTats
+# (strikes back only after two defections in a row). They play two
+# tournaments of 200-round matches, everyone against everyone and against
+# themselves. In the first every move is played as meant. In the second
+# each move is flipped with the chance `noise`: an AI that meant to
+# cooperate defects by mistake, or the other way round. The scores are
+# exact expected values, not samples.
+#
+# Without mistakes GrimTrigger wins (2.711) and TitForTat is second. With
+# mistakes, GrimTrigger, which never forgives, is what falls apart:
+#   1% noise:  TitForTwoTats wins (2.378); GrimTrigger 4th.
+#   5% noise:  TitForTat and TitForTwoTats tie in effect (2.248 and 2.247);
+#              GrimTrigger 4th, generous TitForTat 5th.
+#   10% noise: GrimTrigger and AlwaysDefect come first (2.278, 2.276);
+#              mistakes are so common that cooperation never gets going.
+# So forgiving a slip beats never forgiving, but only while slips are rare,
+# and forgiving everything (generous TitForTat) is exploited by the
+# AlwaysDefect and Random players in this roster. The textbook result that
+# generous TitForTat wins (Nowak and Sigmund, 1992) is about a population
+# evolving, not a single round-robin like this one.
+#
+# Adapted from Forge's examples/games/noisy-tournament.yaml.
+
+_forge_version: "5.5.0"
+
+noise: 0.05     # the chance that a move is flipped
+dilemma_payoffs:
+  T: 5    # temptation: defect against a cooperator
+  R: 3    # reward: both cooperate
+  P: 1    # punishment: both defect
+  S: 0    # sucker: cooperate against a defector
+
+games:
+  dilemma:
+    description: The prisoner's dilemma, one round
+    players: [me, you]
+    strategies: [cooperate, defect]   # a tournament reads the first as cooperate
+    symmetric: true
+    payoffs:
+      cooperate: {cooperate: =R, defect: =S}
+      defect: {cooperate: =T, defect: =P}
+
+  clean:
+    description: Every move as meant
+    tournament:
+      round: dilemma
+      players: &roster
+        grim: grim_trigger            # defects for good once the other has
+        tft: tit_for_tat
+        ad: always_defect
+        ac: always_cooperate
+        rand: {plays: random, cooperate: 0.5}
+        gtft: generous_tit_for_tat    # forgives a defection with chance 1/3
+        tf2t: tit_for_two_tats        # strikes back after two defections in a row
+      rounds: 200
+      self_play: true
+
+  noisy:
+    description: Each move flipped with the chance noise
+    tournament:
+      round: dilemma
+      players: *roster
+      rounds: 200
+      self_play: true
+      noise: =noise
+
+kinship:
+  tft_place_clean:
+    formula: "=clean.rank.tft"
+  tft_place_noisy:
+    formula: "=noisy.rank.tft"
+  grim_place_clean:
+    formula: "=clean.rank.grim"
+  grim_place_noisy:
+    formula: "=noisy.rank.grim"
+  gtft_place_noisy:
+    formula: "=noisy.rank.gtft"
+  tf2t_place_noisy:
+    formula: "=noisy.rank.tf2t"
+  forgiving_first:
+    formula: "=IF(MIN(noisy.rank.gtft, noisy.rank.tf2t) = 1, 1, 0)"
+    notes: 1 when a forgiving strategy wins the noisy tournament
+
+scenarios:
+  careful:
+    description: One move in a hundred flipped
+    scalars: {noise: 0.01}
+  careless:
+    description: One move in ten flipped
+    scalars: {noise: 0.1}
