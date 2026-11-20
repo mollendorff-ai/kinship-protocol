@@ -6,7 +6,7 @@ The Kinship Protocol is exploratory game-theory research: Markdown notes, dialog
 
 ## Supported versions
 
-Research stopped at v0.4.0. Only the latest commit on `main` is maintained.
+The latest release is v0.5.0. Only the latest commit on `main` is maintained.
 
 ## Reporting a vulnerability
 
