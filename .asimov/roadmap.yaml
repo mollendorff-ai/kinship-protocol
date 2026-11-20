@@ -7,28 +7,13 @@
 # See: README.md for project overview
 
 current:
-  version: "0.4.0"
-  status: complete
-  note: "The models, docs and CI are maintained. v0.5.0, more games, is done on Forge 10.0.0-rc.30 and waits to be released."
-
-# Forge's game sections (Forge roadmap T2-GAME-THEORY) shipped in 10.0.0-rc.30.
-# Each game is a Forge model run in CI, and every equilibrium or ranking is
-# checked against an outside tool or a hand calculation.
-next:
   version: "0.5.0"
-  title: "More games, calculated by Forge"
-  status: done_unreleased
-  needs: "Forge 10.0.0-rc.30 or later (game sections)"
-  docs: "docs/MORE_GAMES.md"
-  done:
-    - "Rewrite stag_hunt.yaml, chicken.yaml and axelrod_tournament.yaml as Forge game sections, giving the results they store today or explaining the difference (same results; the tournament crossover is 0.108, not 0.1)"
-    - "Axelrod tournament: average payoffs calculated by Forge, no longer typed in (grim 2.596, not the typed 2.622, and the rest)"
-    - "Audit the AI (models/inspection.yaml): no pure equilibrium; a harsher penalty lowers the audit rate, not the cheating, as expected (Tsebelis); cheaper audits lower the cheating"
-    - "Does forgiveness pay? (models/noisy_tournament.yaml): expected tit-for-tat to fall apart and generous tit-for-tat to win (Nowak and Sigmund, 1992). With this project's roster, GrimTrigger is what falls apart; TitForTwoTats wins at 1% noise, it ties TitForTat at 5% (generous TitForTat 5th), and the defectors win at 10%. Checked with the axelrod library"
-    - "Whose conventions? (models/conventions.yaml): two pure equilibria and a mixed one that misses 52% of the time; a cost of conflict hardly helps"
-    - "Continuation (models/continuation.yaml): GrimTrigger stable from w* = (T-c-R)/(T-P), 0.5 at c = 0 and 0.375 at c = 0.5, as the formula says"
+  status: complete
+  released: "2026-11-20"
+  note: "The models, docs and CI are maintained. Nothing is in progress; v0.6.0 is parked."
 
-later:
+# Parked: waits on Forge. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md.
+next:
   version: "0.6.0"
   title: "Five AIs in one game"
   status: parked

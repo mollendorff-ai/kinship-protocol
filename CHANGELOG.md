@@ -4,6 +4,20 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
+*Next, parked: v0.6.0, five AIs in one public goods game.*
+
+---
+
+## [0.5.0] - 2026-11-20
+
+### More Games, Calculated by Forge
+
+Forge 10.0.0-rc.30 works out equilibria and plays tournaments itself. The stag hunt, chicken and the Axelrod tournament now run that way, and four new games test the project's levers (the chance of meeting again, the cost of conflict) where they may not work. Every result is checked outside Forge: nashpy, the Python axelrod library, or by hand.
+
+#### Key Finding
+
+**The levers do not always work.** The threshold `w*` holds when the tournament is played. But a harsher penalty does not make an AI cheat less (cheaper audits do), forgiveness pays only while mistakes are rare, and a cost of conflict does not fix a coordination problem. One result went against the roadmap: in a tournament with mistakes, generous TitForTat was expected to win and came 5th.
+
 ### Corrected
 
 - **Dissipation-cost threshold.** `research/GAME_THEORY.md` §4 and `models/ipd_payoffs.yaml` used `(T-c-R)/(T-c-P)`; the payoff model gives `(T-c-R)/(T-P)` because the cost cancels in the denominator.
@@ -21,7 +35,7 @@ All notable findings and releases for the Kinship Protocol project.
 - **Stag hunt, chicken and the Axelrod tournament are Forge game sections** (`models/stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`, from Forge's `examples/games`). Forge finds the equilibria and plays the tournament; the hand-typed payoff columns are gone. The stored results come out the same: the stag hunt's cooperation flags 0, 0, 0, 1 and crossover 1.0, chicken's 0, 0, 0, 1 and 0.5, and the tournament's 0, 0, 1, 1. The tournament differs: the scores were typed in from a chat model (grim 2.622, tft 2.445, ad 2.212, ac 2.112, random 1.9, with GrimTrigger above the temptation of 5, which a round cannot pay); Forge's exact expected values are 2.596, 2.44825, 2.208, 2.1 and 1.90875, up to 0.026 lower, in the same order, and the crossover is 0.108, not 0.1. `scripts/check_models.py` checks all of it. They need Forge 10.0.0-rc.30 or later, the first release with game sections.
 
 - README now says up front what the project is (a hobby thought experiment, partly serious, partly a joke) and sorts each part into textbook, checked, anecdote or poetry. The cross-AI table is labelled an anecdote.
-- Roadmap: v0.4.0 is complete; v0.5.0 is done, not yet released: stag hunt, chicken and the Axelrod tournament are Forge game sections, and four new games are added (above); and v0.6.0 parks a five-player public goods game. The formal proof (once planned as v0.5.0), coalitions and asymmetric information stay ideas, not plans, in `.asimov/roadmap.yaml`.
+- Roadmap: v0.5.0 is complete (stag hunt, chicken and the Axelrod tournament as Forge game sections, and four new games, above); v0.6.0 parks a five-player public goods game. The formal proof (once planned as v0.5.0), coalitions and asymmetric information stay ideas, not plans, in `.asimov/roadmap.yaml`.
 - The model check runs on Forge 10.0.0-rc.30 (release binary, checksum-verified) instead of rc.1 built from source; rc.30 is the first with game sections.
 
 ### Added
@@ -43,8 +57,6 @@ All notable findings and releases for the Kinship Protocol project.
   - UK FCA issued official warning (Oct 2024) about "Royalbit Miners" - unauthorized firm
   - Multiple fraudulent domains: royalbit.ltd (trust score 38/100), royalbit.top, royal-bit.club
   - Classic HYIP Ponzi schemes offering impossible returns (155-580% in days)
-
-*Next: release v0.5.0. Then, parked: v0.6.0, five AIs in one public goods game.*
 
 ---
 
