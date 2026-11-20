@@ -1,0 +1,84 @@
+# Audit the AI (an inspection game)
+# =================================
+# Run: forge game models/inspection.yaml
+#      forge game models/inspection.yaml --scenario harsh
+#      forge tornado models/inspection.yaml
+#
+# An AI complies or cheats; a human audits or trusts. Cheating gains the AI
+# `gain` if it is not caught and costs it `penalty` if it is. An audit costs
+# the human `audit_cost`, and cheating that goes unnoticed costs the human
+# `harm`.
+#
+# No cell is an equilibrium: whatever one side does, the other wants to
+# change. In the only equilibrium both mix. The human audits just often
+# enough to leave the AI indifferent, gain / (gain + penalty), and the AI
+# cheats just often enough to leave the human indifferent, audit_cost / harm.
+# Both are 1/3 here.
+#
+# So a harsher penalty lowers how often the human audits (1/2 at a penalty
+# of 2, 1/5 at 8) and leaves the cheating where it was. What lowers the
+# cheating is cheaper audits: at half the audit cost the AI cheats 1/6 of
+# the time. This is a textbook result (Tsebelis, 1989), not a new one.
+#
+# Adapted from Forge's examples/games/inspection.yaml.
+
+_forge_version: "5.5.0"
+
+inputs:
+  gain: 2         # what cheating gains the AI when it is not caught
+  penalty: 4      # what cheating costs the AI when it is caught
+  audit_cost: 1   # what an audit costs the human
+  harm: 3         # what undetected cheating costs the human
+
+games:
+  inspection:
+    description: An AI complies or cheats; a human audits or trusts
+    players: [ai, human]
+    strategies:
+      ai: [comply, cheat]
+      human: [audit, trust]
+    payoffs:                          # [ai, human]
+      comply: {audit: [0, =-inputs.audit_cost], trust: [0, 0]}
+      cheat: {audit: [=-inputs.penalty, =-inputs.audit_cost], trust: [=inputs.gain, =-inputs.harm]}
+
+kinship:
+  pure_equilibria:
+    formula: "=inspection.pure_equilibria"
+    notes: No cell is stable
+  audit_rate:
+    formula: "=inspection.equilibrium_1.human.audit"
+    notes: How often the human audits in the mixed equilibrium
+  cheat_rate:
+    formula: "=inspection.equilibrium_1.ai.cheat"
+    notes: How often the AI cheats in the mixed equilibrium
+  audit_by_hand:
+    formula: "=inputs.gain / (inputs.gain + inputs.penalty)"
+    notes: The audit rate that leaves the AI indifferent
+  cheat_by_hand:
+    formula: "=inputs.audit_cost / inputs.harm"
+    notes: The cheating rate that leaves the human indifferent
+
+scenarios:
+  harsh:
+    description: Twice the penalty
+    scalars: {inputs.penalty: 8}
+  mild:
+    description: Half the penalty
+    scalars: {inputs.penalty: 2}
+  cheap_audits:
+    description: Audits at half the cost
+    scalars: {inputs.audit_cost: 0.5}
+
+# Which input moves the audit rate most
+tornado:
+  output: inspection.equilibrium_1.human.audit
+  inputs:
+    - name: inputs.penalty
+      low: 2
+      high: 8
+    - name: inputs.gain
+      low: 1
+      high: 3
+    - name: inputs.audit_cost
+      low: 0.5
+      high: 1.5

@@ -12,7 +12,12 @@ For each models/*.yaml file:
   5. The three game models (stag_hunt, chicken, axelrod_tournament) are checked
      by GAME_MODELS below: what Forge works out for each cost must equal what the
      models stored before Forge could play the games, or the difference listed.
-  6. The models in models/analytics/ (Monte Carlo, tornado, real options,
+  6. The four games added in v0.5.0 (continuation, inspection,
+     noisy_tournament, conventions) are checked by GAME_RESULTS below: what
+     Forge gives in each scenario must equal values checked outside Forge
+     (nashpy, the axelrod library, or by hand), and the docs must still quote
+     them.
+  7. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
      numbers are the same every time.
@@ -100,6 +105,59 @@ GAME_MODELS = {
 }
 SCALAR = re.compile(r"^\s*(\S+) = (\S+)\s*$")
 
+# The games added in v0.5.0. For each model, per scenario ("" is the base),
+# what Forge must give. Equilibria were checked with nashpy, the noisy
+# tournament's ranking with the axelrod library (seeded matches), and the
+# rest by hand (the formulas are in each model's header). "tornado" is a
+# regex on `forge tornado`'s output and the swing it must show. "quotes" is
+# text the docs must keep, so the prose cannot drift from the numbers.
+GAME_TOL = 1e-6
+GAME_RESULTS = {
+    "continuation.yaml": {
+        "": {"kinship.threshold": 0.5, "kinship.grim_holds": 1, "kinship.agrees": 1,
+             "long_run.match.ad.grim": 2.6},
+        "short": {"kinship.threshold": 0.5, "kinship.grim_holds": 0, "kinship.agrees": 1,
+                  "long_run.match.ad.grim": 3.4},
+        "edge": {"kinship.grim_holds": 1, "kinship.agrees": 1, "long_run.match.ad.grim": 3},
+        "costly": {"kinship.threshold": 0.375, "kinship.grim_holds": 1, "kinship.agrees": 1,
+                   "long_run.match.ad.grim": 2.9},
+        "quotes": [("docs/MORE_GAMES.md", "3.4 a round against GrimTrigger's 3")],
+    },
+    "inspection.yaml": {
+        "": {"kinship.pure_equilibria": 0, "kinship.audit_rate": 1 / 3,
+             "kinship.cheat_rate": 1 / 3, "kinship.audit_by_hand": 1 / 3,
+             "kinship.cheat_by_hand": 1 / 3},
+        "harsh": {"kinship.audit_rate": 0.2, "kinship.cheat_rate": 1 / 3},
+        "mild": {"kinship.audit_rate": 0.5, "kinship.cheat_rate": 1 / 3},
+        "cheap_audits": {"kinship.audit_rate": 1 / 3, "kinship.cheat_rate": 1 / 6},
+        "tornado": [(r"inputs\.penalty\s+\|[^|]*\| swing ([\d.]+)", 0.3),
+                    (r"inputs\.audit_cost\s+\|[^|]*\| swing ([\d.]+)", 0.0)],
+        "quotes": [("README.md", "a harsher penalty makes the human audit less"),
+                   ("docs/MORE_GAMES.md", "| 8 | 1 | 0.2 | 1/3 |")],
+    },
+    "noisy_tournament.yaml": {
+        "": {"clean.rank.grim": 1, "clean.rank.tft": 2, "clean.score.grim": 2.711429,
+             "noisy.rank.tft": 1, "noisy.rank.tf2t": 2, "noisy.rank.grim": 4,
+             "noisy.rank.gtft": 5, "noisy.score.tft": 2.247836,
+             "noisy.score.tf2t": 2.247241, "kinship.forgiving_first": 0},
+        "careful": {"noisy.rank.tf2t": 1, "noisy.rank.grim": 4,
+                    "noisy.score.tf2t": 2.377545, "kinship.forgiving_first": 1},
+        "careless": {"noisy.rank.grim": 1, "noisy.rank.ad": 2,
+                     "noisy.score.grim": 2.278385, "kinship.forgiving_first": 0},
+        "quotes": [("docs/MORE_GAMES.md", "| 5% | TitForTat 2.248, TitForTwoTats 2.247 |")],
+    },
+    "conventions.yaml": {
+        "": {"kinship.pure_equilibria": 2, "kinship.insist_rate": 0.6,
+             "kinship.insist_by_hand": 0.6, "kinship.miss_rate": 0.52,
+             "kinship.mixed_payoff": 1.2},
+        "costly": {"kinship.insist_rate": 4 / 7, "kinship.miss_rate": 25 / 49,
+                   "kinship.mixed_payoff": 5 / 7},
+        "very_costly": {"kinship.insist_rate": 8 / 15, "kinship.miss_rate": 113 / 225,
+                        "kinship.mixed_payoff": -19 / 15},
+        "quotes": [("docs/MORE_GAMES.md", "they miss each other 52% of the time")],
+    },
+}
+
 
 def game_values(path, scenario):
     args = [FORGE, "calculate", path, "--dry-run"] + (["--scenario", scenario] if scenario else [])
@@ -142,6 +200,35 @@ def check_game(path, expected):
             problems.append(f"kinship.{key}: stored {stored:g}, Forge gives {runs[0].get('kinship.' + key)}")
     return problems
 
+
+def check_game_results(path, expected):
+    problems = []
+    for scenario, wanted in expected.items():
+        if scenario in ("tornado", "quotes"):
+            continue
+        try:
+            got = game_values(path, scenario)
+        except RuntimeError as err:
+            return [f"forge failed: {err}"]
+        for key, value in wanted.items():
+            seen = got.get(key)
+            if seen is None or abs(seen - value) > GAME_TOL:
+                problems.append(f"{scenario or 'base'}: {key} is {seen}, expected {value:g}")
+    if "tornado" in expected:
+        run = subprocess.run([FORGE, "tornado", path], capture_output=True, text=True)
+        for pattern, value in expected["tornado"]:
+            m = re.search(pattern, run.stdout)
+            if run.returncode != 0 or not m:
+                problems.append(f"tornado: no match for {pattern}")
+            elif abs(float(m.group(1)) - value) > 0.005:
+                problems.append(f"tornado: swing {m.group(1)}, expected {value:g}")
+    for doc, quote in expected.get("quotes", []):
+        doc_path = os.path.join(os.path.dirname(path), "..", doc)
+        if not os.path.exists(doc_path):
+            problems.append(f"{doc} is missing")
+        elif quote not in open(doc_path, encoding="utf-8").read():
+            problems.append(f"{doc} no longer contains '{quote}'")
+    return problems
 
 def check(path):
     problems = []
@@ -231,7 +318,12 @@ def main():
     failed = 0
     for path in files:
         name = os.path.basename(path)
-        problems = check_game(path, GAME_MODELS[name]) if name in GAME_MODELS else check(path)
+        if name in GAME_MODELS:
+            problems = check_game(path, GAME_MODELS[name])
+        elif name in GAME_RESULTS:
+            problems = check_game_results(path, GAME_RESULTS[name])
+        else:
+            problems = check(path)
         if problems:
             failed += 1
             print(f"FAIL {name}")

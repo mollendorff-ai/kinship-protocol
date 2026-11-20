@@ -3,8 +3,8 @@
 # Run: forge game models/chicken.yaml
 #
 # Two drivers head for each other. Whoever swerves loses face; if neither
-# does, they crash. kinship-protocol's chicken.yaml, with the cost c of a
-# defection taken off each payoff of going straight.
+# does, they crash. The cost c of a defection is taken off each payoff of
+# going straight.
 #
 # Forge finds two pure equilibria, one driver swerving and the other not,
 # and a mixed one in which each swerves with (1 + c) / 3: 1/3 at c = 0

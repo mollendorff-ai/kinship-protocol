@@ -3,7 +3,7 @@
 # Run: forge game models/stag_hunt.yaml
 #
 # Two hunters choose at once: a stag, which takes both of them, or a hare,
-# which one can catch alone. kinship-protocol's stag_hunt.yaml wrote this as
+# which one can catch alone. This file used to write this as
 # one formula per strategy for each of four costs, and its flag as an IF by
 # hand; here the game is the table, and the flag reads the game's results.
 #

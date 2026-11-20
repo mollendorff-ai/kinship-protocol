@@ -11,6 +11,10 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [axelrod_tournament.yaml](axelrod_tournament.yaml) | 5-strategy tournament, played by Forge | Crossover at c = 0.108 (typed in as 0.1) | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [stag_hunt.yaml](stag_hunt.yaml) | Stag Hunt with costs, equilibria found by Forge | Crossover at c = 1.0 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [chicken.yaml](chicken.yaml) | Chicken with costs, equilibria found by Forge | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [continuation.yaml](continuation.yaml) | Tournament with random endings | GrimTrigger holds from w* = 0.5 (0.375 with c = 0.5), as the formula says | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [inspection.yaml](inspection.yaml) | Audit the AI (inspection game) | Harsher penalty: less auditing, same cheating (1/3); cheaper audits: cheating 1/6 | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies, moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10% | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [conventions.yaml](conventions.yaml) | Human and AI prefer different norms | Mixed play misses 52% of the time; a cost of conflict hardly helps | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
@@ -46,16 +50,17 @@ forge calculate models/<model>.yaml --dry-run
 forge calculate models/ipd_payoffs.yaml --dry-run
 ```
 
-The game models (`stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`) also run with `forge game`, which prints the equilibria or the tournament table. Each cost is a scenario:
+The game models (`stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`, `continuation.yaml`, `inspection.yaml`, `noisy_tournament.yaml`, `conventions.yaml`) also run with `forge game`, which prints the equilibria or the tournament table. Each cost is a scenario:
 
 ```bash
 forge game models/axelrod_tournament.yaml
 forge game models/stag_hunt.yaml --scenario c3
+forge tornado models/inspection.yaml   # which input moves the audit rate
 ```
 
 ## Checking for Drift
 
-`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output, including the stress-test figures.
+`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output, including the stress-test figures, and the results of the v0.5.0 games in each scenario (each checked outside Forge with nashpy, the Python axelrod library, or by hand).
 It runs automatically in CI on every push and pull request that touches `models/`, the README or `docs/`.
 
 ```bash

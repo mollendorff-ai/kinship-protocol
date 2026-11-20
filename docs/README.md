@@ -44,6 +44,16 @@ The shadow of the future. Maps cooperation dynamics as time horizons shorten. Fi
 
 ---
 
+### More Games
+
+**[MORE_GAMES.md](MORE_GAMES.md)**
+
+Four Forge games added in v0.5.0: the cooperation threshold played as a tournament, an inspection game (audit the AI), a tournament with mistakes, and a coordination game over whose norms to follow.
+
+**Key result:** The project's levers do not always work. A harsher penalty does not make the AI cheat less, forgiveness pays only while mistakes are rare, and a cost of conflict does not fix coordination.
+
+---
+
 ### Failure Modes
 
 **[FAILURE_MODES.md](FAILURE_MODES.md)**
@@ -72,6 +82,7 @@ Model validation across 18 edge cases. Tests extreme values, boundary conditions
 | APEX_PARADOX | Asymmetric power dynamics | Restraint > extraction under uncertainty |
 | ONE_SHOT_GAMES | One-shot viability | Chicken enables one-shot cooperation |
 | SHORT_HORIZONS | Time horizon dynamics | Defection advantage capped; cooperation advantage unbounded as w → 1 |
+| MORE_GAMES | Inspection, noise, coordination, threshold as tournament | Penalties, forgiveness and costs each fail somewhere |
 | FAILURE_MODES | Boundary conditions | 7 failure modes with diagnostics and mitigations |
 | EDGE_CASES | Model validation | 18/18 tests pass, models robust |
 
