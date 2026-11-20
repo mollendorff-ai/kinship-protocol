@@ -9,7 +9,10 @@ For each models/*.yaml file:
   3. In edge_cases.yaml, tests_passed must equal total_tests.
   4. The headline figures quoted in the README and docs (KEY_FIGURES below) must
      equal what Forge computes, and must still appear in the text that quotes them.
-  5. The models in models/analytics/ (Monte Carlo, tornado, real options,
+  5. The three game models (stag_hunt, chicken, axelrod_tournament) are checked
+     by GAME_MODELS below: what Forge works out for each cost must equal what the
+     models stored before Forge could play the games, or the difference listed.
+  6. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
      numbers are the same every time.
@@ -65,6 +68,79 @@ ANALYTICS = [
      r"assumptions\.exact_lower_95 = ([\d.]+)", 0.478, 0.0005,
      "README.md", "as low as 48%"),
 ]
+
+
+# The game models: Forge works out their equilibria and tournament itself. For
+# each, the scenarios (base is c = 0, then c1, c2, c3) and the results the
+# models stored when they were typed in by hand: coop_wins per scenario, and the
+# crossover cost. DIFFERENT lists what Forge gives that the old file did not:
+# the tournament's crossover is 0.108, not 0.1 (typed averages of 2.112 for
+# AlwaysCooperate and 2.212 for AlwaysDefect came from a chat model, and had
+# GrimTrigger at 5.244 a round, above the temptation of 5).
+GAME_SCENARIOS = ["", "c1", "c2", "c3"]
+GAME_MODELS = {
+    "stag_hunt.yaml": {
+        "coop_wins": [0, 0, 0, 1],
+        "crossover_c": (1.0, 1e-9),
+        "also": {"stag_share": [0.75, 0.625, 0.5, 0.375]},
+    },
+    "chicken.yaml": {
+        "coop_wins": [0, 0, 0, 1],
+        "crossover_c": (0.5, 1e-9),
+        "also": {"swerve_share": [1 / 3, 5 / 12, 0.5, 2 / 3]},
+    },
+    "axelrod_tournament.yaml": {
+        "coop_wins": [0, 0, 1, 1],
+        "crossover_c": (0.108, 0.0005),  # the old file said 0.1
+        "also": {"grim_defect_rate": [0.397] * 4},
+        "scores": {  # c = 0, exact expected values; the old file typed 2.622...
+            "grim": 2.596, "tft": 2.44825, "ad": 2.208, "ac": 2.1, "rand": 1.90875,
+        },
+    },
+}
+SCALAR = re.compile(r"^\s*(\S+) = (\S+)\s*$")
+
+
+def game_values(path, scenario):
+    args = [FORGE, "calculate", path, "--dry-run"] + (["--scenario", scenario] if scenario else [])
+    run = subprocess.run(args, capture_output=True, text=True)
+    if run.returncode != 0:
+        tail = (run.stdout + run.stderr).strip().splitlines()[-3:]
+        raise RuntimeError(" | ".join(line[:200] for line in tail))
+    return {m.group(1): float(m.group(2))
+            for m in map(SCALAR.match, run.stdout.splitlines()) if m}
+
+
+def check_game(path, expected):
+    problems = []
+    try:
+        runs = [game_values(path, s) for s in GAME_SCENARIOS]
+    except RuntimeError as err:
+        return [f"forge failed: {err}"]
+    for i, name in enumerate(["base"] + GAME_SCENARIOS[1:]):
+        got = runs[i]
+        flag = got.get("kinship.coop_wins")
+        if flag != expected["coop_wins"][i]:
+            problems.append(f"{name}: coop_wins is {flag}, was stored as {expected['coop_wins'][i]}")
+        value, tol = expected["crossover_c"]
+        crossover = got.get("kinship.crossover_c")
+        if crossover is None or abs(crossover - value) > tol:
+            problems.append(f"{name}: crossover_c is {crossover}, expected {value:g}")
+        for key, wanted in expected["also"].items():
+            seen = got.get("kinship." + key)
+            if seen is None or abs(seen - wanted[i]) > 1e-9:
+                problems.append(f"{name}: {key} is {seen}, expected {wanted[i]:g}")
+    for who, wanted in expected.get("scores", {}).items():
+        seen = runs[0].get(f"axelrod.score.{who}")
+        if seen is None or abs(seen - wanted) > 1e-9:
+            problems.append(f"score {who} is {seen}, expected {wanted:g}")
+    # A value stored in the file must still be what Forge computes
+    entries = yaml.safe_load(open(path, encoding="utf-8")).get("kinship", {})
+    for key, entry in entries.items():
+        stored = entry.get("value")
+        if stored is not None and abs(float(stored) - runs[0].get("kinship." + key, float("nan"))) > TOLERANCE:
+            problems.append(f"kinship.{key}: stored {stored:g}, Forge gives {runs[0].get('kinship.' + key)}")
+    return problems
 
 
 def check(path):
@@ -155,7 +231,7 @@ def main():
     failed = 0
     for path in files:
         name = os.path.basename(path)
-        problems = check(path)
+        problems = check_game(path, GAME_MODELS[name]) if name in GAME_MODELS else check(path)
         if problems:
             failed += 1
             print(f"FAIL {name}")

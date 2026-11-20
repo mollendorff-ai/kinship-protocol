@@ -18,9 +18,11 @@ All notable findings and releases for the Kinship Protocol project.
 
 ### Changed
 
+- **Stag hunt, chicken and the Axelrod tournament are Forge game sections** (`models/stag_hunt.yaml`, `chicken.yaml`, `axelrod_tournament.yaml`, from Forge's `examples/games`). Forge finds the equilibria and plays the tournament; the hand-typed payoff columns are gone. The stored results come out the same: the stag hunt's cooperation flags 0, 0, 0, 1 and crossover 1.0, chicken's 0, 0, 0, 1 and 0.5, and the tournament's 0, 0, 1, 1. The tournament differs: the scores were typed in from a chat model (grim 2.622, tft 2.445, ad 2.212, ac 2.112, random 1.9, with GrimTrigger above the temptation of 5, which a round cannot pay); Forge's exact expected values are 2.596, 2.44825, 2.208, 2.1 and 1.90875, up to 0.026 lower, in the same order, and the crossover is 0.108, not 0.1. `scripts/check_models.py` checks all of it. They need Forge 10.0.0-rc.30 or later, the first release with game sections.
+
 - README now says up front what the project is (a hobby thought experiment, partly serious, partly a joke) and sorts each part into textbook, checked, anecdote or poetry. The cross-AI table is labelled an anecdote.
 - Roadmap: v0.4.0 is complete; v0.5.0 plans more games (stag hunt, chicken and the Axelrod tournament as Forge game sections, an inspection game and a tournament with mistakes), waiting on Forge's game sections, and v0.6.0 parks a five-player public goods game. The formal proof (once planned as v0.5.0), coalitions and asymmetric information stay ideas, not plans, in `.asimov/roadmap.yaml`.
-- The model check runs on Forge 10.0.0-rc.27 (release binary, checksum-verified) instead of rc.1 built from source.
+- The model check runs on Forge 10.0.0-rc.30 (release binary, checksum-verified) instead of rc.1 built from source; rc.30 is the first with game sections.
 
 ### Added
 

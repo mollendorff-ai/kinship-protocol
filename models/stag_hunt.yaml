@@ -1,76 +1,51 @@
-_forge_version: 1.0.0
-assumptions:
-  stag_stag:
-    value: 4.0
-    notes: Both hunt stag - high reward
-  stag_hare:
-    value: 0.0
-    notes: I hunt stag, you hunt hare - I starve
-  hare_stag:
-    value: 3.0
-    notes: I hunt hare, you hunt stag - I eat alone
-  hare_hare:
-    value: 3.0
-    notes: Both hunt hare - safe but low
-  coop_defect:
-    value: 0.0
-    notes: Pure cooperator never hunts hare
-  defect_defect:
-    value: 1.0
-    notes: Pure defector always hunts hare
-  mixed_defect:
-    value: 0.5
-  coop_base:
-    value: 2.0
-    formula: =0.5 * stag_stag + 0.5 * stag_hare
-  defect_base:
-    value: 3.0
-    formula: =0.5 * hare_stag + 0.5 * hare_hare
-  c0:
-    value: 0.0
-  c1:
-    value: 0.5
-  c2:
-    value: 1.0
-  c3:
-    value: 1.5
-  c0_coop:
-    value: 2.0
-    formula: =coop_base - (coop_defect * c0)
-  c0_defect:
-    value: 3.0
-    formula: =defect_base - (defect_defect * c0)
-  c0_coop_wins:
-    value: 0.0
-    formula: =IF(c0_coop > c0_defect, 1, 0)
-  c1_coop:
-    value: 2.0
-    formula: =coop_base - (coop_defect * c1)
-  c1_defect:
-    value: 2.5
-    formula: =defect_base - (defect_defect * c1)
-  c1_coop_wins:
-    value: 0.0
-    formula: =IF(c1_coop > c1_defect, 1, 0)
-  c2_coop:
-    value: 2.0
-    formula: =coop_base - (coop_defect * c2)
-  c2_defect:
-    value: 2.0
-    formula: =defect_base - (defect_defect * c2)
-  c2_coop_wins:
-    value: 0.0
-    formula: =IF(c2_coop > c2_defect, 1, 0)
-  c3_coop:
-    value: 2.0
-    formula: =coop_base - (coop_defect * c3)
-  c3_defect:
-    value: 1.5
-    formula: =defect_base - (defect_defect * c3)
-  c3_coop_wins:
-    value: 1.0
-    formula: =IF(c3_coop > c3_defect, 1, 0)
+# Stag Hunt
+# =========
+# Run: forge game models/stag_hunt.yaml
+#
+# Two hunters choose at once: a stag, which takes both of them, or a hare,
+# which one can catch alone. kinship-protocol's stag_hunt.yaml wrote this as
+# one formula per strategy for each of four costs, and its flag as an IF by
+# hand; here the game is the table, and the flag reads the game's results.
+#
+# The cost c of a defection is taken off each hare payoff. Forge finds two
+# pure equilibria, (stag, stag) and (hare, hare), and a mixed one in which
+# each hunter plays stag with (3 - c) / 4: 3/4 at c = 0 (nashpy agrees).
+# Against a hunter who plays each half the time, stag pays 2 and hare 3 - c,
+# so stag wins once c passes 1. The scenarios are kinship's other costs:
+#   forge game models/stag_hunt.yaml --scenario c3
+
+_forge_version: "5.5.0"
+
+c: 0      # the cost of a defection (hunting hare)
+
+games:
+  stag_hunt:
+    description: Hunt the stag together, or a hare alone
+    players: [me, you]
+    strategies: [stag, hare]
+    symmetric: true                 # a cell is the payoff of the row's player
+    payoffs:
+      stag: {stag: 4, hare: 0}
+      hare: {stag: =3 - c, hare: =3 - c}
+
+kinship:
+  coop_wins:
+    formula: "=IF(stag_hunt.even_mix.me.stag > stag_hunt.even_mix.me.hare, 1, 0)"
+    notes: 1 when stag pays more against an even mix (kinship's c0_coop_wins)
   crossover_c:
-    value: 1.0
-    formula: =defect_base - coop_base
-    notes: Dissipation cost where cooperation equals defection
+    formula: "=c + stag_hunt.even_mix.me.hare - stag_hunt.even_mix.me.stag"
+    notes: The cost at which stag and hare pay the same against an even mix
+  stag_share:
+    formula: "=stag_hunt.equilibrium_3.me.stag"
+    notes: How often each hunter goes for the stag in the mixed equilibrium
+
+scenarios:
+  c1:
+    description: kinship's second cost
+    scalars: {c: 0.5}
+  c2:
+    description: The crossover, where stag and hare tie
+    scalars: {c: 1}
+  c3:
+    description: A cost at which cooperation wins
+    scalars: {c: 1.5}
