@@ -8,9 +8,9 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | Model | Description | Key Finding | Docs |
 |-------|-------------|-------------|------|
 | [ipd_payoffs.yaml](ipd_payoffs.yaml) | IPD with dissipation costs | Breakeven c* = 2 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
-| [axelrod_tournament.yaml](axelrod_tournament.yaml) | 5-strategy tournament sweep | Crossover at c = 0.1 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
-| [stag_hunt.yaml](stag_hunt.yaml) | Stag Hunt with costs | Crossover at c = 1.0 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
-| [chicken.yaml](chicken.yaml) | Chicken with costs | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [axelrod_tournament.yaml](axelrod_tournament.yaml) | 5-strategy tournament, played by Forge | Crossover at c = 0.108 (typed in as 0.1) | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [stag_hunt.yaml](stag_hunt.yaml) | Stag Hunt with costs, equilibria found by Forge | Crossover at c = 1.0 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
+| [chicken.yaml](chicken.yaml) | Chicken with costs, equilibria found by Forge | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
@@ -64,7 +64,7 @@ python3 scripts/check_models.py
 | Stag Hunt | 1.0 | — | — |
 | Chicken | 0.5 | — | — |
 
-The Axelrod-tournament crossover (c = 0.1 in `axelrod_tournament.yaml`) is when AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's; it is a different measure from the costs above.
+The Axelrod-tournament crossover (c = 0.108 in `axelrod_tournament.yaml`; the hand-typed table gave 0.1) is when AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's; it is a different measure from the costs above.
 
 ### Asymmetric Power (Predator-Prey)
 

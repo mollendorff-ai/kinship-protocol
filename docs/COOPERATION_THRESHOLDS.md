@@ -425,7 +425,7 @@ Against an opponent who cooperates or defects with equal probability:
 | Chicken | 0.0 | 2 | -1 | 0.5 |
 | Stag Hunt | 3.0 | -1 | 3 | 1.0 |
 
-The Axelrod-tournament crossover for IPD (c = 0.1, §4.1) is a different measure: the cost at which AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's.
+The Axelrod-tournament crossover for IPD (c = 0.108 in `models/axelrod_tournament.yaml`, where Forge plays the matches; Grok's typed averages in §4.1 gave 0.1) is a different measure: the cost at which AlwaysCooperate's average tournament payoff overtakes AlwaysDefect's.
 It is not comparable with the column above.
 
 ### 8.5 Key Finding

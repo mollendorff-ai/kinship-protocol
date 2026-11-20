@@ -1,119 +1,70 @@
-_forge_version: 1.0.0
-assumptions:
-  T:
-    value: 5.0
-  R:
-    value: 3.0
-  P:
-    value: 1.0
-  S:
-    value: 0.0
-  grim_base:
-    value: 2.622
-    notes: GrimTrigger avg payoff
-  tft_base:
-    value: 2.445
-    notes: TitForTat avg payoff
-  ad_base:
-    value: 2.212
-    notes: AlwaysDefect avg payoff
-  ac_base:
-    value: 2.112
-    notes: AlwaysCooperate avg payoff
-  rand_base:
-    value: 1.9
-    notes: Random avg payoff
-  ac_defect:
-    value: 0.0
-  tft_defect:
-    value: 0.3
-  grim_defect:
-    value: 0.4
-  rand_defect:
-    value: 0.5
-  ad_defect:
-    value: 1.0
-  c0:
-    value: 0.0
-  c0_grim:
-    value: 2.622
-    formula: =grim_base - (grim_defect * c0)
-  c0_tft:
-    value: 2.445
-    formula: =tft_base - (tft_defect * c0)
-  c0_ad:
-    value: 2.212
-    formula: =ad_base - (ad_defect * c0)
-  c0_ac:
-    value: 2.112
-    formula: =ac_base - (ac_defect * c0)
-  c0_rand:
-    value: 1.9
-    formula: =rand_base - (rand_defect * c0)
-  c1:
-    value: 0.1
-  c1_grim:
-    value: 2.582
-    formula: =grim_base - (grim_defect * c1)
-  c1_tft:
-    value: 2.415
-    formula: =tft_base - (tft_defect * c1)
-  c1_ad:
-    value: 2.112
-    formula: =ad_base - (ad_defect * c1)
-  c1_ac:
-    value: 2.112
-    formula: =ac_base - (ac_defect * c1)
-  c1_rand:
-    value: 1.8499999999999999
-    formula: =rand_base - (rand_defect * c1)
-  c2:
-    value: 0.2
-  c2_grim:
-    value: 2.542
-    formula: =grim_base - (grim_defect * c2)
-  c2_tft:
-    value: 2.385
-    formula: =tft_base - (tft_defect * c2)
-  c2_ad:
-    value: 2.012
-    formula: =ad_base - (ad_defect * c2)
-  c2_ac:
-    value: 2.112
-    formula: =ac_base - (ac_defect * c2)
-  c2_rand:
-    value: 1.7999999999999998
-    formula: =rand_base - (rand_defect * c2)
-  c3:
-    value: 0.3
-  c3_grim:
-    value: 2.502
-    formula: =grim_base - (grim_defect * c3)
-  c3_tft:
-    value: 2.355
-    formula: =tft_base - (tft_defect * c3)
-  c3_ad:
-    value: 1.9120000000000001
-    formula: =ad_base - (ad_defect * c3)
-  c3_ac:
-    value: 2.112
-    formula: =ac_base - (ac_defect * c3)
-  c3_rand:
-    value: 1.75
-    formula: =rand_base - (rand_defect * c3)
-  c0_coop_wins:
-    value: 0.0
-    formula: =IF(c0_ac > c0_ad, 1, 0)
-  c1_coop_wins:
-    value: 0.0
-    formula: =IF(c1_ac > c1_ad, 1, 0)
-  c2_coop_wins:
-    value: 1.0
-    formula: =IF(c2_ac > c2_ad, 1, 0)
-  c3_coop_wins:
-    value: 1.0
-    formula: =IF(c3_ac > c3_ad, 1, 0)
+# Axelrod's Tournament
+# ====================
+# Run: forge game models/axelrod_tournament.yaml
+#
+# Five strategies play the repeated prisoner's dilemma, 200 rounds a match,
+# each against every other and against itself. kinship-protocol's
+# axelrod_tournament.yaml typed their average payoffs in (grim 2.622, tft
+# 2.445, ad 2.212, ac 2.112, random 1.9), half of a table from a chat model
+# that cannot be right: it had GrimTrigger at 5.244 a round, more than the
+# temptation T = 5, the most a round can pay. Here Forge plays the matches.
+#
+# The scores are exact expected values, not samples: grim 2.596, tft
+# 2.44825, ad 2.208, ac 2.1, random 1.90875 (the Python axelrod library,
+# 300 seeded runs of each match, gives 2.599, 2.447, 2.208, 2.102, 1.909).
+# The order is kinship's. The cost c of a defection comes off each defecting
+# payoff; AlwaysCooperate overtakes AlwaysDefect at c = 0.108, not 0.1:
+#   forge game models/axelrod_tournament.yaml --scenario c2
+
+_forge_version: "5.5.0"
+
+c: 0      # the cost of a defection
+dilemma_payoffs:
+  T: 5    # temptation: defect against a cooperator
+  R: 3    # reward: both cooperate
+  P: 1    # punishment: both defect
+  S: 0    # sucker: cooperate against a defector
+
+games:
+  dilemma:
+    description: The prisoner's dilemma, one round
+    players: [me, you]
+    strategies: [cooperate, defect]   # a tournament reads the first as cooperate
+    symmetric: true
+    payoffs:
+      cooperate: {cooperate: =R, defect: =S}
+      defect: {cooperate: =T - c, defect: =P - c}
+
+  axelrod:
+    description: kinship-protocol's five strategies
+    tournament:
+      round: dilemma
+      players:
+        grim: grim_trigger            # defects for good once the other has
+        tft: tit_for_tat
+        ad: always_defect
+        ac: always_cooperate
+        rand: {plays: random, cooperate: 0.5}
+      rounds: 200
+      self_play: true
+
+kinship:
+  coop_wins:
+    formula: "=IF(axelrod.score.ac > axelrod.score.ad, 1, 0)"
+    value: 0
+    notes: 1 when AlwaysCooperate scores more than AlwaysDefect
   crossover_c:
-    value: 0.10000000000000009
-    formula: =ad_base - ac_base
-    notes: Dissipation cost where AC equals AD
+    formula: "=c + (axelrod.score.ad - axelrod.score.ac) / (axelrod.cooperation.ac - axelrod.cooperation.ad)"
+    value: 0.108
+    notes: Each score falls by c times its share of defections, so the gap closes at this cost
+  grim_defect_rate:
+    formula: "=1 - axelrod.cooperation.grim"
+    value: 0.397
+
+scenarios:
+  c1:
+    scalars: {c: 0.1}
+  c2:
+    scalars: {c: 0.2}
+  c3:
+    scalars: {c: 0.3}
