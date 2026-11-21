@@ -125,7 +125,7 @@ kinship-protocol/
 │   └── ...                         # Claude-to-Grok, thermodynamics
 ├── blog/               # Research notes (Hugo site)
 ├── DISCLAIMER.md       # Full honest position on limitations
-├── CHANGELOG.md        # Versioned research progression (v0.0.1 → v0.6.0)
+├── CHANGELOG.md        # Versioned research progression (v0.0.1 → v0.6.1)
 └── .asimov/            # Asimov orchestration config
 ```
 
@@ -133,7 +133,7 @@ kinship-protocol/
 
 ## Roadmap
 
-**Status:** v0.6.0 is complete. The models run, CI checks them, and the claims match the math.
+**Status:** v0.6.1 is complete. The models run, CI checks them, and the claims match the math.
 
 **v0.5.0: more games.** [Forge](https://github.com/mollendorff-ai/forge) works out equilibria and plays tournaments itself since 10.0.0-rc.30 (its game sections). The stag hunt, chicken and the Axelrod tournament are rewritten that way: Forge calculates what used to be typed in, and the tournament's crossover came out 0.108, not 0.1. Four new games are in [docs/MORE_GAMES.md](docs/MORE_GAMES.md): the threshold played as a tournament, an inspection game, a tournament with mistakes and a coordination game. The tournament with mistakes was expected to show a forgiving strategy winning; with this project's roster it does only when mistakes are rare.
 
