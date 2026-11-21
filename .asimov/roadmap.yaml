@@ -10,16 +10,17 @@ current:
   version: "0.5.0"
   status: complete
   released: "2026-11-20"
-  note: "The models, docs and CI are maintained. Nothing is in progress; v0.6.0 is parked."
+  note: "The models, docs and CI are maintained. Since v0.5.0, unreleased: the five-player public goods game (the first half of v0.6.0). The rest of v0.6.0 is parked."
 
 # Parked: waits on Forge. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md.
 next:
   version: "0.6.0"
   title: "Five AIs in one game"
   status: parked
-  waits_on: "Forge T2-GAME-THEORY-MORE (strategies that spread; rc.30 already finds pure equilibria with more than two players)"
+  waits_on: "Forge T2-GAME-THEORY-MORE (strategies that spread)"
+  done:
+    - "A five-player public goods game, the project's own setup, with its pure equilibria checked (models/public_goods.yaml, Gambit; unreleased). Forge has found pure equilibria for any number of players since rc.30, so this did not need to wait"
   deliverables:
-    - "A five-player public goods game, the project's own setup, with its pure equilibria checked"
     - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.

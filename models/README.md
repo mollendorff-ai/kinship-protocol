@@ -15,6 +15,7 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [inspection.yaml](inspection.yaml) | Audit the AI (inspection game) | Harsher penalty: less auditing, same cheating (1/3); cheaper audits: cheating 1/6 | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies, moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10% | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [conventions.yaml](conventions.yaml) | Human and AI prefer different norms | Mixed play misses 52% of the time; a cost of conflict hardly helps | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [public_goods.yaml](public_goods.yaml) | Five AIs give to a common pot or keep | All keep below c = 0.6, all give above it (`1 - r/5`); checked with Gambit | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |

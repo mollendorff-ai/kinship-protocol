@@ -13,10 +13,10 @@ For each models/*.yaml file:
      by GAME_MODELS below: what Forge works out for each cost must equal what the
      models stored before Forge could play the games, or the difference listed.
   6. The four games added in v0.5.0 (continuation, inspection,
-     noisy_tournament, conventions) are checked by GAME_RESULTS below: what
-     Forge gives in each scenario must equal values checked outside Forge
-     (nashpy, the axelrod library, or by hand), and the docs must still quote
-     them.
+     noisy_tournament, conventions) and the five-player public_goods game
+     are checked by GAME_RESULTS below: what Forge gives in each scenario
+     must equal values checked outside Forge (nashpy, Gambit, the axelrod
+     library, or by hand), and the docs must still quote them.
   7. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
@@ -155,6 +155,24 @@ GAME_RESULTS = {
         "very_costly": {"kinship.insist_rate": 8 / 15, "kinship.miss_rate": 113 / 225,
                         "kinship.mixed_payoff": -19 / 15},
         "quotes": [("docs/MORE_GAMES.md", "they miss each other 52% of the time")],
+    },
+    # Five players; checked with Gambit (pygambit 16.7, enumpure_solve) and by
+    # enumerating the 32 profiles by hand. All five play alike in every
+    # equilibrium, so Claude's give rate stands for all of them.
+    "public_goods.yaml": {
+        "": {"kinship.pure_equilibria": 1, "kinship.give_rate": 0,
+             "kinship.equilibrium_payoff": 1, "kinship.give_dominated": 1,
+             "kinship.threshold_by_hand": 0.6, "kinship.all_give_payoff": 2},
+        "cheap": {"kinship.pure_equilibria": 1, "kinship.give_rate": 0,
+                  "kinship.equilibrium_payoff": 0.5, "kinship.give_dominated": 1},
+        "edge": {"kinship.pure_equilibria": 32, "kinship.give_dominated": 0,
+                 "kinship.keep_dominated": 0},
+        "costly": {"kinship.pure_equilibria": 1, "kinship.give_rate": 1,
+                   "kinship.equilibrium_payoff": 2, "kinship.keep_dominated": 1},
+        "rich": {"kinship.pure_equilibria": 1, "kinship.give_rate": 1,
+                 "kinship.equilibrium_payoff": 6, "kinship.keep_dominated": 1},
+        "quotes": [("docs/MORE_GAMES.md", "giving dominates once `c > 1 - r/5`"),
+                   ("README.md", "all five keep below a cost of conflict of 0.6")],
     },
 }
 

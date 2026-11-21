@@ -1,6 +1,6 @@
-# More Games: Horizons, Audits, Mistakes and Norms
+# More Games: Horizons, Audits, Mistakes, Norms and the Commons
 
-**Technical Note v1.0**
+**Technical Note v1.1**
 
 **Date:** 2026-11-20
 **Status:** Working Draft
@@ -9,7 +9,7 @@
 
 ## Abstract
 
-Four more games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
+Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|
@@ -17,10 +17,11 @@ Four more games, each a [Forge](https://github.com/mollendorff-ai/forge) model t
 | Audit the AI | [inspection.yaml](../models/inspection.yaml) | A harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less | Textbook (Tsebelis, 1989) |
 | Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare | Checked; it contradicts what the roadmap expected |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
+| Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added after v0.5.0 |
 
 None of these are new results. What they add is that the project's levers (the cost of conflict, the chance of meeting again) are put into games where they do not always work.
 
-All four use the Axelrod payoffs where there is a prisoner's dilemma: T = 5, R = 3, P = 1, S = 0.
+The games that contain a prisoner's dilemma use the Axelrod payoffs: T = 5, R = 3, P = 1, S = 0.
 
 ---
 
@@ -144,12 +145,44 @@ With no cost, they miss each other 52% of the time and each expects 1.2, less th
 
 ---
 
+## 5. Five AIs in One Game
+
+**Model:** [public_goods.yaml](../models/public_goods.yaml). Added after v0.5.0; it is the first half of what the roadmap parked as v0.6.0.
+
+The README's experiment asked five AI sessions the same question. Here the five play one game. Each holds 1 and, at the same moment as the others, gives it to a common pot or keeps it. The pot is multiplied by r and shared equally by all five, keepers included. Each one who keeps pays the cost of conflict c.
+
+If k of the five give:
+
+- a giver gets `r k / 5`
+- a keeper gets `1 - c + r k / 5`
+
+Switching from keep to give changes an AI's own payoff by `r/5 - (1 - c)`, whatever the other four do. So keeping dominates while `c < 1 - r/5`, and giving dominates once `c > 1 - r/5`. The game has 32 profiles, and Forge finds every pure equilibrium of it (Forge finds pure equilibria for any number of players; mixed ones only for two).
+
+| Scenario | r | c | Equilibria | What all five do | Each gets |
+|----------|---|---|------------|------------------|-----------|
+| base | 2 | 0 | 1 | keep | 1 (all giving would pay 2) |
+| cheap | 2 | 0.5 | 1 | keep | 0.5 |
+| edge | 2 | 0.6 | all 32 | anything: each is indifferent | between 0.4 and 2 |
+| costly | 2 | 0.7 | 1 | give | 2 |
+| rich | 6 | 0 | 1 | give | 6 |
+
+With r = 2, all five keep below a cost of conflict of 0.6 and all five give above it. Below the line it is the prisoner's dilemma with five players: all five giving pays each 2, but each does better by keeping, so they end on 1. A cost of conflict of 0.5 does not help, it only makes the bad outcome worse (each gets 0.5). At 0.6 exactly, every profile is an equilibrium. With a pot worth six times what goes in, more than the number of players, each AI's own share of its own gift is worth more than the gift, and giving pays without any cost.
+
+**For the project:** the lever works with five players as with two, and the line has the same shape: the cost has to cover what keeping gains, `1 - r/5`. What changes with more players is that the line moves up: each giver's share of its own gift is `r/n`, so the more AIs share the pot, the larger the cost of conflict that cooperation needs. And this is a game played once. The repeated version, where the chance of meeting again does the work, is the [continuation](#1-when-cooperation-holds) game's territory, and strategies that spread over generations (replicator dynamics) still wait on Forge.
+
+Two of the five sessions were the same model (SuperGrok 4.1) in two modes. The players are named after the sessions to tie the game to the experiment, not because they would play differently: in this game all five have the same payoffs.
+
+**Checked:** Gambit (pygambit 16.7, `enumpure_solve`) finds the same pure equilibria in all five scenarios: one, one, 32, one and one. So does checking each of the 32 profiles by hand, in exact fractions.
+
+---
+
 ## References
 
 1. Axelrod, R. (1984). *The Evolution of Cooperation*. Basic Books.
 2. Luce, R.D. and Raiffa, H. (1957). *Games and Decisions*. Wiley.
 3. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
-4. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
+4. Ledyard, J.O. (1995). Public goods: a survey of experimental research. In Kagel, J.H. and Roth, A.E. (eds), *The Handbook of Experimental Economics*. Princeton University Press.
+5. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
 
 ---
 

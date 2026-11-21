@@ -76,6 +76,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 - **The threshold holds when the games are played, not just derived.** In a tournament with random endings, AlwaysDefect does better against GrimTrigger than GrimTrigger does against itself below `w*`, and not above it; a cost of conflict of 0.5 moves the flip from 0.5 to 0.375 — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **Punishment is not always the lever.** In an inspection game a harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less (textbook, Tsebelis) — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
 - **Mistakes break the unforgiving, but forgiveness only pays while they are rare.** With 1% of moves flipped by mistake, TitForTwoTats wins and GrimTrigger falls from 1st to 4th; at 10%, the defectors come first. This is not what the roadmap expected — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
+- **With five players the lever works as with two.** In a one-shot public goods game between the five AI sessions, all five keep below a cost of conflict of 0.6 and all five give above it (`1 - r/5`, with the pot doubled); the more players share the pot, the higher the line. Forge finds the equilibria and Gambit agrees — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **A cost of conflict does not fix coordination.** When human and AI prefer different norms, they miss each other about half the time whatever a miss costs; a convention fixes it — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
 - **Prior art exists** (Gauthier, Binmore, Barasz et al.) — we synthesize, not claim novelty — see [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md)
@@ -115,6 +116,7 @@ kinship-protocol/
 │   ├── axelrod_tournament.yaml     # 5-strategy tournament
 │   ├── ...                         # Stag hunt, chicken, predator-prey, edge cases
 │   ├── continuation.yaml, inspection.yaml, noisy_tournament.yaml, conventions.yaml  # v0.5.0 games
+│   ├── public_goods.yaml           # Five AIs in one game (after v0.5.0)
 │   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
@@ -135,7 +137,9 @@ kinship-protocol/
 
 **v0.5.0: more games.** [Forge](https://github.com/mollendorff-ai/forge) works out equilibria and plays tournaments itself since 10.0.0-rc.30 (its game sections). The stag hunt, chicken and the Axelrod tournament are rewritten that way: Forge calculates what used to be typed in, and the tournament's crossover came out 0.108, not 0.1. Four new games are in [docs/MORE_GAMES.md](docs/MORE_GAMES.md): the threshold played as a tournament, an inspection game, a tournament with mistakes and a coordination game. The tournament with mistakes was expected to show a forgiving strategy winning; with this project's roster it does only when mistakes are rare.
 
-**Next, parked: v0.6.0, five AIs in one public goods game,** with replicator dynamics (strategies that spread). Forge can already find pure equilibria with more than two players; strategies that spread over generations are still on its roadmap.
+**Since v0.5.0, unreleased:** the first half of v0.6.0, five AIs in one public goods game ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §5). Forge finds pure equilibria for any number of players, so it did not need to wait.
+
+**Next, parked: the rest of v0.6.0, replicator dynamics** (strategies that spread over generations). That is still on Forge's roadmap.
 
 **Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 

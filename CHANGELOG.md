@@ -4,7 +4,11 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
-*Next, parked: v0.6.0, five AIs in one public goods game.*
+*Next, parked: the rest of v0.6.0, replicator dynamics (strategies that spread).*
+
+### Added
+
+- **Five AIs in one game** (`models/public_goods.yaml`, `docs/MORE_GAMES.md` §5), the first half of v0.6.0. The five sessions of the README's experiment each give 1 to a pot or keep it; the pot is doubled and shared, and each who keeps pays the cost of conflict c. Keeping dominates below `c = 1 - r/5` (0.6) and giving above it; at 0.6 all 32 profiles are equilibria, and with the pot multiplied by 6 giving pays with no cost. Forge finds the pure equilibria (any number of players, since rc.30); Gambit (pygambit 16.7) and a hand enumeration of the 32 profiles agree in all five scenarios. `scripts/check_models.py` checks it.
 
 ### Changed
 
