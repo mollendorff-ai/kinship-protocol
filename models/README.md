@@ -13,7 +13,7 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [chicken.yaml](chicken.yaml) | Chicken with costs, equilibria found by Forge | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [continuation.yaml](continuation.yaml) | Tournament with random endings | GrimTrigger holds from w* = 0.5 (0.375 with c = 0.5), as the formula says | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [inspection.yaml](inspection.yaml) | Audit the AI (inspection game) | Harsher penalty: less auditing, same cheating (1/3); cheaper audits: cheating 1/6 | [MORE_GAMES](../docs/MORE_GAMES.md) |
-| [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies, moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10% | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies (and nine, with Pavlov and suspicious TitForTat), moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10%. With nine, GrimTrigger is 4th with no noise and TitForTwoTats also wins at 5% | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [conventions.yaml](conventions.yaml) | Human and AI prefer different norms | Mixed play misses 52% of the time; a cost of conflict hardly helps | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [public_goods.yaml](public_goods.yaml) | Five AIs give to a common pot or keep | All keep below c = 0.6, all give above it (`1 - r/5`); checked with Gambit | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |

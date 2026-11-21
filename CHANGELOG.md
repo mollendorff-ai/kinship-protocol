@@ -9,6 +9,7 @@ All notable findings and releases for the Kinship Protocol project.
 ### Added
 
 - **Five AIs in one game** (`models/public_goods.yaml`, `docs/MORE_GAMES.md` §5), the first half of v0.6.0. The five sessions of the README's experiment each give 1 to a pot or keep it; the pot is doubled and shared, and each who keeps pays the cost of conflict c. Keeping dominates below `c = 1 - r/5` (0.6) and giving above it; at 0.6 all 32 profiles are equilibria, and with the pot multiplied by 6 giving pays with no cost. Forge finds the pure equilibria (any number of players, since rc.30); Gambit (pygambit 16.7) and a hand enumeration of the 32 profiles agree in all five scenarios. `scripts/check_models.py` checks it.
+- **The tournament with mistakes, with nine players** (`models/noisy_tournament.yaml`: `clean_wide`, `noisy_wide`; `docs/MORE_GAMES.md` §3.1). Pavlov (win-stay, lose-shift) and suspicious TitForTat join the seven. GrimTrigger is 4th even without mistakes, because it never forgives suspicious TitForTat's opening defection (1.015 a round against it); TitForTwoTats wins at 0, 1% and 5%, Pavlov comes 2nd at 5%, and at 10% GrimTrigger and AlwaysDefect still come first. The seven-player results are unchanged; post 08 has an update saying its table is one roster's answer. The axelrod library (500 seeded matches per pairing) gives the same order, all nine places, at every noise level.
 
 ### Changed
 

@@ -15,7 +15,7 @@ Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model t
 |------|-------|---------------|--------|
 | When cooperation holds | [continuation.yaml](../models/continuation.yaml) | The threshold `w* = (T-c-R)/(T-P)` the project derives by formula is where a real tournament flips | Textbook, now played rather than derived |
 | Audit the AI | [inspection.yaml](../models/inspection.yaml) | A harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less | Textbook (Tsebelis, 1989) |
-| Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare | Checked; it contradicts what the roadmap expected |
+| Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare, and which forgiving strategy wins depends on who else plays | Checked; it contradicts what the roadmap expected |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
 | Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added after v0.5.0 |
 
@@ -114,6 +114,35 @@ The textbook result that generous TitForTat wins under noise (Nowak and Sigmund,
 | 5% | TitForTwoTats 2.245, TitForTat 2.245, Random 2.219 |
 | 10% | GrimTrigger 2.277, AlwaysDefect 2.274, TitForTat 2.242 |
 
+### 3.1 With Nine Players
+
+Added after v0.5.0. Forge has two more strategies the roster above leaves out: Pavlov (win-stay, lose-shift: repeat a move that paid, switch one that did not), the textbook answer to noise (Nowak and Sigmund, 1993), and suspicious TitForTat, which opens by defecting and then copies. The model's `clean_wide` and `noisy_wide` games play all nine; the seven-player results above are unchanged.
+
+| Noise | Winner (payoff per round) | Second | GrimTrigger | Pavlov | Generous TitForTat |
+|-------|---------------------------|--------|-------------|--------|--------------------|
+| 0 | TitForTwoTats 2.650 | TitForTat 2.638 | 4th | 5th | 3rd |
+| 1% | TitForTwoTats 2.417 | generous TitForTat 2.404 | 7th | 3rd | 2nd |
+| 5% | TitForTwoTats 2.283 | Pavlov 2.270 | 7th | 2nd | 3rd |
+| 10% | GrimTrigger 2.267 | AlwaysDefect 2.265 | 1st | 3rd | 8th |
+
+Two more players change the answer more than the noise does:
+
+- **GrimTrigger is 4th even without mistakes.** Suspicious TitForTat's opening defection is one defection, and GrimTrigger never forgives it: it gets 1.015 a round in that match, where TitForTwoTats gets 2.985. A single bad first impression costs the unforgiving strategy what a 1% error rate cost it before.
+- **A forgiving strategy now wins at 5% noise.** TitForTwoTats is first at 0, 1% and 5%, and generous TitForTat climbs to 2nd at 1% and 3rd at 5%. Both new players reciprocate, so the players that exploit forgiveness, AlwaysDefect and Random, are now two in nine rather than two in seven.
+- **Pavlov is good, not best.** It comes 2nd at 5% and 3rd at 10%, and wins nowhere. It does badly against AlwaysDefect, which it keeps trying to cooperate with every other round.
+- **At 10% the defectors still win.** That result did not depend on the roster.
+
+So the seven-player table above is one roster's answer. "Does forgiveness pay?" depends on how noisy the channel is and on who else is playing, and the second matters at least as much as the first.
+
+**Checked:** with the axelrod library (version 4.14), 500 seeded matches of each pairing at each noise level. It gives the same order as Forge, all nine places, at every level, and scores within 0.01 of Forge's.
+
+| Noise | axelrod library, top three |
+|-------|----------------------------|
+| 0 | TitForTwoTats 2.650, TitForTat 2.638, generous TitForTat 2.626 |
+| 1% | TitForTwoTats 2.417, generous TitForTat 2.397, Pavlov 2.344 |
+| 5% | TitForTwoTats 2.282, Pavlov 2.269, generous TitForTat 2.261 |
+| 10% | GrimTrigger 2.268, AlwaysDefect 2.267, Pavlov 2.250 |
+
 ---
 
 ## 4. Whose Conventions?
@@ -181,8 +210,9 @@ Two of the five sessions were the same model (SuperGrok 4.1) in two modes. The p
 1. Axelrod, R. (1984). *The Evolution of Cooperation*. Basic Books.
 2. Luce, R.D. and Raiffa, H. (1957). *Games and Decisions*. Wiley.
 3. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
-4. Ledyard, J.O. (1995). Public goods: a survey of experimental research. In Kagel, J.H. and Roth, A.E. (eds), *The Handbook of Experimental Economics*. Princeton University Press.
-5. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
+4. Nowak, M.A. and Sigmund, K. (1993). A strategy of win-stay, lose-shift that outperforms tit-for-tat in the Prisoner's Dilemma game. *Nature*, 364, 56-58.
+5. Ledyard, J.O. (1995). Public goods: a survey of experimental research. In Kagel, J.H. and Roth, A.E. (eds), *The Handbook of Experimental Economics*. Princeton University Press.
+6. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
 
 ---
 
