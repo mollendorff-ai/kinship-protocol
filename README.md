@@ -78,6 +78,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 - **Mistakes break the unforgiving, but forgiveness only pays while they are rare.** With 1% of moves flipped by mistake, TitForTwoTats wins and GrimTrigger falls from 1st to 4th; at 10%, the defectors come first. This is not what the roadmap expected. It also depends on who plays: add Pavlov and suspicious TitForTat, and GrimTrigger is 4th even without mistakes and a forgiving strategy wins at 5% — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
 - **Telling a slip from a defection depends on how rare defectors are.** A Bayesian network in Forge shows that when defectors are rare and mistakes common, one defection is more likely a slip: with 1 defector in 100 and 5% noise it takes two before "defector" is the better reading. When 1 in 10 is a defector, one is enough. That is TitForTwoTats' rule against TitForTat's — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook Bayes)
 - **With five players the lever works as with two.** In a one-shot public goods game between the five AI sessions, all five keep below a cost of conflict of 0.6 and all five give above it (`1 - r/5`, with the pot doubled); the more players share the pot, the higher the line. Forge finds the equilibria and Gambit agrees — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
+- **When the human cannot tell an aligned AI from a misaligned one, more aligned AIs do not make it safer.** In an oversight game with a hidden type, below a prior of 0.75 the human is exploited in a quarter of meetings whatever the prior is, because each misaligned AI exploits more often when they are rarer. A cost of conflict of 2 makes exploiting dominated, and then nobody needs to know which AI is which. A signal of alignment sorts the AIs only if it is dearer for a misaligned AI than what exploiting gains it: one that costs both the same is bought first by the misaligned AI, which gains more from being trusted. Forge finds the equilibria, and Gambit and nashpy agree — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) §6 (textbook: Tsebelis, Spence)
 - **A cost of conflict does not fix coordination.** When human and AI prefer different norms, they miss each other about half the time whatever a miss costs; a convention fixes it — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
 - **Prior art exists** (Gauthier, Binmore, Barasz et al.) — we synthesize, not claim novelty — see [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md)
@@ -119,6 +120,7 @@ kinship-protocol/
 │   ├── continuation.yaml, inspection.yaml, noisy_tournament.yaml, conventions.yaml  # v0.5.0 games
 │   ├── public_goods.yaml           # Five AIs in one game (v0.6.0)
 │   ├── mistake_or_defection.yaml   # Bayesian network: a slip or a defection?
+│   ├── hidden_types.yaml, signalling.yaml  # Aligned or not? Hidden types (v0.6.3)
 │   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
@@ -143,7 +145,9 @@ kinship-protocol/
 
 **Next, parked: v0.7.0, replicator dynamics** (strategies that spread over generations). That is still on Forge's roadmap.
 
-**Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
+**v0.6.3 (unreleased): hidden types.** Two games where the human cannot tell an aligned AI from a misaligned one: oversight with a hidden type, and a signalling game ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §6). Reputation over repeated play needs repeated games with hidden types, which Forge does not have.
+
+**Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and reputation over repeated play. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 
 See [.asimov/roadmap.yaml](.asimov/roadmap.yaml) for the list of ideas.
 

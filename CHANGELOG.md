@@ -4,6 +4,14 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
+v0.6.3, hidden types: two games where the human cannot tell an aligned AI from a misaligned one.
+
+### Added
+
+- **`models/hidden_types.yaml`, aligned or not?** An oversight game where the AI is aligned with chance p (and then always honours) or misaligned (and then honours or exploits), and the human relies or verifies. Below p* = 1 - v/l (0.75) the human is exploited in v/l of meetings (a quarter) whatever p is, and gets 0.5 whether a quarter or half of AIs are aligned: when aligned AIs are more common, each misaligned one exploits more often. A cost of conflict below c* = e - b (2) lowers how often the human checks, not how often it is exploited; from c* exploiting is dominated and nobody needs to know the type. Textbook (Tsebelis, 1989, with a type).
+- **`models/signalling.yaml`, can an AI show it is aligned?** Before the human decides whether to trust it, the AI may send a signal that costs each type its own amount. The signal sorts the types only when it costs the aligned AI at most its gain and the misaligned AI at least its gain (`e - c`) (Spence, 1973). One that costs both the same never sorts them here, since the misaligned AI gains more from trust; one dearer for it but below its gain half-sorts (it signals half the time, the human trusts a signal 2/3 of the time); a cost of conflict of 1.5 makes the same signal sort them again. Forge finds Nash equilibria; docs/MORE_GAMES.md §6 says by hand which survive the Intuitive Criterion.
+- Both checked with Gambit (pygambit 16.7, `enummixed_solve`) and nashpy 0.0.43 (vertex enumeration) from payoffs built outside the models, in every scenario. In the signalling game, which is degenerate, both also find the far end of a line of equilibria where nobody signals; Forge lists one end of it, as it warns it may. `scripts/check_models.py` checks every figure, and the README and docs/MORE_GAMES.md §6 quote them.
+
 ### Changed
 
 - CI checks the models with Forge 10.0.0-rc.32 (was rc.31). All 15 models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key.

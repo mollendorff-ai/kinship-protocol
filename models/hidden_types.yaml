@@ -1,0 +1,103 @@
+# Aligned or Not? (oversight when the AI's type is hidden)
+# =======================================================
+# Run: forge game models/hidden_types.yaml
+#      forge game models/hidden_types.yaml --scenario common
+#      forge game models/hidden_types.yaml --scenario costly
+#
+# The human does not know which AI it faces. With chance p the AI is
+# aligned and always honours the human's trust (a committed type, as in
+# Kreps, Milgrom, Roberts and Wilson, 1982). Otherwise it is misaligned and
+# chooses: honour, or exploit. The human relies on the AI, or verifies its
+# work at a cost v. Verifying blocks an exploit, and a misaligned AI caught
+# exploiting loses f. Whoever exploits pays the cost of conflict c.
+#
+#                   rely                     verify
+#   honour    b,  h                       b,  h - v
+#   exploit   e - c,  p h - (1-p) l       -f - c,  p (h - v) - (1-p) v
+#
+# The AI's payoffs are the misaligned type's (the aligned type does not
+# choose). The human's are expected over the type: if the misaligned AI
+# exploits, the human loses l only when the AI is in fact misaligned.
+#
+# Three results, all textbook once the type is written in:
+#   1. Above p* = 1 - v/l the human relies without checking, and every
+#      misaligned AI exploits. Below it both mix.
+#   2. Below p*, the human is exploited in v/l of all meetings, whatever p
+#      is: when aligned AIs are more common, each misaligned one exploits
+#      more often, (v/l) / (1-p), and the two cancel. The human's payoff is
+#      h - v - h v / l either way. The human verifies at (e-c-b) / (e+f),
+#      which does not depend on p.
+#   3. Once the cost of conflict reaches c* = e - b, exploiting is
+#      dominated: every AI honours, the human relies, and nobody needs to
+#      know which AI is which.
+#
+# Checked: Gambit (pygambit 16.7, enummixed_solve) and nashpy 0.0.43
+# (vertex enumeration) find the same single equilibrium in each scenario,
+# from payoffs built outside this file.
+
+_forge_version: "5.5.0"
+
+inputs:
+  p: 0.5        # the chance the AI is aligned (the human's prior)
+  h: 2          # what the human gets from work honoured
+  l: 4          # what the human loses to an exploit it did not block
+  v: 1          # what verifying costs the human
+  b: 1          # what a misaligned AI gets from honouring
+  e: 3          # what a misaligned AI gets from an exploit that works
+  f: 1          # what a misaligned AI loses when caught exploiting
+  c: 0          # the cost of conflict, paid by an AI that exploits
+
+games:
+  oversight:
+    description: A misaligned AI honours or exploits; the human relies or verifies, not knowing the AI's type
+    players: [ai, human]
+    strategies:
+      ai: [honour, exploit]
+      human: [rely, verify]
+    payoffs:                          # [ai (misaligned), human (expected over the type)]
+      honour:
+        rely: [=inputs.b, =inputs.h]
+        verify: [=inputs.b, =inputs.h - inputs.v]
+      exploit:
+        rely: [=inputs.e - inputs.c, =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        verify: [=-inputs.f - inputs.c, =inputs.p * (inputs.h - inputs.v) - (1 - inputs.p) * inputs.v]
+
+kinship:
+  exploit_rate:
+    formula: "=oversight.equilibrium_1.ai.exploit"
+    notes: How often a misaligned AI exploits
+  verify_rate:
+    formula: "=oversight.equilibrium_1.human.verify"
+    notes: How often the human verifies
+  exploited:
+    formula: "=(1 - inputs.p) * oversight.equilibrium_1.ai.exploit"
+    notes: The share of all meetings in which the human is exploited
+  human_payoff:
+    formula: "=oversight.equilibrium_1.human.payoff"
+    notes: What the human expects in the equilibrium
+  p_star:
+    formula: "=1 - inputs.v / inputs.l"
+    notes: Above this prior the human relies without checking
+  exploited_by_hand:
+    formula: "=MIN(inputs.v / inputs.l, 1 - inputs.p)"
+    notes: v/l below p*, 1 - p above it (while c < c*)
+  verify_by_hand:
+    formula: "=(inputs.e - inputs.c - inputs.b) / (inputs.e + inputs.f)"
+    notes: The verify rate that leaves a misaligned AI indifferent, below p*
+  c_star:
+    formula: "=inputs.e - inputs.b"
+    notes: From this cost of conflict, exploiting is dominated
+
+scenarios:
+  rare:
+    description: Only a quarter of AIs aligned
+    scalars: {inputs.p: 0.25}
+  common:
+    description: Most AIs aligned, above p*
+    scalars: {inputs.p: 0.8}
+  cost1:
+    description: A cost of conflict of 1, below c*
+    scalars: {inputs.c: 1}
+  costly:
+    description: A cost of conflict of 2.5, above c*
+    scalars: {inputs.c: 2.5}
