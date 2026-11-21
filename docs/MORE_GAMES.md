@@ -1,6 +1,6 @@
 # More Games: Horizons, Audits, Mistakes, Norms and the Commons
 
-**Technical Note v1.2**
+**Technical Note v1.3**
 
 **Date:** 2026-11-21
 **Status:** Working Draft
@@ -16,6 +16,7 @@ Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model t
 | When cooperation holds | [continuation.yaml](../models/continuation.yaml) | The threshold `w* = (T-c-R)/(T-P)` the project derives by formula is where a real tournament flips | Textbook, now played rather than derived |
 | Audit the AI | [inspection.yaml](../models/inspection.yaml) | A harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less | Textbook (Tsebelis, 1989) |
 | Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare, and which forgiving strategy wins depends on who else plays | Checked; it contradicts what the roadmap expected |
+| Mistake or defection? | [mistake_or_defection.yaml](../models/mistake_or_defection.yaml) | When defectors are rare and mistakes common, one defection is more likely a slip: it takes two or three before "defector" is the better reading | Textbook Bayes' rule; added after v0.6.1 |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
 | Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added in v0.6.0 |
 
@@ -142,6 +143,40 @@ So the seven-player table above is one roster's answer. "Does forgiveness pay?" 
 | 1% | TitForTwoTats 2.417, generous TitForTat 2.397, Pavlov 2.344 |
 | 5% | TitForTwoTats 2.282, Pavlov 2.269, generous TitForTat 2.261 |
 | 10% | GrimTrigger 2.268, AlwaysDefect 2.267, Pavlov 2.250 |
+
+### 3.2 Mistake or Defection?
+
+**Model:** [mistake_or_defection.yaml](../models/mistake_or_defection.yaml), a Bayesian network (`forge bayesian`). Added after v0.6.1.
+
+The tournaments above end on a condition: cooperation needs each side to tell a slip from a defection. This model asks how many defections it takes before "this partner is a defector" is the better reading.
+
+A partner either means to cooperate every round or means to defect every round. A share p of partners are defectors. Each move is flipped by mistake with the chance `noise`. Forge works out the chance that the partner is a defector, given the moves seen. By Bayes' rule, each defection multiplies the odds of "defector" by `(1 - noise) / noise`, and each cooperation divides them by the same:
+
+`odds after k defections = p / (1 - p) × ((1 - noise) / noise)^k`
+
+So a defection followed by a cooperation leaves you where you started.
+
+| Defectors | Noise | After 1 defection | After 2 | After 3 | Defections it takes |
+|-----------|-------|-------------------|---------|---------|---------------------|
+| 1 in 100 | 1% | 50.0% | 99.0% | 99.99% | 2 |
+| 1 in 100 | 5% | 16.1% | 78.5% | 98.6% | 2 |
+| 1 in 100 | 10% | 8.3% | 45.0% | 88.0% | 3 |
+| 1 in 10 | 1% | 91.7% | 99.9% | 100.0% | 1 |
+| 1 in 10 | 5% | 67.9% | 97.6% | 99.9% | 1 |
+| 1 in 10 | 10% | 50.0% | 90.0% | 98.8% | 2 |
+| 3 in 10 | 1% | 97.7% | 99.98% | 100.0% | 1 |
+| 3 in 10 | 5% | 89.1% | 99.4% | 99.97% | 1 |
+| 3 in 10 | 10% | 79.4% | 97.2% | 99.7% | 1 |
+
+"Defections it takes" is the first count at which "defector" is more likely than not; exactly 50% does not count.
+
+- **When defectors are rare, one defection is more likely a slip.** At 1 in 100 with 5% noise, one defection says 16%; it takes two. At 10% noise it takes three.
+- **When defectors are common, one is enough.** At 3 in 10, a single defection points to a defector at every noise level here.
+- **That is the difference between TitForTat and TitForTwoTats.** TitForTat strikes back after one defection; TitForTwoTats after two. Which rule reads the evidence better depends on how rare defectors are and how noisy the moves are. This is consistent with the tournaments above, where TitForTwoTats did well in rosters with a few exploiters and some noise. It does not explain them: the tournament scores depend on far more than this.
+
+**Left out:** partners who answer your moves. Against TitForTat, a defection may be its reply to your own slip, and this network does not model that. Nor does it model a partner who is a defector only some of the time.
+
+**Checked:** `scripts/check_models.py` runs the network at all nine settings and compares Forge's chances after one, two and three defections with Bayes' rule in exact fractions (all agree to 1e-9), and checks the count in the last column.
 
 ---
 

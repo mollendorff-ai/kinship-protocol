@@ -1,0 +1,66 @@
+# Mistake or Defection? (a Bayesian network)
+# ===========================================
+# Run: forge bayesian models/mistake_or_defection.yaml -q partner -e move_1=defect
+#      forge bayesian models/mistake_or_defection.yaml -q partner -e move_1=defect -e move_2=defect
+#
+# The tournament with mistakes (noisy_tournament.yaml) ends on a condition:
+# cooperation needs each side to tell a slip from a defection. This network
+# asks how many defections it takes before "this partner is a defector" is
+# the better reading.
+#
+# A partner is a cooperator (means to cooperate every round) or a defector
+# (means to defect every round); one in ten is a defector. Each move is
+# flipped by mistake with the chance 0.05, the noisy tournament's base
+# rate. Three moves are observed. Forge works out the chance the partner
+# is a defector, given the moves seen.
+#
+#   one defection:                    67.86%   (0.095 / 0.14)
+#   two defections:                   97.57%
+#   a defection, then a cooperation:  10%      (back to where it started)
+#
+# By Bayes' rule, each defection multiplies the odds of "defector" by
+# (1 - noise) / noise, 19 here, and each cooperation divides them by it:
+#
+#   odds after k defections = p / (1 - p) * ((1 - noise) / noise)^k
+#
+# With these numbers one defection is enough. With rarer defectors or more
+# mistakes it is not: at 1 defector in 100 and 5% noise, one defection says
+# 16% and two say 78%; at 10% noise it takes three. That is TitForTwoTats'
+# rule (strike back after two) against TitForTat's (after one): which is the
+# better reading depends on how rare defectors are and how noisy the moves.
+# scripts/check_models.py checks nine settings of the prior and the noise
+# against the formula above.
+#
+# Left out: partners who answer your moves. Against TitForTat, a defection
+# may be its reply to your own slip, which this network does not model.
+
+_forge_version: "5.1.0"
+
+bayesian_network:
+  name: "Mistake or defection?"
+  nodes:
+    partner:
+      type: discrete
+      states: ["cooperator", "defector"]
+      prior: [0.9, 0.1]
+    move_1:
+      type: discrete
+      states: ["cooperate", "defect"]
+      parents: ["partner"]
+      cpt:
+        cooperator: [0.95, 0.05]
+        defector: [0.05, 0.95]
+    move_2:
+      type: discrete
+      states: ["cooperate", "defect"]
+      parents: ["partner"]
+      cpt:
+        cooperator: [0.95, 0.05]
+        defector: [0.05, 0.95]
+    move_3:
+      type: discrete
+      states: ["cooperate", "defect"]
+      parents: ["partner"]
+      cpt:
+        cooperator: [0.95, 0.05]
+        defector: [0.05, 0.95]
