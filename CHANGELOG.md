@@ -6,6 +6,10 @@ All notable findings and releases for the Kinship Protocol project.
 
 *Next, parked: v0.7.0, replicator dynamics (strategies that spread).*
 
+### Added
+
+- **A release workflow** (`.github/workflows/release.yml`). When the changelog's newest version has no release yet, CI creates the tag and a GitHub release whose notes are that changelog section. Merging this is what tags v0.6.0, which could not be tagged from the session that prepared it.
+
 ---
 
 ## [0.6.0] - 2026-11-21
