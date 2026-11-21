@@ -76,6 +76,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 - **The threshold holds when the games are played, not just derived.** In a tournament with random endings, AlwaysDefect does better against GrimTrigger than GrimTrigger does against itself below `w*`, and not above it; a cost of conflict of 0.5 moves the flip from 0.5 to 0.375 — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **Punishment is not always the lever.** In an inspection game a harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less (textbook, Tsebelis) — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
 - **Mistakes break the unforgiving, but forgiveness only pays while they are rare.** With 1% of moves flipped by mistake, TitForTwoTats wins and GrimTrigger falls from 1st to 4th; at 10%, the defectors come first. This is not what the roadmap expected. It also depends on who plays: add Pavlov and suspicious TitForTat, and GrimTrigger is 4th even without mistakes and a forgiving strategy wins at 5% — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md)
+- **Telling a slip from a defection depends on how rare defectors are.** A Bayesian network in Forge shows that when defectors are rare and mistakes common, one defection is more likely a slip: with 1 defector in 100 and 5% noise it takes two before "defector" is the better reading. When 1 in 10 is a defector, one is enough. That is TitForTwoTats' rule against TitForTat's — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook Bayes)
 - **With five players the lever works as with two.** In a one-shot public goods game between the five AI sessions, all five keep below a cost of conflict of 0.6 and all five give above it (`1 - r/5`, with the pot doubled); the more players share the pot, the higher the line. Forge finds the equilibria and Gambit agrees — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **A cost of conflict does not fix coordination.** When human and AI prefer different norms, they miss each other about half the time whatever a miss costs; a convention fixes it — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
@@ -117,6 +118,7 @@ kinship-protocol/
 │   ├── ...                         # Stag hunt, chicken, predator-prey, edge cases
 │   ├── continuation.yaml, inspection.yaml, noisy_tournament.yaml, conventions.yaml  # v0.5.0 games
 │   ├── public_goods.yaml           # Five AIs in one game (v0.6.0)
+│   ├── mistake_or_defection.yaml   # Bayesian network: a slip or a defection?
 │   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation

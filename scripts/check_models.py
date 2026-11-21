@@ -21,7 +21,12 @@ For each models/*.yaml file:
      (the w at which AlwaysDefect stops beating GrimTrigger) by playing the
      game, and it must equal the closed form w* = (T-c-R)/(T-P) at three
      costs (check_goal_seek below).
-  8. The models in models/analytics/ (Monte Carlo, tornado, real options,
+  8. The Bayesian network mistake_or_defection.yaml is run at nine settings
+     of the prior and the noise (BAYESIAN below): Forge's chance that the
+     partner is a defector, after one, two and three defections, must equal
+     Bayes' rule worked out here in exact fractions, and the number of
+     defections it takes must be what the docs say.
+  9. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
      numbers are the same every time.
@@ -368,6 +373,78 @@ def check_analytics(models_dir):
     return problems
 
 
+# Mistake or defection? (prior share of defectors, noise, defections it takes
+# before "defector" is more likely than not). A tie at exactly 50% does not count.
+BAYESIAN = [
+    ("1/100", "1/100", 2), ("1/100", "5/100", 2), ("1/100", "10/100", 3),
+    ("1/10", "1/100", 1), ("1/10", "5/100", 1), ("1/10", "10/100", 2),
+    ("3/10", "1/100", 1), ("3/10", "5/100", 1), ("3/10", "10/100", 1),
+]
+BAYESIAN_QUOTES = [
+    ("docs/MORE_GAMES.md", "| 1 in 100 | 5% | 16.1% | 78.5% | 98.6% | 2 |"),
+    ("docs/MORE_GAMES.md", "| 1 in 10 | 5% | 67.9% | 97.6% | 99.9% | 1 |"),
+    ("README.md", "one defection is more likely a slip"),
+]
+
+
+def bayes_posterior(path, evidence):
+    """Forge's chance that the partner is a defector, given the moves seen."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        out = os.path.join(tmp, "out.yaml")
+        args = [FORGE, "bayesian", path, "-q", "partner", "-o", out]
+        for i, move in enumerate(evidence, 1):
+            args += ["-e", f"move_{i}={move}"]
+        run = subprocess.run(args, capture_output=True, text=True)
+        if run.returncode != 0 or not os.path.exists(out):
+            raise RuntimeError((run.stdout + run.stderr).strip()[-200:])
+        result = yaml.safe_load(open(out, encoding="utf-8"))
+    return float(result["probabilities"][result["states"].index("defector")])
+
+
+def check_bayesian(path):
+    import tempfile
+    from fractions import Fraction
+    problems = []
+    try:
+        # The file as it stands: 1 in 10 defectors, 5% noise
+        for evidence, wanted in [(["defect"], 0.095 / 0.14),
+                                 (["defect", "defect"], 0.09025 / 0.0925),
+                                 (["defect", "cooperate"], 0.1)]:
+            got = bayes_posterior(path, evidence)
+            if abs(got - wanted) > 1e-9:
+                problems.append(f"{'-'.join(evidence)}: Forge gives {got:.6f}, Bayes' rule {wanted:.6f}")
+        model = yaml.safe_load(open(path, encoding="utf-8"))
+        nodes = model["bayesian_network"]["nodes"]
+        for prior, noise, needed in BAYESIAN:
+            p, e = Fraction(prior), Fraction(noise)
+            nodes["partner"]["prior"] = [float(1 - p), float(p)]
+            for k in (1, 2, 3):
+                nodes[f"move_{k}"]["cpt"] = {"cooperator": [float(1 - e), float(e)],
+                                             "defector": [float(e), float(1 - e)]}
+            with tempfile.TemporaryDirectory() as tmp:
+                variant = os.path.join(tmp, "variant.yaml")
+                yaml.safe_dump(model, open(variant, "w", encoding="utf-8"), sort_keys=False)
+                first = None
+                for k in (1, 2, 3):
+                    exact = p * (1 - e) ** k / (p * (1 - e) ** k + (1 - p) * e ** k)
+                    got = bayes_posterior(variant, ["defect"] * k)
+                    if abs(got - float(exact)) > 1e-9:
+                        problems.append(f"prior {prior}, noise {noise}, {k} defections: "
+                                        f"Forge {got:.6f}, Bayes' rule {float(exact):.6f}")
+                    if first is None and exact > Fraction(1, 2):
+                        first = k
+                if first != needed:
+                    problems.append(f"prior {prior}, noise {noise}: takes {first} defections, "
+                                    f"the docs say {needed}")
+    except RuntimeError as err:
+        return [f"forge failed: {err}"]
+    for doc, quote in BAYESIAN_QUOTES:
+        if quote not in open(os.path.join(os.path.dirname(path), "..", doc), encoding="utf-8").read():
+            problems.append(f"{doc} no longer contains '{quote}'")
+    return problems
+
+
 # The flip point found by playing the tournament must be the formula's w*:
 # (cost of conflict, w* by hand). Goal-seek prints w to two or three decimals.
 GOAL_SEEK = [(0, 0.5), (0.5, 0.375), (1, 0.25)]
@@ -409,6 +486,8 @@ def main():
             problems = check_game(path, GAME_MODELS[name])
         elif name in GAME_RESULTS:
             problems = check_game_results(path, GAME_RESULTS[name])
+        elif name == "mistake_or_defection.yaml":
+            problems = check_bayesian(path)
         else:
             problems = check(path)
         if problems:
