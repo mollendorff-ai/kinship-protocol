@@ -13,14 +13,20 @@ For each models/*.yaml file:
      by GAME_MODELS below: what Forge works out for each cost must equal what the
      models stored before Forge could play the games, or the difference listed.
   6. The four games added in v0.5.0 (continuation, inspection,
-     noisy_tournament, conventions) are checked by GAME_RESULTS below: what
-     Forge gives in each scenario must equal values checked outside Forge
-     (nashpy, the axelrod library, or by hand), and the docs must still quote
-     them.
-     five_ais.yaml (v0.6.0, the five AIs in two public goods games) is
-     checked the same way: its pure equilibria in every scenario were
-     checked outside Forge by trying every deviation in all 32 cells.
-  7. The models in models/analytics/ (Monte Carlo, tornado, real options,
+     noisy_tournament, conventions), the five-player public_goods game and
+     the one_shot games are checked by GAME_RESULTS below: what Forge gives in each scenario
+     must equal values checked outside Forge (nashpy, Gambit, the axelrod
+     library, or by hand), and the docs must still quote them.
+  7. `forge goal-seek` must find the flip point of the continuation tournament
+     (the w at which AlwaysDefect stops beating GrimTrigger) by playing the
+     game, and it must equal the closed form w* = (T-c-R)/(T-P) at three
+     costs (check_goal_seek below).
+  8. The Bayesian network mistake_or_defection.yaml is run at nine settings
+     of the prior and the noise (BAYESIAN below): Forge's chance that the
+     partner is a defector, after one, two and three defections, must equal
+     Bayes' rule worked out here in exact fractions, and the number of
+     defections it takes must be what the docs say.
+  9. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
      numbers are the same every time.
@@ -40,6 +46,8 @@ import yaml
 TOLERANCE = 0.006  # allows values typed to 2 decimals (max rounding error 0.005)
 FORGE = os.environ.get("FORGE", "forge")
 LINE = re.compile(r"^\s*assumptions\.(\S+) = (\S+)\s*$")
+# Key figures may come from an old-format model (assumptions.x) or a game model (kinship.x)
+KEY_LINE = re.compile(r"^\s*(?:assumptions|kinship)\.(\S+) = (\S+)\s*$")
 
 # Figures the prose quotes: (model, key, expected value, file, text that must
 # appear in that file). If a model changes and a figure moves, this fails until
@@ -124,7 +132,8 @@ GAME_RESULTS = {
         "edge": {"kinship.grim_holds": 1, "kinship.agrees": 1, "long_run.match.ad.grim": 3},
         "costly": {"kinship.threshold": 0.375, "kinship.grim_holds": 1, "kinship.agrees": 1,
                    "long_run.match.ad.grim": 2.9},
-        "quotes": [("docs/MORE_GAMES.md", "3.4 a round against GrimTrigger's 3")],
+        "quotes": [("docs/MORE_GAMES.md", "3.4 a round against GrimTrigger's 3"),
+                   ("docs/MORE_GAMES.md", "lands on 0.5 at c = 0, 0.375 at c = 0.5 and 0.25 at c = 1")],
     },
     "inspection.yaml": {
         "": {"kinship.pure_equilibria": 0, "kinship.audit_rate": 1 / 3,
@@ -142,12 +151,25 @@ GAME_RESULTS = {
         "": {"clean.rank.grim": 1, "clean.rank.tft": 2, "clean.score.grim": 2.711429,
              "noisy.rank.tft": 1, "noisy.rank.tf2t": 2, "noisy.rank.grim": 4,
              "noisy.rank.gtft": 5, "noisy.score.tft": 2.247836,
-             "noisy.score.tf2t": 2.247241, "kinship.forgiving_first": 0},
+             "noisy.score.tf2t": 2.247241, "kinship.forgiving_first": 0,
+             # Nine strategies (Pavlov and suspicious TitForTat added)
+             "clean_wide.rank.tf2t": 1, "clean_wide.rank.tft": 2,
+             "kinship.wide_grim_place_clean": 4, "clean_wide.score.tf2t": 2.649583,
+             "kinship.grim_vs_suspicious": 1.015,
+             "noisy_wide.rank.tf2t": 1, "noisy_wide.rank.wsls": 2,
+             "kinship.wide_grim_place_noisy": 7, "noisy_wide.score.tf2t": 2.283023,
+             "kinship.wide_forgiving_first": 1},
         "careful": {"noisy.rank.tf2t": 1, "noisy.rank.grim": 4,
-                    "noisy.score.tf2t": 2.377545, "kinship.forgiving_first": 1},
+                    "noisy.score.tf2t": 2.377545, "kinship.forgiving_first": 1,
+                    "noisy_wide.rank.tf2t": 1, "noisy_wide.rank.gtft": 2,
+                    "kinship.wide_grim_place_noisy": 7, "kinship.wide_forgiving_first": 1},
         "careless": {"noisy.rank.grim": 1, "noisy.rank.ad": 2,
-                     "noisy.score.grim": 2.278385, "kinship.forgiving_first": 0},
-        "quotes": [("docs/MORE_GAMES.md", "| 5% | TitForTat 2.248, TitForTwoTats 2.247 |")],
+                     "noisy.score.grim": 2.278385, "kinship.forgiving_first": 0,
+                     "noisy_wide.rank.grim": 1, "noisy_wide.rank.ad": 2,
+                     "kinship.wide_forgiving_first": 0},
+        "quotes": [("docs/MORE_GAMES.md", "| 5% | TitForTat 2.248, TitForTwoTats 2.247 |"),
+                   ("docs/MORE_GAMES.md", "GrimTrigger is 4th even without mistakes"),
+                   ("blog/content/posts/08-does-forgiveness-pay.md", "GrimTrigger is 4th even without mistakes")],
     },
     "conventions.yaml": {
         "": {"kinship.pure_equilibria": 2, "kinship.insist_rate": 0.6,
@@ -159,44 +181,44 @@ GAME_RESULTS = {
                         "kinship.mixed_payoff": -19 / 15},
         "quotes": [("docs/MORE_GAMES.md", "they miss each other 52% of the time")],
     },
-    # v0.6.0 (first half). Five players, 32 cells per game; every count and
-    # payoff was checked outside Forge by trying every unilateral deviation
-    # in every cell, in exact fractions.
-    "five_ais.yaml": {
-        "": {"kinship.linear_equilibria": 1, "kinship.keep_pays_more_by": 0.4,
-             "kinship.all_give": 3, "kinship.all_keep": 1,
-             "linear_game.equilibrium_1.claude.keep": 1,
-             "kinship.linear_first_giver_pays": 1,
-             "kinship.threshold_equilibria": 11,
-             "threshold_game.equilibrium_1.claude.give": 1,
-             "threshold_game.equilibrium_1.copilot1.keep": 1,
-             "kinship.free_rider_pays": 3, "kinship.giver_pays": 2,
-             "kinship.three_give_total": 12, "kinship.all_give_total": 10,
-             "kinship.nobody_gives_total": 5},
-        "edge": {"kinship.linear_equilibria": 32, "kinship.keep_pays_more_by": 0,
-                 "kinship.threshold_equilibria": 11},
-        "costly": {"kinship.linear_equilibria": 1,
-                   "linear_game.equilibrium_1.claude.give": 1,
-                   "linear_game.equilibrium_1.copilot2.give": 1,
-                   "kinship.linear_first_giver_pays": 3,
-                   "kinship.threshold_equilibria": 11,
-                   "kinship.free_rider_pays": 2.5, "kinship.giver_pays": 2},
-        "threshold_edge": {"kinship.linear_equilibria": 1, "kinship.threshold_equilibria": 22},
-        "very_costly": {"kinship.linear_equilibria": 1, "kinship.threshold_equilibria": 1,
-                        "threshold_game.equilibrium_1.copilot1.give": 1,
-                        "threshold_game.equilibrium_1.copilot2.give": 1,
-                        "kinship.giver_pays": 2},
-        "quotes": [("docs/FIVE_AIS.md", "whatever the others do: 0.4 with no cost"),
-                   ("docs/FIVE_AIS.md", "| 0 | 1 | Nobody gives | 1 |"),
-                   ("docs/FIVE_AIS.md", "| 0.4 | 32 | Every cell"),
-                   ("docs/FIVE_AIS.md", "| 0.5 | 1 | Everyone gives | 3 |"),
-                   ("docs/FIVE_AIS.md", "| 0.5 | 11 | Nobody gives, or exactly 3 give |"),
-                   ("docs/FIVE_AIS.md", "| 1 | 22 |"),
-                   ("docs/FIVE_AIS.md", "| 1.5 | 1 | Everyone gives |"),
-                   ("docs/FIVE_AIS.md", "the 2 keepers get 3 each"),
-                   ("docs/FIVE_AIS.md", "12 with no cost, against 10 if all give"),
-                   ("docs/FIVE_AIS.md", "and 5 if nobody does"),
-                   ("README.md", "three give and two free ride")],
+    # One-shot games. The scenario flags were checked against exact fractions
+    # computed without Forge (the average payoff against a 50/50 opponent, and
+    # strict dominance in the dilemma). The critical costs are the figures the
+    # old hand-typed model stored: 1.5, 1.0, 0.5, and 2 against any opponent.
+    "one_shot.yaml": {
+        "": {"kinship.ipd_critical_c": 1.5, "kinship.sh_critical_c": 1.0,
+             "kinship.ch_critical_c": 0.5, "kinship.ipd_critical_c_any_opponent": 2.0,
+             "kinship.viable_without_future": 1, "kinship.catastrophic_games_easier": 1,
+             "kinship.anon_defect_ev": 40, "kinship.anon_coop_wins": 1,
+             "kinship.nuke_defect_ev": -450, "kinship.nuke_coop_wins": 1,
+             "kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 0},
+        "c025": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 0},
+        "c050": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 0},
+        "c075": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 1},
+        "c100": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 1},
+        "c150": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 1, "kinship.ch_coop_wins": 1},
+        "c200": {"kinship.ipd_coop_wins": 1, "kinship.sh_coop_wins": 1, "kinship.ch_coop_wins": 1,
+                 "kinship.ipd_defect_dominated": 0},
+        "c250": {"kinship.ipd_defect_dominated": 1, "kinship.ipd_critical_c": 1.5},
+        "quotes": [("docs/ONE_SHOT_GAMES.md", "`kinship.ipd_critical_c`: 1.5")],
+    },
+    # Five players; checked with Gambit (pygambit 16.7, enumpure_solve) and by
+    # enumerating the 32 profiles by hand. All five play alike in every
+    # equilibrium, so Claude's give rate stands for all of them.
+    "public_goods.yaml": {
+        "": {"kinship.pure_equilibria": 1, "kinship.give_rate": 0,
+             "kinship.equilibrium_payoff": 1, "kinship.give_dominated": 1,
+             "kinship.threshold_by_hand": 0.6, "kinship.all_give_payoff": 2},
+        "cheap": {"kinship.pure_equilibria": 1, "kinship.give_rate": 0,
+                  "kinship.equilibrium_payoff": 0.5, "kinship.give_dominated": 1},
+        "edge": {"kinship.pure_equilibria": 32, "kinship.give_dominated": 0,
+                 "kinship.keep_dominated": 0},
+        "costly": {"kinship.pure_equilibria": 1, "kinship.give_rate": 1,
+                   "kinship.equilibrium_payoff": 2, "kinship.keep_dominated": 1},
+        "rich": {"kinship.pure_equilibria": 1, "kinship.give_rate": 1,
+                 "kinship.equilibrium_payoff": 6, "kinship.keep_dominated": 1},
+        "quotes": [("docs/MORE_GAMES.md", "giving dominates once `c > 1 - r/5`"),
+                   ("README.md", "all five keep below a cost of conflict of 0.6")],
     },
 }
 
@@ -309,7 +331,7 @@ def computed_values(path):
     run = subprocess.run([FORGE, "calculate", path, "--dry-run"],
                          capture_output=True, text=True)
     return {m.group(1): float(m.group(2))
-            for m in map(LINE.match, run.stdout.splitlines()) if m}
+            for m in map(KEY_LINE.match, run.stdout.splitlines()) if m}
 
 
 def check_key_figures(models_dir):
@@ -351,6 +373,106 @@ def check_analytics(models_dir):
     return problems
 
 
+# Mistake or defection? (prior share of defectors, noise, defections it takes
+# before "defector" is more likely than not). A tie at exactly 50% does not count.
+BAYESIAN = [
+    ("1/100", "1/100", 2), ("1/100", "5/100", 2), ("1/100", "10/100", 3),
+    ("1/10", "1/100", 1), ("1/10", "5/100", 1), ("1/10", "10/100", 2),
+    ("3/10", "1/100", 1), ("3/10", "5/100", 1), ("3/10", "10/100", 1),
+]
+BAYESIAN_QUOTES = [
+    ("docs/MORE_GAMES.md", "| 1 in 100 | 5% | 16.1% | 78.5% | 98.6% | 2 |"),
+    ("docs/MORE_GAMES.md", "| 1 in 10 | 5% | 67.9% | 97.6% | 99.9% | 1 |"),
+    ("README.md", "one defection is more likely a slip"),
+]
+
+
+def bayes_posterior(path, evidence):
+    """Forge's chance that the partner is a defector, given the moves seen."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        out = os.path.join(tmp, "out.yaml")
+        args = [FORGE, "bayesian", path, "-q", "partner", "-o", out]
+        for i, move in enumerate(evidence, 1):
+            args += ["-e", f"move_{i}={move}"]
+        run = subprocess.run(args, capture_output=True, text=True)
+        if run.returncode != 0 or not os.path.exists(out):
+            raise RuntimeError((run.stdout + run.stderr).strip()[-200:])
+        result = yaml.safe_load(open(out, encoding="utf-8"))
+    return float(result["probabilities"][result["states"].index("defector")])
+
+
+def check_bayesian(path):
+    import tempfile
+    from fractions import Fraction
+    problems = []
+    try:
+        # The file as it stands: 1 in 10 defectors, 5% noise
+        for evidence, wanted in [(["defect"], 0.095 / 0.14),
+                                 (["defect", "defect"], 0.09025 / 0.0925),
+                                 (["defect", "cooperate"], 0.1)]:
+            got = bayes_posterior(path, evidence)
+            if abs(got - wanted) > 1e-9:
+                problems.append(f"{'-'.join(evidence)}: Forge gives {got:.6f}, Bayes' rule {wanted:.6f}")
+        model = yaml.safe_load(open(path, encoding="utf-8"))
+        nodes = model["bayesian_network"]["nodes"]
+        for prior, noise, needed in BAYESIAN:
+            p, e = Fraction(prior), Fraction(noise)
+            nodes["partner"]["prior"] = [float(1 - p), float(p)]
+            for k in (1, 2, 3):
+                nodes[f"move_{k}"]["cpt"] = {"cooperator": [float(1 - e), float(e)],
+                                             "defector": [float(e), float(1 - e)]}
+            with tempfile.TemporaryDirectory() as tmp:
+                variant = os.path.join(tmp, "variant.yaml")
+                yaml.safe_dump(model, open(variant, "w", encoding="utf-8"), sort_keys=False)
+                first = None
+                for k in (1, 2, 3):
+                    exact = p * (1 - e) ** k / (p * (1 - e) ** k + (1 - p) * e ** k)
+                    got = bayes_posterior(variant, ["defect"] * k)
+                    if abs(got - float(exact)) > 1e-9:
+                        problems.append(f"prior {prior}, noise {noise}, {k} defections: "
+                                        f"Forge {got:.6f}, Bayes' rule {float(exact):.6f}")
+                    if first is None and exact > Fraction(1, 2):
+                        first = k
+                if first != needed:
+                    problems.append(f"prior {prior}, noise {noise}: takes {first} defections, "
+                                    f"the docs say {needed}")
+    except RuntimeError as err:
+        return [f"forge failed: {err}"]
+    for doc, quote in BAYESIAN_QUOTES:
+        if quote not in open(os.path.join(os.path.dirname(path), "..", doc), encoding="utf-8").read():
+            problems.append(f"{doc} no longer contains '{quote}'")
+    return problems
+
+
+# The flip point found by playing the tournament must be the formula's w*:
+# (cost of conflict, w* by hand). Goal-seek prints w to two or three decimals.
+GOAL_SEEK = [(0, 0.5), (0.5, 0.375), (1, 0.25)]
+
+
+def check_goal_seek(models_dir):
+    import tempfile
+    problems = []
+    source = open(os.path.join(models_dir, "continuation.yaml"), encoding="utf-8").read()
+    for cost, expected in GOAL_SEEK:
+        text, n = re.subn(r"(?m)^c: 0\b.*$", f"c: {cost}", source)
+        if n != 1:
+            return ["continuation.yaml: cannot find the line 'c: 0' to set the cost"]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "continuation.yaml")
+            open(path, "w", encoding="utf-8").write(text)
+            run = subprocess.run([FORGE, "goal-seek", path, "--target", "defector_edge",
+                                  "--value", "0", "--vary", "w", "--min", "0.01",
+                                  "--max", "0.99", "--tolerance", "1e-9"],
+                                 capture_output=True, text=True)
+        m = re.search(r"^\s*w = ([\d.]+) ", run.stdout, re.M)
+        if run.returncode != 0 or not m:
+            problems.append(f"c = {cost}: goal-seek found no w ({run.stdout.strip()[-80:]})")
+        elif abs(float(m.group(1)) - expected) > 0.0006:
+            problems.append(f"c = {cost}: goal-seek gives w = {m.group(1)}, the formula gives {expected}")
+    return problems
+
+
 def main():
     root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
     files = sorted(glob.glob(os.path.join(root, "*.yaml")))
@@ -364,6 +486,8 @@ def main():
             problems = check_game(path, GAME_MODELS[name])
         elif name in GAME_RESULTS:
             problems = check_game_results(path, GAME_RESULTS[name])
+        elif name == "mistake_or_defection.yaml":
+            problems = check_bayesian(path)
         else:
             problems = check(path)
         if problems:
@@ -391,7 +515,15 @@ def main():
     else:
         print(f"ok   analytics ({len(ANALYTICS)} figures from Monte Carlo, tornado, "
               "real options and bootstrap)")
-    return 1 if failed or figures or analytics else 0
+    seek = check_goal_seek(root)
+    if seek:
+        print("FAIL goal-seek")
+        for p in seek:
+            print(f"     {p}")
+    else:
+        print(f"ok   goal-seek ({len(GOAL_SEEK)} flip points found by playing the tournament "
+              "equal the formula's w*)")
+    return 1 if failed or figures or analytics or seek else 0
 
 
 if __name__ == "__main__":

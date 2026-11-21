@@ -1,0 +1,61 @@
+# Tag and publish a release when the changelog gets a new version.
+# Runs on a push to main that touches CHANGELOG.md (or this file), and by hand.
+# It reads the newest "## [x.y.z] - date" heading, and if that version has no
+# release yet, creates the tag v<x.y.z> on the pushed commit and a GitHub
+# release whose notes are that changelog section. A version that already has a
+# release is left alone, so re-running is safe.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'CHANGELOG.md'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read the newest version from the changelog
+        id: version
+        run: |
+          version="$(grep -m1 -oE '^## \[[0-9]+\.[0-9]+\.[0-9]+\]' CHANGELOG.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+          if [ -z "$version" ]; then
+            echo "No '## [x.y.z]' heading in CHANGELOG.md" >&2
+            exit 1
+          fi
+          # The notes: everything under that heading, up to the next version
+          awk -v v="$version" '
+            $0 ~ "^## \\[" v "\\]" { found = 1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md | sed -e :a -e '/^[[:space:]]*$/{$d;N;ba' -e '}' | sed '/^---$/d' > "$RUNNER_TEMP/notes.md"
+          # The title: the first "### " heading in the section
+          subtitle="$(grep -m1 '^### ' "$RUNNER_TEMP/notes.md" | sed 's/^### //')"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "title=v$version${subtitle:+: $subtitle}" >> "$GITHUB_OUTPUT"
+          echo "Newest version: $version"
+          wc -l "$RUNNER_TEMP/notes.md"
+
+      - name: Create the tag and release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          TITLE: ${{ steps.version.outputs.title }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "v$VERSION is already released; nothing to do."
+            exit 0
+          fi
+          gh release create "v$VERSION" \
+            --target "$GITHUB_SHA" \
+            --title "$TITLE" \
+            --notes-file "$RUNNER_TEMP/notes.md"

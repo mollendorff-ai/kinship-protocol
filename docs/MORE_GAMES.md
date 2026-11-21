@@ -1,26 +1,28 @@
-# More Games: Horizons, Audits, Mistakes and Norms
+# More Games: Horizons, Audits, Mistakes, Norms and the Commons
 
-**Technical Note v1.0**
+**Technical Note v1.3**
 
-**Date:** 2026-11-20
+**Date:** 2026-11-21
 **Status:** Working Draft
 
 ---
 
 ## Abstract
 
-Four more games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
+Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|
 | When cooperation holds | [continuation.yaml](../models/continuation.yaml) | The threshold `w* = (T-c-R)/(T-P)` the project derives by formula is where a real tournament flips | Textbook, now played rather than derived |
 | Audit the AI | [inspection.yaml](../models/inspection.yaml) | A harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less | Textbook (Tsebelis, 1989) |
-| Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare | Checked; it contradicts what the roadmap expected |
+| Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare, and which forgiving strategy wins depends on who else plays | Checked; it contradicts what the roadmap expected |
+| Mistake or defection? | [mistake_or_defection.yaml](../models/mistake_or_defection.yaml) | When defectors are rare and mistakes common, one defection is more likely a slip: it takes two or three before "defector" is the better reading | Textbook Bayes' rule; added in v0.6.2 |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
+| Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added in v0.6.0 |
 
 None of these are new results. What they add is that the project's levers (the cost of conflict, the chance of meeting again) are put into games where they do not always work.
 
-All four use the Axelrod payoffs where there is a prisoner's dilemma: T = 5, R = 3, P = 1, S = 0.
+The games that contain a prisoner's dilemma use the Axelrod payoffs: T = 5, R = 3, P = 1, S = 0.
 
 ---
 
@@ -41,7 +43,7 @@ Against GrimTrigger, AlwaysDefect gets T - c once and P - c in every round after
 
 At w = 0.4 a defector gets 3.4 a round against GrimTrigger's 3, so it pays to defect. Add a cost of conflict of 0.5 and the same short horizon holds: the threshold falls to 0.375, the corrected figure in COOPERATION_THRESHOLDS.md §4.2. The tournament and the formula agree in every scenario (`kinship.agrees` is 1 in all four).
 
-**Checked:** by the closed form above, which gives the same four numbers.
+**Checked:** by the closed form above, which gives the same four numbers. Forge also finds the flip point without the formula: `forge goal-seek models/continuation.yaml --target defector_edge --value 0 --vary w` plays the tournament at each w and lands on 0.5 at c = 0, 0.375 at c = 0.5 and 0.25 at c = 1, exactly `w*`.
 
 ---
 
@@ -100,7 +102,7 @@ What the tournament shows:
 - **Forgiving everything does not pay here.** Generous TitForTat forgives AlwaysDefect and Random too, and they take advantage; it finishes 5th at 5%.
 - **When mistakes are common, nobody cooperates.** At 10% the two strategies that defect most come first; cooperation never gets going long enough to pay.
 
-The textbook result that generous TitForTat wins under noise (Nowak and Sigmund, 1992) is about a population evolving over generations, where strategies that do badly die out and stop feeding the exploiters. A single round-robin with AlwaysDefect and Random in it is a different test. Replicator dynamics, which would show the evolving version, are parked for v0.6.0.
+The textbook result that generous TitForTat wins under noise (Nowak and Sigmund, 1992) is about a population evolving over generations, where strategies that do badly die out and stop feeding the exploiters. A single round-robin with AlwaysDefect and Random in it is a different test. Replicator dynamics, which would show the evolving version, are parked for v0.7.0.
 
 **For the project:** "cooperation pays" needs the other side to be able to tell a mistake from a defection. With noisy signals, the right amount of forgiveness depends on who else is playing and how noisy the channel is.
 
@@ -112,6 +114,69 @@ The textbook result that generous TitForTat wins under noise (Nowak and Sigmund,
 | 1% | TitForTwoTats 2.377, TitForTat 2.319, generous TitForTat 2.283 |
 | 5% | TitForTwoTats 2.245, TitForTat 2.245, Random 2.219 |
 | 10% | GrimTrigger 2.277, AlwaysDefect 2.274, TitForTat 2.242 |
+
+### 3.1 With Nine Players
+
+Added in v0.6.0. Forge has two more strategies the roster above leaves out: Pavlov (win-stay, lose-shift: repeat a move that paid, switch one that did not), the textbook answer to noise (Nowak and Sigmund, 1993), and suspicious TitForTat, which opens by defecting and then copies. The model's `clean_wide` and `noisy_wide` games play all nine; the seven-player results above are unchanged.
+
+| Noise | Winner (payoff per round) | Second | GrimTrigger | Pavlov | Generous TitForTat |
+|-------|---------------------------|--------|-------------|--------|--------------------|
+| 0 | TitForTwoTats 2.650 | TitForTat 2.638 | 4th | 5th | 3rd |
+| 1% | TitForTwoTats 2.417 | generous TitForTat 2.404 | 7th | 3rd | 2nd |
+| 5% | TitForTwoTats 2.283 | Pavlov 2.270 | 7th | 2nd | 3rd |
+| 10% | GrimTrigger 2.267 | AlwaysDefect 2.265 | 1st | 3rd | 8th |
+
+Two more players change the answer more than the noise does:
+
+- **GrimTrigger is 4th even without mistakes.** Suspicious TitForTat's opening defection is one defection, and GrimTrigger never forgives it: it gets 1.015 a round in that match, where TitForTwoTats gets 2.985. A single bad first impression costs the unforgiving strategy what a 1% error rate cost it before.
+- **A forgiving strategy now wins at 5% noise.** TitForTwoTats is first at 0, 1% and 5%, and generous TitForTat climbs to 2nd at 1% and 3rd at 5%. Both new players reciprocate, so the players that exploit forgiveness, AlwaysDefect and Random, are now two in nine rather than two in seven.
+- **Pavlov is good, not best.** It comes 2nd at 5% and 3rd at 10%, and wins nowhere. It does badly against AlwaysDefect, which it keeps trying to cooperate with every other round.
+- **At 10% the defectors still win.** That result did not depend on the roster.
+
+So the seven-player table above is one roster's answer. "Does forgiveness pay?" depends on how noisy the channel is and on who else is playing, and the second matters at least as much as the first.
+
+**Checked:** with the axelrod library (version 4.14), 500 seeded matches of each pairing at each noise level. It gives the same order as Forge, all nine places, at every level, and scores within 0.01 of Forge's.
+
+| Noise | axelrod library, top three |
+|-------|----------------------------|
+| 0 | TitForTwoTats 2.650, TitForTat 2.638, generous TitForTat 2.626 |
+| 1% | TitForTwoTats 2.417, generous TitForTat 2.397, Pavlov 2.344 |
+| 5% | TitForTwoTats 2.282, Pavlov 2.269, generous TitForTat 2.261 |
+| 10% | GrimTrigger 2.268, AlwaysDefect 2.267, Pavlov 2.250 |
+
+### 3.2 Mistake or Defection?
+
+**Model:** [mistake_or_defection.yaml](../models/mistake_or_defection.yaml), a Bayesian network (`forge bayesian`). Added in v0.6.2.
+
+The tournaments above end on a condition: cooperation needs each side to tell a slip from a defection. This model asks how many defections it takes before "this partner is a defector" is the better reading.
+
+A partner either means to cooperate every round or means to defect every round. A share p of partners are defectors. Each move is flipped by mistake with the chance `noise`. Forge works out the chance that the partner is a defector, given the moves seen. By Bayes' rule, each defection multiplies the odds of "defector" by `(1 - noise) / noise`, and each cooperation divides them by the same:
+
+`odds after k defections = p / (1 - p) × ((1 - noise) / noise)^k`
+
+So a defection followed by a cooperation leaves you where you started.
+
+| Defectors | Noise | After 1 defection | After 2 | After 3 | Defections it takes |
+|-----------|-------|-------------------|---------|---------|---------------------|
+| 1 in 100 | 1% | 50.0% | 99.0% | 99.99% | 2 |
+| 1 in 100 | 5% | 16.1% | 78.5% | 98.6% | 2 |
+| 1 in 100 | 10% | 8.3% | 45.0% | 88.0% | 3 |
+| 1 in 10 | 1% | 91.7% | 99.9% | 100.0% | 1 |
+| 1 in 10 | 5% | 67.9% | 97.6% | 99.9% | 1 |
+| 1 in 10 | 10% | 50.0% | 90.0% | 98.8% | 2 |
+| 3 in 10 | 1% | 97.7% | 99.98% | 100.0% | 1 |
+| 3 in 10 | 5% | 89.1% | 99.4% | 99.97% | 1 |
+| 3 in 10 | 10% | 79.4% | 97.2% | 99.7% | 1 |
+
+"Defections it takes" is the first count at which "defector" is more likely than not; exactly 50% does not count.
+
+- **When defectors are rare, one defection is more likely a slip.** At 1 in 100 with 5% noise, one defection says 16%; it takes two. At 10% noise it takes three.
+- **When defectors are common, one is enough.** At 3 in 10, a single defection points to a defector at every noise level here.
+- **That is the difference between TitForTat and TitForTwoTats.** TitForTat strikes back after one defection; TitForTwoTats after two. Which rule reads the evidence better depends on how rare defectors are and how noisy the moves are. This is consistent with the tournaments above, where TitForTwoTats did well in rosters with a few exploiters and some noise. It does not explain them: the tournament scores depend on far more than this.
+
+**Left out:** partners who answer your moves. Against TitForTat, a defection may be its reply to your own slip, and this network does not model that. Nor does it model a partner who is a defector only some of the time.
+
+**Checked:** `scripts/check_models.py` runs the network at all nine settings and compares Forge's chances after one, two and three defections with Bayes' rule in exact fractions (all agree to 1e-9), and checks the count in the last column.
 
 ---
 
@@ -144,12 +209,45 @@ With no cost, they miss each other 52% of the time and each expects 1.2, less th
 
 ---
 
+## 5. Five AIs in One Game
+
+**Model:** [public_goods.yaml](../models/public_goods.yaml). Added in v0.6.0.
+
+The README's experiment asked five AI sessions the same question. Here the five play one game. Each holds 1 and, at the same moment as the others, gives it to a common pot or keeps it. The pot is multiplied by r and shared equally by all five, keepers included. Each one who keeps pays the cost of conflict c.
+
+If k of the five give:
+
+- a giver gets `r k / 5`
+- a keeper gets `1 - c + r k / 5`
+
+Switching from keep to give changes an AI's own payoff by `r/5 - (1 - c)`, whatever the other four do. So keeping dominates while `c < 1 - r/5`, and giving dominates once `c > 1 - r/5`. The game has 32 profiles, and Forge finds every pure equilibrium of it (Forge finds pure equilibria for any number of players; mixed ones only for two).
+
+| Scenario | r | c | Equilibria | What all five do | Each gets |
+|----------|---|---|------------|------------------|-----------|
+| base | 2 | 0 | 1 | keep | 1 (all giving would pay 2) |
+| cheap | 2 | 0.5 | 1 | keep | 0.5 |
+| edge | 2 | 0.6 | all 32 | anything: each is indifferent | between 0.4 and 2 |
+| costly | 2 | 0.7 | 1 | give | 2 |
+| rich | 6 | 0 | 1 | give | 6 |
+
+With r = 2, all five keep below a cost of conflict of 0.6 and all five give above it. Below the line it is the prisoner's dilemma with five players: all five giving pays each 2, but each does better by keeping, so they end on 1. A cost of conflict of 0.5 does not help, it only makes the bad outcome worse (each gets 0.5). At 0.6 exactly, every profile is an equilibrium. With a pot worth six times what goes in, more than the number of players, each AI's own share of its own gift is worth more than the gift, and giving pays without any cost.
+
+**For the project:** the lever works with five players as with two, and the line has the same shape: the cost has to cover what keeping gains, `1 - r/5`. What changes with more players is that the line moves up: each giver's share of its own gift is `r/n`, so the more AIs share the pot, the larger the cost of conflict that cooperation needs. And this is a game played once. The repeated version, where the chance of meeting again does the work, is the [continuation](#1-when-cooperation-holds) game's territory, and strategies that spread over generations (replicator dynamics, parked for v0.7.0) still wait on Forge.
+
+Two of the five sessions were the same model (SuperGrok 4.1) in two modes. The players are named after the sessions to tie the game to the experiment, not because they would play differently: in this game all five have the same payoffs.
+
+**Checked:** Gambit (pygambit 16.7, `enumpure_solve`) finds the same pure equilibria in all five scenarios: one, one, 32, one and one. So does checking each of the 32 profiles by hand, in exact fractions.
+
+---
+
 ## References
 
 1. Axelrod, R. (1984). *The Evolution of Cooperation*. Basic Books.
 2. Luce, R.D. and Raiffa, H. (1957). *Games and Decisions*. Wiley.
 3. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
-4. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
+4. Nowak, M.A. and Sigmund, K. (1993). A strategy of win-stay, lose-shift that outperforms tit-for-tat in the Prisoner's Dilemma game. *Nature*, 364, 56-58.
+5. Ledyard, J.O. (1995). Public goods: a survey of experimental research. In Kagel, J.H. and Roth, A.E. (eds), *The Handbook of Experimental Economics*. Princeton University Press.
+6. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
 
 ---
 

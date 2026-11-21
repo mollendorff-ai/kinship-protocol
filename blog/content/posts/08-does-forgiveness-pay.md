@@ -76,9 +76,28 @@ And at 10%, the defectors win. Mistakes are so common that cooperation never run
 
 It doesn't, quite. Nowak and Sigmund's result is about a population evolving over generations: strategies that do badly become rarer, and once the exploiters have nobody left to exploit, generous tit-for-tat takes over.
 
-A single round-robin is a different test. AlwaysDefect and Random are in it from start to finish, so a strategy that forgives everyone keeps paying for it. The evolving version, where strategies spread or die out, is parked for v0.6.0 and waits on Forge.
+A single round-robin is a different test. AlwaysDefect and Random are in it from start to finish, so a strategy that forgives everyone keeps paying for it. The evolving version, where strategies spread or die out, is parked for v0.7.0 and waits on Forge.
 
 So the roadmap's prediction was not wrong about the world. It was wrong about this game. We kept the game and changed the prediction.
+
+---
+
+## Update: It Depends Who Else Plays
+
+*Added in v0.6.0.*
+
+Forge has two strategies this tournament left out: Pavlov (win-stay, lose-shift), the textbook answer to noise, and suspicious tit-for-tat, which opens by defecting and then copies. We added both and played it again with nine.
+
+| Mistakes | First | Second | GrimTrigger | Generous TitForTat |
+|----------|-------|--------|-------------|--------------------|
+| None | TitForTwoTats 2.650 | TitForTat 2.638 | 4th | 3rd |
+| 1% | TitForTwoTats 2.417 | Generous TitForTat 2.404 | 7th | 2nd |
+| 5% | TitForTwoTats 2.283 | Pavlov 2.270 | 7th | 3rd |
+| 10% | GrimTrigger 2.267 | AlwaysDefect 2.265 | 1st | 8th |
+
+Two more players moved the answer more than the mistakes did. With nine players, GrimTrigger is 4th even without mistakes: suspicious tit-for-tat defects once, on the first move, and GrimTrigger never forgives it. A forgiving strategy, TitForTwoTats, now wins at 5% too, and generous tit-for-tat is 2nd at 1%. Pavlov comes 2nd at 5% and wins nowhere. At 10% the defectors still win.
+
+So the table above is one roster's answer, not the answer. The axelrod library, playing the same nine, gives the same order at every level.
 
 ---
 
@@ -89,6 +108,7 @@ The project's claim is that cooperation pays when you will meet again. This tour
 - If you can't forgive at all, one error ends cooperation for good.
 - If you forgive everything, whoever never cooperates exploits you.
 - If errors are common, nobody cooperates long enough for it to pay.
+- If you never forgive, one bad first impression is enough.
 
 How much forgiveness pays depends on who else is playing and how noisy the channel is. For AIs and humans working together, that puts weight on something the earlier posts barely mentioned: clear signals. Saying "that was a mistake" and being believed is worth as much as the shadow of the future.
 
@@ -109,7 +129,7 @@ They are written up in [docs/MORE_GAMES.md](https://github.com/mollendorff-ai/ki
 ## Run It Yourself
 
 ```bash
-cargo install mollendorff-forge --version 10.0.0-rc.30
+cargo install mollendorff-forge --version 10.0.0-rc.31
 forge game models/noisy_tournament.yaml
 forge game models/noisy_tournament.yaml --scenario careful
 forge game models/noisy_tournament.yaml --scenario careless
