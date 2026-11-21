@@ -16,7 +16,7 @@ Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model t
 | When cooperation holds | [continuation.yaml](../models/continuation.yaml) | The threshold `w* = (T-c-R)/(T-P)` the project derives by formula is where a real tournament flips | Textbook, now played rather than derived |
 | Audit the AI | [inspection.yaml](../models/inspection.yaml) | A harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less | Textbook (Tsebelis, 1989) |
 | Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare, and which forgiving strategy wins depends on who else plays | Checked; it contradicts what the roadmap expected |
-| Mistake or defection? | [mistake_or_defection.yaml](../models/mistake_or_defection.yaml) | When defectors are rare and mistakes common, one defection is more likely a slip: it takes two or three before "defector" is the better reading | Textbook Bayes' rule; added after v0.6.1 |
+| Mistake or defection? | [mistake_or_defection.yaml](../models/mistake_or_defection.yaml) | When defectors are rare and mistakes common, one defection is more likely a slip: it takes two or three before "defector" is the better reading | Textbook Bayes' rule; added in v0.6.2 |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
 | Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added in v0.6.0 |
 
@@ -146,7 +146,7 @@ So the seven-player table above is one roster's answer. "Does forgiveness pay?" 
 
 ### 3.2 Mistake or Defection?
 
-**Model:** [mistake_or_defection.yaml](../models/mistake_or_defection.yaml), a Bayesian network (`forge bayesian`). Added after v0.6.1.
+**Model:** [mistake_or_defection.yaml](../models/mistake_or_defection.yaml), a Bayesian network (`forge bayesian`). Added in v0.6.2.
 
 The tournaments above end on a condition: cooperation needs each side to tell a slip from a defection. This model asks how many defections it takes before "this partner is a defector" is the better reading.
 

@@ -7,7 +7,7 @@
 # See: README.md for project overview
 
 current:
-  version: "0.6.1"
+  version: "0.6.2"
   status: complete
   released: "2026-11-21"
   note: "The models, docs and CI are maintained. Nothing is in progress; v0.7.0 is parked. v0.6.0: the five-player public goods game (models/public_goods.yaml, checked with Gambit) and a nine-strategy tournament with mistakes. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."

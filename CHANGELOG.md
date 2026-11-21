@@ -6,6 +6,14 @@ All notable findings and releases for the Kinship Protocol project.
 
 *Next, parked: v0.7.0, replicator dynamics (strategies that spread).*
 
+---
+
+## [0.6.2] - 2026-11-21
+
+### Mistake or Defection?
+
+The project's first Bayesian network. Telling a slip from a defection depends on how rare defectors are and how noisy the moves: when defectors are rare and mistakes common, one defection is more likely a slip, and it takes two or three before "defector" is the better reading.
+
 ### Added
 
 - **Mistake or defection?** (`models/mistake_or_defection.yaml`, `docs/MORE_GAMES.md` §3.2), the project's first Bayesian network (`forge bayesian`). A partner means to cooperate or to defect every round, and each move is flipped with some noise; how many defections before "defector" is the better reading? With 1 defector in 10 and 5% noise, one (67.9%); with 1 in 100, two (16.1%, then 78.5%), and at 10% noise three. That is TitForTwoTats' rule against TitForTat's. `scripts/check_models.py` checks nine settings of the prior and the noise against Bayes' rule in exact fractions.
