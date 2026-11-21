@@ -13,8 +13,9 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [chicken.yaml](chicken.yaml) | Chicken with costs, equilibria found by Forge | Crossover at c = 0.5 | [COOPERATION_THRESHOLDS](../docs/COOPERATION_THRESHOLDS.md) |
 | [continuation.yaml](continuation.yaml) | Tournament with random endings | GrimTrigger holds from w* = 0.5 (0.375 with c = 0.5), as the formula says | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [inspection.yaml](inspection.yaml) | Audit the AI (inspection game) | Harsher penalty: less auditing, same cheating (1/3); cheaper audits: cheating 1/6 | [MORE_GAMES](../docs/MORE_GAMES.md) |
-| [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies, moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10% | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [noisy_tournament.yaml](noisy_tournament.yaml) | Seven strategies (and nine, with Pavlov and suspicious TitForTat), moves flipped by mistake | GrimTrigger 1st → 4th; TitForTwoTats wins at 1% noise, defectors at 10%. With nine, GrimTrigger is 4th with no noise and TitForTwoTats also wins at 5% | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [conventions.yaml](conventions.yaml) | Human and AI prefer different norms | Mixed play misses 52% of the time; a cost of conflict hardly helps | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [public_goods.yaml](public_goods.yaml) | Five AIs give to a common pot or keep | All keep below c = 0.6, all give above it (`1 - r/5`); checked with Gambit | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
@@ -37,8 +38,8 @@ All four results were also recomputed independently in Python (NumPy, a separate
 
 ## Running Models
 
-Install Forge 10.0.0-rc.30 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.30`.
-Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the stag hunt, chicken and tournament models need; CI installs the same version.
+Install Forge 10.0.0-rc.30 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.31`.
+Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need; CI runs rc.31.
 Use `--dry-run` to print results without touching the file.
 Without it, `forge calculate` writes the results back into the model and keeps a `.bak` copy.
 
@@ -103,7 +104,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-cargo install mollendorff-forge --version 10.0.0-rc.30  # or see github.com/mollendorff-ai/forge
+cargo install mollendorff-forge --version 10.0.0-rc.31  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'

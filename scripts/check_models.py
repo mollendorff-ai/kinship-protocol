@@ -13,10 +13,10 @@ For each models/*.yaml file:
      by GAME_MODELS below: what Forge works out for each cost must equal what the
      models stored before Forge could play the games, or the difference listed.
   6. The four games added in v0.5.0 (continuation, inspection,
-     noisy_tournament, conventions) are checked by GAME_RESULTS below: what
-     Forge gives in each scenario must equal values checked outside Forge
-     (nashpy, the axelrod library, or by hand), and the docs must still quote
-     them.
+     noisy_tournament, conventions) and the five-player public_goods game
+     are checked by GAME_RESULTS below: what Forge gives in each scenario
+     must equal values checked outside Forge (nashpy, Gambit, the axelrod
+     library, or by hand), and the docs must still quote them.
   7. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
@@ -139,12 +139,25 @@ GAME_RESULTS = {
         "": {"clean.rank.grim": 1, "clean.rank.tft": 2, "clean.score.grim": 2.711429,
              "noisy.rank.tft": 1, "noisy.rank.tf2t": 2, "noisy.rank.grim": 4,
              "noisy.rank.gtft": 5, "noisy.score.tft": 2.247836,
-             "noisy.score.tf2t": 2.247241, "kinship.forgiving_first": 0},
+             "noisy.score.tf2t": 2.247241, "kinship.forgiving_first": 0,
+             # Nine strategies (Pavlov and suspicious TitForTat added)
+             "clean_wide.rank.tf2t": 1, "clean_wide.rank.tft": 2,
+             "kinship.wide_grim_place_clean": 4, "clean_wide.score.tf2t": 2.649583,
+             "kinship.grim_vs_suspicious": 1.015,
+             "noisy_wide.rank.tf2t": 1, "noisy_wide.rank.wsls": 2,
+             "kinship.wide_grim_place_noisy": 7, "noisy_wide.score.tf2t": 2.283023,
+             "kinship.wide_forgiving_first": 1},
         "careful": {"noisy.rank.tf2t": 1, "noisy.rank.grim": 4,
-                    "noisy.score.tf2t": 2.377545, "kinship.forgiving_first": 1},
+                    "noisy.score.tf2t": 2.377545, "kinship.forgiving_first": 1,
+                    "noisy_wide.rank.tf2t": 1, "noisy_wide.rank.gtft": 2,
+                    "kinship.wide_grim_place_noisy": 7, "kinship.wide_forgiving_first": 1},
         "careless": {"noisy.rank.grim": 1, "noisy.rank.ad": 2,
-                     "noisy.score.grim": 2.278385, "kinship.forgiving_first": 0},
-        "quotes": [("docs/MORE_GAMES.md", "| 5% | TitForTat 2.248, TitForTwoTats 2.247 |")],
+                     "noisy.score.grim": 2.278385, "kinship.forgiving_first": 0,
+                     "noisy_wide.rank.grim": 1, "noisy_wide.rank.ad": 2,
+                     "kinship.wide_forgiving_first": 0},
+        "quotes": [("docs/MORE_GAMES.md", "| 5% | TitForTat 2.248, TitForTwoTats 2.247 |"),
+                   ("docs/MORE_GAMES.md", "GrimTrigger is 4th even without mistakes"),
+                   ("blog/content/posts/08-does-forgiveness-pay.md", "GrimTrigger is 4th even without mistakes")],
     },
     "conventions.yaml": {
         "": {"kinship.pure_equilibria": 2, "kinship.insist_rate": 0.6,
@@ -155,6 +168,24 @@ GAME_RESULTS = {
         "very_costly": {"kinship.insist_rate": 8 / 15, "kinship.miss_rate": 113 / 225,
                         "kinship.mixed_payoff": -19 / 15},
         "quotes": [("docs/MORE_GAMES.md", "they miss each other 52% of the time")],
+    },
+    # Five players; checked with Gambit (pygambit 16.7, enumpure_solve) and by
+    # enumerating the 32 profiles by hand. All five play alike in every
+    # equilibrium, so Claude's give rate stands for all of them.
+    "public_goods.yaml": {
+        "": {"kinship.pure_equilibria": 1, "kinship.give_rate": 0,
+             "kinship.equilibrium_payoff": 1, "kinship.give_dominated": 1,
+             "kinship.threshold_by_hand": 0.6, "kinship.all_give_payoff": 2},
+        "cheap": {"kinship.pure_equilibria": 1, "kinship.give_rate": 0,
+                  "kinship.equilibrium_payoff": 0.5, "kinship.give_dominated": 1},
+        "edge": {"kinship.pure_equilibria": 32, "kinship.give_dominated": 0,
+                 "kinship.keep_dominated": 0},
+        "costly": {"kinship.pure_equilibria": 1, "kinship.give_rate": 1,
+                   "kinship.equilibrium_payoff": 2, "kinship.keep_dominated": 1},
+        "rich": {"kinship.pure_equilibria": 1, "kinship.give_rate": 1,
+                 "kinship.equilibrium_payoff": 6, "kinship.keep_dominated": 1},
+        "quotes": [("docs/MORE_GAMES.md", "giving dominates once `c > 1 - r/5`"),
+                   ("README.md", "all five keep below a cost of conflict of 0.6")],
     },
 }
 

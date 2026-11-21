@@ -1,0 +1,109 @@
+# Five AIs in One Game (a public goods game)
+# =========================================
+# Run: forge game models/public_goods.yaml
+#      forge game models/public_goods.yaml --scenario costly
+#
+# The five sessions of the README's experiment each hold 1. Each gives it
+# to a common pot or keeps it, all at once. The pot is multiplied by r and
+# shared equally by all five, givers and keepers alike. Each one who keeps
+# pays the cost of conflict c, the project's dissipation cost.
+#
+#   a giver gets   r * k / 5             (k = how many give)
+#   a keeper gets  1 - c + r * k / 5
+#
+# Giving moves an AI's own payoff by r/5 - (1 - c), whatever the other four
+# do. So keeping dominates while c < 1 - r/5, and giving dominates above it.
+# With r = 2 the line is c* = 0.6: below it all five keep and each gets
+# 1 - c, though all five giving would pay each 2. That is the prisoner's
+# dilemma with five players, and the cost of conflict moves it as the
+# two-player one does. With r above 5 (one's own share of one's own gift is
+# worth more than the gift), giving pays without any cost.
+#
+# At c* exactly, each AI is indifferent, so all 32 profiles are pure
+# equilibria. Forge finds pure equilibria for any number of players
+# (10.0.0-rc.30 or later); mixed ones it finds only for two.
+#
+# Two of the five were the same model (SuperGrok 4.1) in two modes, so "five
+# AIs" is generous, as the README says. Textbook: Isaac and Walker (1988),
+# Ledyard (1995).
+#
+# Checked: Gambit (pygambit 16.7) finds the same pure equilibria in each
+# scenario, and so does a hand enumeration of the 32 profiles.
+
+_forge_version: "5.5.0"
+
+r: 2      # the pot is multiplied by r and shared by all five
+c: 0      # the cost of conflict, paid by each one who keeps
+
+games:
+  commons:
+    description: Five AIs give to a common pot or keep, at once
+    players: [claude, grok_unhinged, grok_argumentative, copilot_free, copilot_m365]
+    strategies: [give, keep]
+    payoffs:                          # one level per player, in the order of players
+      give:
+        give:
+          give:
+            give: {give: [=r*5/5, =r*5/5, =r*5/5, =r*5/5, =r*5/5], keep: [=r*4/5, =r*4/5, =r*4/5, =r*4/5, =1 - c + r*4/5]}
+            keep: {give: [=r*4/5, =r*4/5, =r*4/5, =1 - c + r*4/5, =r*4/5], keep: [=r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5, =1 - c + r*3/5]}
+          keep:
+            give: {give: [=r*4/5, =r*4/5, =1 - c + r*4/5, =r*4/5, =r*4/5], keep: [=r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5, =1 - c + r*3/5]}
+            keep: {give: [=r*3/5, =r*3/5, =1 - c + r*3/5, =1 - c + r*3/5, =r*3/5], keep: [=r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =1 - c + r*2/5]}
+        keep:
+          give:
+            give: {give: [=r*4/5, =1 - c + r*4/5, =r*4/5, =r*4/5, =r*4/5], keep: [=r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5]}
+            keep: {give: [=r*3/5, =1 - c + r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5], keep: [=r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5]}
+          keep:
+            give: {give: [=r*3/5, =1 - c + r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5], keep: [=r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5]}
+            keep: {give: [=r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5], keep: [=r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5]}
+      keep:
+        give:
+          give:
+            give: {give: [=1 - c + r*4/5, =r*4/5, =r*4/5, =r*4/5, =r*4/5], keep: [=1 - c + r*3/5, =r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5]}
+            keep: {give: [=1 - c + r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5], keep: [=1 - c + r*2/5, =r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5]}
+          keep:
+            give: {give: [=1 - c + r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5], keep: [=1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5]}
+            keep: {give: [=1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5], keep: [=1 - c + r*1/5, =r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5]}
+        keep:
+          give:
+            give: {give: [=1 - c + r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5, =r*3/5], keep: [=1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =r*2/5, =1 - c + r*2/5]}
+            keep: {give: [=1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =r*2/5], keep: [=1 - c + r*1/5, =1 - c + r*1/5, =r*1/5, =1 - c + r*1/5, =1 - c + r*1/5]}
+          keep:
+            give: {give: [=1 - c + r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =r*2/5], keep: [=1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =r*1/5, =1 - c + r*1/5]}
+            keep: {give: [=1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =r*1/5], keep: [=1 - c + r*0/5, =1 - c + r*0/5, =1 - c + r*0/5, =1 - c + r*0/5, =1 - c + r*0/5]}
+
+kinship:
+  pure_equilibria:
+    formula: "=commons.pure_equilibria"
+  give_rate:
+    formula: "=commons.equilibrium_1.claude.give"
+    notes: 1 when the first equilibrium has Claude giving (all five play alike)
+  equilibrium_payoff:
+    formula: "=commons.equilibrium_1.claude.payoff"
+  give_dominated:
+    formula: "=commons.dominated.claude.give"
+  keep_dominated:
+    formula: "=commons.dominated.claude.keep"
+  threshold_by_hand:
+    formula: "=1 - r / 5"
+    notes: The cost of conflict above which giving dominates
+  all_give_payoff:
+    formula: "=r"
+    notes: What each gets if all five give
+  all_keep_payoff:
+    formula: "=1 - c"
+    notes: What each gets if all five keep
+
+scenarios:
+  cheap:
+    description: Conflict costs 0.5, still below the line
+    scalars: {c: 0.5}
+  edge:
+    description: Conflict costs 0.6, the line itself
+    scalars: {c: 0.6}
+  costly:
+    description: Conflict costs 0.7, above the line
+    scalars: {c: 0.7}
+  rich:
+    description: The pot is multiplied by 6, with no cost of conflict
+    scalars: {r: 6}

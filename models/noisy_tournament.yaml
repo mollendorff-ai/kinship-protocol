@@ -26,6 +26,15 @@
 # generous TitForTat wins (Nowak and Sigmund, 1992) is about a population
 # evolving, not a single round-robin like this one.
 #
+# The ranking depends on the roster as much as on the noise. clean_wide and
+# noisy_wide add two more of Forge's strategies: Pavlov (win-stay,
+# lose-shift) and suspicious TitForTat, which opens by defecting. With nine
+# players, GrimTrigger is 4th even without mistakes: it never forgives
+# suspicious TitForTat's opening defection and gets 1.015 a round against
+# it, where TitForTwoTats gets 2.985. TitForTwoTats wins without mistakes,
+# at 1% and at 5%; at 10% GrimTrigger and AlwaysDefect come first again.
+# Pavlov, the textbook strategy for noise, is 2nd at 5% and wins nowhere.
+#
 # Adapted from Forge's examples/games/noisy-tournament.yaml.
 
 _forge_version: "5.5.0"
@@ -71,6 +80,32 @@ games:
       self_play: true
       noise: =noise
 
+  clean_wide:
+    description: The same, with Pavlov and suspicious TitForTat added
+    tournament:
+      round: dilemma
+      players: &wide
+        grim: grim_trigger
+        tft: tit_for_tat
+        ad: always_defect
+        ac: always_cooperate
+        rand: {plays: random, cooperate: 0.5}
+        gtft: generous_tit_for_tat
+        tf2t: tit_for_two_tats
+        wsls: win_stay_lose_shift     # Pavlov: repeats a move that paid, switches one that did not
+        stft: suspicious_tit_for_tat  # TitForTat that opens by defecting
+      rounds: 200
+      self_play: true
+
+  noisy_wide:
+    description: Nine strategies, each move flipped with the chance noise
+    tournament:
+      round: dilemma
+      players: *wide
+      rounds: 200
+      self_play: true
+      noise: =noise
+
 kinship:
   tft_place_clean:
     formula: "=clean.rank.tft"
@@ -87,6 +122,17 @@ kinship:
   forgiving_first:
     formula: "=IF(MIN(noisy.rank.gtft, noisy.rank.tf2t) = 1, 1, 0)"
     notes: 1 when a forgiving strategy wins the noisy tournament
+  wide_grim_place_clean:
+    formula: "=clean_wide.rank.grim"
+    notes: GrimTrigger's place with nine strategies and no mistakes
+  wide_grim_place_noisy:
+    formula: "=noisy_wide.rank.grim"
+  wide_forgiving_first:
+    formula: "=IF(MIN(noisy_wide.rank.gtft, noisy_wide.rank.tf2t) = 1, 1, 0)"
+    notes: 1 when a forgiving strategy wins the nine-strategy noisy tournament
+  grim_vs_suspicious:
+    formula: "=clean_wide.match.grim.stft"
+    notes: One opening defection, never forgiven
 
 scenarios:
   careful:
