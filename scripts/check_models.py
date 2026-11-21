@@ -13,11 +13,15 @@ For each models/*.yaml file:
      by GAME_MODELS below: what Forge works out for each cost must equal what the
      models stored before Forge could play the games, or the difference listed.
   6. The four games added in v0.5.0 (continuation, inspection,
-     noisy_tournament, conventions) and the five-player public_goods game
-     are checked by GAME_RESULTS below: what Forge gives in each scenario
+     noisy_tournament, conventions), the five-player public_goods game and
+     the one_shot games are checked by GAME_RESULTS below: what Forge gives in each scenario
      must equal values checked outside Forge (nashpy, Gambit, the axelrod
      library, or by hand), and the docs must still quote them.
-  7. The models in models/analytics/ (Monte Carlo, tornado, real options,
+  7. `forge goal-seek` must find the flip point of the continuation tournament
+     (the w at which AlwaysDefect stops beating GrimTrigger) by playing the
+     game, and it must equal the closed form w* = (T-c-R)/(T-P) at three
+     costs (check_goal_seek below).
+  8. The models in models/analytics/ (Monte Carlo, tornado, real options,
      bootstrap) must run, and the figures the README quotes from them
      (ANALYTICS below) must match Forge's output. Runs are seeded, so the
      numbers are the same every time.
@@ -37,6 +41,8 @@ import yaml
 TOLERANCE = 0.006  # allows values typed to 2 decimals (max rounding error 0.005)
 FORGE = os.environ.get("FORGE", "forge")
 LINE = re.compile(r"^\s*assumptions\.(\S+) = (\S+)\s*$")
+# Key figures may come from an old-format model (assumptions.x) or a game model (kinship.x)
+KEY_LINE = re.compile(r"^\s*(?:assumptions|kinship)\.(\S+) = (\S+)\s*$")
 
 # Figures the prose quotes: (model, key, expected value, file, text that must
 # appear in that file). If a model changes and a figure moves, this fails until
@@ -121,7 +127,8 @@ GAME_RESULTS = {
         "edge": {"kinship.grim_holds": 1, "kinship.agrees": 1, "long_run.match.ad.grim": 3},
         "costly": {"kinship.threshold": 0.375, "kinship.grim_holds": 1, "kinship.agrees": 1,
                    "long_run.match.ad.grim": 2.9},
-        "quotes": [("docs/MORE_GAMES.md", "3.4 a round against GrimTrigger's 3")],
+        "quotes": [("docs/MORE_GAMES.md", "3.4 a round against GrimTrigger's 3"),
+                   ("docs/MORE_GAMES.md", "lands on 0.5 at c = 0, 0.375 at c = 0.5 and 0.25 at c = 1")],
     },
     "inspection.yaml": {
         "": {"kinship.pure_equilibria": 0, "kinship.audit_rate": 1 / 3,
@@ -168,6 +175,27 @@ GAME_RESULTS = {
         "very_costly": {"kinship.insist_rate": 8 / 15, "kinship.miss_rate": 113 / 225,
                         "kinship.mixed_payoff": -19 / 15},
         "quotes": [("docs/MORE_GAMES.md", "they miss each other 52% of the time")],
+    },
+    # One-shot games. The scenario flags were checked against exact fractions
+    # computed without Forge (the average payoff against a 50/50 opponent, and
+    # strict dominance in the dilemma). The critical costs are the figures the
+    # old hand-typed model stored: 1.5, 1.0, 0.5, and 2 against any opponent.
+    "one_shot.yaml": {
+        "": {"kinship.ipd_critical_c": 1.5, "kinship.sh_critical_c": 1.0,
+             "kinship.ch_critical_c": 0.5, "kinship.ipd_critical_c_any_opponent": 2.0,
+             "kinship.viable_without_future": 1, "kinship.catastrophic_games_easier": 1,
+             "kinship.anon_defect_ev": 40, "kinship.anon_coop_wins": 1,
+             "kinship.nuke_defect_ev": -450, "kinship.nuke_coop_wins": 1,
+             "kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 0},
+        "c025": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 0},
+        "c050": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 0},
+        "c075": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 1},
+        "c100": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 0, "kinship.ch_coop_wins": 1},
+        "c150": {"kinship.ipd_coop_wins": 0, "kinship.sh_coop_wins": 1, "kinship.ch_coop_wins": 1},
+        "c200": {"kinship.ipd_coop_wins": 1, "kinship.sh_coop_wins": 1, "kinship.ch_coop_wins": 1,
+                 "kinship.ipd_defect_dominated": 0},
+        "c250": {"kinship.ipd_defect_dominated": 1, "kinship.ipd_critical_c": 1.5},
+        "quotes": [("docs/ONE_SHOT_GAMES.md", "`kinship.ipd_critical_c`: 1.5")],
     },
     # Five players; checked with Gambit (pygambit 16.7, enumpure_solve) and by
     # enumerating the 32 profiles by hand. All five play alike in every
@@ -298,7 +326,7 @@ def computed_values(path):
     run = subprocess.run([FORGE, "calculate", path, "--dry-run"],
                          capture_output=True, text=True)
     return {m.group(1): float(m.group(2))
-            for m in map(LINE.match, run.stdout.splitlines()) if m}
+            for m in map(KEY_LINE.match, run.stdout.splitlines()) if m}
 
 
 def check_key_figures(models_dir):
@@ -337,6 +365,34 @@ def check_analytics(models_dir):
         text = open(os.path.join(models_dir, "..", doc), encoding="utf-8").read()
         if quote not in text:
             problems.append(f"{doc} no longer contains '{quote}' ({model})")
+    return problems
+
+
+# The flip point found by playing the tournament must be the formula's w*:
+# (cost of conflict, w* by hand). Goal-seek prints w to two or three decimals.
+GOAL_SEEK = [(0, 0.5), (0.5, 0.375), (1, 0.25)]
+
+
+def check_goal_seek(models_dir):
+    import tempfile
+    problems = []
+    source = open(os.path.join(models_dir, "continuation.yaml"), encoding="utf-8").read()
+    for cost, expected in GOAL_SEEK:
+        text, n = re.subn(r"(?m)^c: 0\b.*$", f"c: {cost}", source)
+        if n != 1:
+            return ["continuation.yaml: cannot find the line 'c: 0' to set the cost"]
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "continuation.yaml")
+            open(path, "w", encoding="utf-8").write(text)
+            run = subprocess.run([FORGE, "goal-seek", path, "--target", "defector_edge",
+                                  "--value", "0", "--vary", "w", "--min", "0.01",
+                                  "--max", "0.99", "--tolerance", "1e-9"],
+                                 capture_output=True, text=True)
+        m = re.search(r"^\s*w = ([\d.]+) ", run.stdout, re.M)
+        if run.returncode != 0 or not m:
+            problems.append(f"c = {cost}: goal-seek found no w ({run.stdout.strip()[-80:]})")
+        elif abs(float(m.group(1)) - expected) > 0.0006:
+            problems.append(f"c = {cost}: goal-seek gives w = {m.group(1)}, the formula gives {expected}")
     return problems
 
 
@@ -380,7 +436,15 @@ def main():
     else:
         print(f"ok   analytics ({len(ANALYTICS)} figures from Monte Carlo, tornado, "
               "real options and bootstrap)")
-    return 1 if failed or figures or analytics else 0
+    seek = check_goal_seek(root)
+    if seek:
+        print("FAIL goal-seek")
+        for p in seek:
+            print(f"     {p}")
+    else:
+        print(f"ok   goal-seek ({len(GOAL_SEEK)} flip points found by playing the tournament "
+              "equal the formula's w*)")
+    return 1 if failed or figures or analytics or seek else 0
 
 
 if __name__ == "__main__":

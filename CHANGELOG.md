@@ -6,8 +6,13 @@ All notable findings and releases for the Kinship Protocol project.
 
 *Next, parked: v0.7.0, replicator dynamics (strategies that spread).*
 
+### Changed
+
+- **`models/one_shot.yaml` is now three Forge games** (the dilemma, the stag hunt and chicken), not hand-typed payoffs and averages. Forge works out what each strategy pays against a 50/50 opponent (`even_mix`) and which strategies are dominated; the critical costs come out the same (1.5, 1.0, 0.5, and 2 against any opponent), and Forge confirms the 2 as dominance: at c = 2.5 defecting in the dilemma is strictly dominated, at exactly 2 it only ties. Output names moved from `assumptions.*` to `kinship.*`. `scripts/check_models.py` checks every scenario against exact fractions worked out without Forge.
+
 ### Added
 
+- **`forge goal-seek` finds the tournament's flip point.** On `models/continuation.yaml`, goal-seek plays the tournament at each `w` and lands on 0.5 at c = 0, 0.375 at c = 0.5 and 0.25 at c = 1, exactly the formula's `w*`. `scripts/check_models.py` checks all three, so the formula and the played game cannot drift apart.
 - **A release workflow** (`.github/workflows/release.yml`). When the changelog's newest version has no release yet, CI creates the tag and a GitHub release whose notes are that changelog section. Merging this is what tags v0.6.0, which could not be tagged from the session that prepared it.
 
 ---

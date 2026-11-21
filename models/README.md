@@ -17,7 +17,7 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [conventions.yaml](conventions.yaml) | Human and AI prefer different norms | Mixed play misses 52% of the time; a cost of conflict hardly helps | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [public_goods.yaml](public_goods.yaml) | Five AIs give to a common pot or keep | All keep below c = 0.6, all give above it (`1 - r/5`); checked with Gambit | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
-| [one_shot.yaml](one_shot.yaml) | One-shot game analysis | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
+| [one_shot.yaml](one_shot.yaml) | One-shot games (dilemma, stag hunt, chicken), worked out by Forge | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
 | [edge_cases.yaml](edge_cases.yaml) | Model validation | 18/18 tests pass | [EDGE_CASES](../docs/EDGE_CASES.md) |
 | [kinship_scenarios.yaml](kinship_scenarios.yaml) | Scenario comparison | Kinship +314 over chaos (follows from the assumed defection rates and costs) | — |
