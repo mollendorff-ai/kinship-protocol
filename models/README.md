@@ -37,8 +37,8 @@ All four results were also recomputed independently in Python (NumPy, a separate
 
 ## Running Models
 
-Install Forge 10.0.0-rc.30 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.30`.
-Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the stag hunt, chicken and tournament models need; CI installs the same version.
+Install Forge 10.0.0-rc.30 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.31`.
+Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need; CI runs rc.31.
 Use `--dry-run` to print results without touching the file.
 Without it, `forge calculate` writes the results back into the model and keeps a `.bak` copy.
 
@@ -103,7 +103,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-cargo install mollendorff-forge --version 10.0.0-rc.30  # or see github.com/mollendorff-ai/forge
+cargo install mollendorff-forge --version 10.0.0-rc.31  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'

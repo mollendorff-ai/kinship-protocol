@@ -6,6 +6,10 @@ All notable findings and releases for the Kinship Protocol project.
 
 *Next, parked: v0.6.0, five AIs in one public goods game.*
 
+### Changed
+
+- The model check runs on Forge 10.0.0-rc.31 instead of rc.30. All 13 models, the key figures and the analytics give the same values on both. rc.31 adds no new game features; it shows games in Forge Studio and makes a few outputs the same from one run to the next.
+
 ---
 
 ## [0.5.0] - 2026-11-20
