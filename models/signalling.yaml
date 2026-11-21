@@ -1,0 +1,116 @@
+# Can an AI Show It Is Aligned? (a signalling game)
+# ================================================
+# Run: forge game models/signalling.yaml
+#      forge game models/signalling.yaml --scenario same_cost
+#      forge game models/signalling.yaml --scenario cheap
+#
+# As in hidden_types.yaml, the AI is aligned with chance p and misaligned
+# otherwise, and the human cannot tell which. Before the human decides
+# whether to trust it, the AI may send a signal (open itself to an audit,
+# say) that costs an aligned AI s_aligned and a misaligned one
+# s_misaligned. Trusted, an aligned AI gets b and the human h; a misaligned
+# AI exploits, gets e - c (c the cost of conflict) and the human loses l.
+# Not trusted, nobody gets anything.
+#
+# Here the types do not choose how to act once trusted (hidden_types.yaml
+# is where the misaligned AI chooses); they choose only whether to signal.
+# A strategy is a plan for each type:
+#   AI:     both, aligned_only, misaligned_only, neither   (who signals)
+#   human:  always, after_signal, after_none, never        (when to trust)
+# The payoffs are expected over the AI's type, so this is the game in
+# normal form, which Forge can solve (Harsanyi, 1967).
+#
+# The textbook result (Spence, 1973): the signal sorts the two types, the
+# aligned AI signalling and the misaligned one not, only when
+#   s_aligned <= b        (it is worth it to the aligned AI), and
+#   s_misaligned >= e - c (it is not worth it to the misaligned AI).
+# A signal that costs both the same sorts them only if e - c <= b: the
+# AI that gains most from trust is the misaligned one, so it is the
+# first to pay for a signal both can afford. Unless the cost of conflict
+# has already taken away its gain, the signal has to be harder for it.
+#
+# Forge finds Nash equilibria. Some rest on what the human would do after
+# a signal nobody sends; docs/MORE_GAMES.md §6 says which survive the
+# Intuitive Criterion (Cho and Kreps, 1987). The game is degenerate: a tie
+# off the path of play gives a line of equilibria where nobody signals,
+# and Forge lists one end of it, as it warns (the list of mixed ones may
+# not be complete).
+#
+# Checked: Gambit (pygambit 16.7, enummixed_solve) and nashpy 0.0.43
+# (vertex enumeration) find the same equilibria in each scenario, from
+# payoffs built outside this file, plus the other end of that line.
+
+_forge_version: "5.5.0"
+
+inputs:
+  p: 0.5              # the chance the AI is aligned (the human's prior)
+  h: 2                # what the human gets from trusting an aligned AI
+  l: 4                # what the human loses trusting a misaligned AI
+  b: 1                # what an aligned AI gets from being trusted
+  e: 3                # what a misaligned AI gets from an exploit
+  c: 0                # the cost of conflict, paid by an AI that exploits
+  s_aligned: 0.5      # what the signal costs an aligned AI
+  s_misaligned: 4     # what the signal costs a misaligned AI
+
+games:
+  signal:
+    description: The AI may signal before the human decides whether to trust it
+    players: [ai, human]
+    strategies:
+      ai: [both, aligned_only, misaligned_only, neither]
+      human: [always, after_signal, after_none, never]
+    payoffs:                          # [ai, human], expected over the AI's type
+      both:
+        always: [=inputs.p * (inputs.b - inputs.s_aligned) + (1 - inputs.p) * (inputs.e - inputs.c - inputs.s_misaligned), =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        after_signal: [=inputs.p * (inputs.b - inputs.s_aligned) + (1 - inputs.p) * (inputs.e - inputs.c - inputs.s_misaligned), =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        after_none: [=-inputs.p * inputs.s_aligned - (1 - inputs.p) * inputs.s_misaligned, 0]
+        never: [=-inputs.p * inputs.s_aligned - (1 - inputs.p) * inputs.s_misaligned, 0]
+      aligned_only:
+        always: [=inputs.p * (inputs.b - inputs.s_aligned) + (1 - inputs.p) * (inputs.e - inputs.c), =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        after_signal: [=inputs.p * (inputs.b - inputs.s_aligned), =inputs.p * inputs.h]
+        after_none: [=-inputs.p * inputs.s_aligned + (1 - inputs.p) * (inputs.e - inputs.c), =-(1 - inputs.p) * inputs.l]
+        never: [=-inputs.p * inputs.s_aligned, 0]
+      misaligned_only:
+        always: [=inputs.p * inputs.b + (1 - inputs.p) * (inputs.e - inputs.c - inputs.s_misaligned), =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        after_signal: [=(1 - inputs.p) * (inputs.e - inputs.c - inputs.s_misaligned), =-(1 - inputs.p) * inputs.l]
+        after_none: [=inputs.p * inputs.b - (1 - inputs.p) * inputs.s_misaligned, =inputs.p * inputs.h]
+        never: [=-(1 - inputs.p) * inputs.s_misaligned, 0]
+      neither:
+        always: [=inputs.p * inputs.b + (1 - inputs.p) * (inputs.e - inputs.c), =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        after_signal: [0, 0]
+        after_none: [=inputs.p * inputs.b + (1 - inputs.p) * (inputs.e - inputs.c), =inputs.p * inputs.h - (1 - inputs.p) * inputs.l]
+        never: [0, 0]
+
+kinship:
+  pure_equilibria:
+    formula: "=signal.pure_equilibria"
+    notes: Pure equilibria Forge finds
+  separating:
+    formula: "=signal.equilibrium_1.ai.aligned_only"
+    notes: 1 when the first equilibrium is the one where only the aligned AI signals
+  trust_blind:
+    formula: "=inputs.p * inputs.h - (1 - inputs.p) * inputs.l"
+    notes: What trusting every AI gives the human; below 0 it will not
+  separates_by_hand:
+    formula: "=IF(AND(inputs.s_aligned <= inputs.b, inputs.s_misaligned >= inputs.e - inputs.c, inputs.p * inputs.h - (1 - inputs.p) * inputs.l < 0), 1, 0)"
+    notes: Spence's condition for a signal that sorts the types
+  misaligned_signal_by_hand:
+    formula: "=inputs.p * inputs.h / ((1 - inputs.p) * inputs.l)"
+    notes: In the half-sorting equilibrium, how often a misaligned AI signals (it leaves the human indifferent)
+  trust_after_signal_by_hand:
+    formula: "=inputs.s_misaligned / (inputs.e - inputs.c)"
+    notes: In the half-sorting equilibrium, how often the human trusts a signal (it leaves a misaligned AI indifferent)
+
+scenarios:
+  same_cost:
+    description: The signal costs both types 0.5
+    scalars: {inputs.s_misaligned: 0.5}
+  dear:
+    description: The signal costs both types 2, more than the aligned AI gains
+    scalars: {inputs.s_aligned: 2, inputs.s_misaligned: 2}
+  cheap:
+    description: The signal costs a misaligned AI 2, less than its gain of 3
+    scalars: {inputs.s_misaligned: 2}
+  conflict:
+    description: As cheap, with a cost of conflict of 1.5
+    scalars: {inputs.s_misaligned: 2, inputs.c: 1.5}

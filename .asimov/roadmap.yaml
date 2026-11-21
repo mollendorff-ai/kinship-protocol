@@ -26,6 +26,6 @@ ideas:
   - "Formal proof using Folk Theorem foundations and Program Equilibrium applied to Kinship (once planned as v0.5.0)"
   - "Address the Orthogonality Thesis (Bostrom) mathematically"
   - "N-player extensions beyond v0.6.0: coalitions, a repeated public goods game"
-  - "Asymmetric information: Bayesian games, signalling, reputation"
+  - "Reputation over repeated play: hidden types in a repeated game (Kreps, Milgrom, Roberts and Wilson, 1982). v0.6.3 has the one-shot games (hidden_types.yaml, signalling.yaml); the repeated ones need repeated games with hidden types in Forge"
   - "Put the Grok and Copilot transcripts in the repo so the cross-AI table can be checked"
   - "KL divergence / FEP formalization (only if a rigorous mapping is found)"

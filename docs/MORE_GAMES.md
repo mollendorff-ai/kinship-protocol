@@ -1,6 +1,6 @@
-# More Games: Horizons, Audits, Mistakes, Norms and the Commons
+# More Games: Horizons, Audits, Mistakes, Norms, the Commons and Hidden Types
 
-**Technical Note v1.3**
+**Technical Note v1.4**
 
 **Date:** 2026-11-21
 **Status:** Working Draft
@@ -9,7 +9,7 @@
 
 ## Abstract
 
-Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
+More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|
@@ -19,6 +19,8 @@ Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model t
 | Mistake or defection? | [mistake_or_defection.yaml](../models/mistake_or_defection.yaml) | When defectors are rare and mistakes common, one defection is more likely a slip: it takes two or three before "defector" is the better reading | Textbook Bayes' rule; added in v0.6.2 |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
 | Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added in v0.6.0 |
+| Aligned or not? | [hidden_types.yaml](../models/hidden_types.yaml) | When the human cannot tell which AI it faces, more aligned AIs do not make it safer until it stops checking; a cost of conflict that makes exploiting dominated means nobody needs to know | Textbook (Tsebelis, 1989, with a type); added in v0.6.3 |
+| Can an AI show it is aligned? | [signalling.yaml](../models/signalling.yaml) | A signal sorts aligned from misaligned AIs only if it is dearer for the misaligned one; one that costs both the same is bought first by the misaligned AI | Textbook (Spence, 1973); added in v0.6.3 |
 
 None of these are new results. What they add is that the project's levers (the cost of conflict, the chance of meeting again) are put into games where they do not always work.
 
@@ -240,14 +242,81 @@ Two of the five sessions were the same model (SuperGrok 4.1) in two modes. The p
 
 ---
 
+## 6. Hidden Types
+
+Every game above assumes each side knows what the other is. Here the human does not: the AI may be aligned or misaligned, and only the AI knows which. The human's belief that it is aligned, before anything happens, is the prior `p`. Forge has no move by chance, so both games are written in normal form with payoffs expected over the AI's type (Harsanyi, 1967). Both were added in v0.6.3.
+
+### 6.1 Aligned or Not?
+
+**Model:** [hidden_types.yaml](../models/hidden_types.yaml).
+
+An aligned AI always honours the human's trust: it is a committed type, as in Kreps, Milgrom, Roberts and Wilson (1982), and does not choose. A misaligned AI honours or exploits. The human relies on the AI, or verifies its work at a cost v, which blocks an exploit; a misaligned AI caught exploiting loses f. Whoever exploits pays the cost of conflict c.
+
+| | Rely | Verify |
+|---|---|---|
+| **Honour** | b, h | b, h - v |
+| **Exploit** | e - c, p h - (1-p) l | -f - c, p (h - v) - (1-p) v |
+
+Payoffs are (misaligned AI, human), with h = 2, l = 4, v = 1, b = 1, e = 3 and f = 1. The human's payoffs are expected over the type: an exploit costs it l only when the AI is in fact misaligned.
+
+- **Above `p* = 1 - v/l`** (0.75 here) the human relies without checking, and every misaligned AI exploits.
+- **Below `p*`** both mix. The human verifies at `(e - c - b) / (e + f)`, which does not depend on p. A misaligned AI exploits at `(v/l) / (1 - p)`, so the human is exploited in `v/l` of all meetings, whatever p is.
+- **From `c* = e - b`** (2 here) exploiting is dominated: every AI honours and the human relies.
+
+| Scenario | p | c | Misaligned AI exploits | Human verifies | Human exploited | Human gets |
+|----------|---|---|------------------------|----------------|-----------------|------------|
+| base | 0.5 | 0 | 0.5 | 0.5 | 0.25 | 0.5 |
+| rare | 0.25 | 0 | 1/3 | 0.5 | 0.25 | 0.5 |
+| common | 0.8 | 0 | 1 | 0 | 0.2 | 0.8 |
+| cost1 | 0.5 | 1 | 0.5 | 0.25 | 0.25 | 0.5 |
+| costly | 0.5 | 2.5 | 0 | 0 | 0 | 2 |
+
+Going from a quarter of AIs aligned to half does not make the human any safer: it is exploited in a quarter of meetings either way and gets 0.5 either way. When aligned AIs are more common, each misaligned one exploits more often, because the human's checks are set by the misaligned AI's payoffs, not by how many there are. Only above `p*`, where the human stops checking, does the share of aligned AIs matter, and then every misaligned AI exploits. A cost of conflict below `c*` does no better: at c = 1 the human checks half as often and is exploited just as often. At c = 2.5 nobody exploits, and the human gets the full 2 without knowing which AI is which.
+
+**For the project:** this is the inspection game of [§2](#2-audit-the-ai) with a type written in, and the same lesson comes back sharper: a penalty-like cost that stops short of making the bad act dominated changes how much checking is needed, not how often the human is harmed. Past `c*` the cost of conflict does more than lower a threshold: it makes the type irrelevant. Kinship's question was whether cooperation needs the AI to share the human's values. In this model it does not, once conflict costs enough; below that, it would need the human to know.
+
+**Checked:** Gambit (pygambit 16.7, `enummixed_solve`) and nashpy 0.0.43 (vertex enumeration), from payoffs built outside the model, find the same single equilibrium in all five scenarios.
+
+### 6.2 Can an AI Show It Is Aligned?
+
+**Model:** [signalling.yaml](../models/signalling.yaml).
+
+Before the human decides whether to trust it, the AI may send a signal, such as opening itself to an audit, that costs an aligned AI `s_aligned` and a misaligned one `s_misaligned`. Trusted, an aligned AI gets b = 1 and the human h = 2; a misaligned AI exploits, gets `e - c` (e = 3) and the human loses l = 4. Not trusted, nobody gets anything. With p = 0.5, trusting every AI would give the human -1, so without a signal it trusts none.
+
+The types choose only whether to signal, so a strategy is a plan for each type: the AI plays both, aligned_only, misaligned_only or neither (which types signal), and the human always, after_signal, after_none or never (when it trusts).
+
+The signal sorts the types, the aligned AI signalling and the misaligned one not, only when `s_aligned <= b` and `s_misaligned >= e - c`: it has to be worth it to the aligned AI and not to the misaligned one (Spence, 1973).
+
+| Scenario | s_aligned | s_misaligned | c | Besides "nobody signals" | "Nobody signals" survives the Intuitive Criterion |
+|----------|-----------|--------------|---|--------------------------|---------------------------------------------------|
+| base | 0.5 | 4 | 0 | sorting: only the aligned AI signals, and the human trusts a signal and nothing else | no |
+| same_cost | 0.5 | 0.5 | 0 | nothing | yes |
+| dear | 2 | 2 | 0 | nothing | yes |
+| cheap | 0.5 | 2 | 0 | half-sorting: the misaligned AI signals half the time, the human trusts a signal 2/3 of the time | yes |
+| conflict | 0.5 | 2 | 1.5 | sorting, as in base | no |
+
+A signal that costs both types the same never sorts them here: one that costs both the same is bought first by the misaligned AI, because it gains more from being trusted (3 against 1). At 0.5 both would pay it, so it says nothing; at 2 the aligned AI will not pay it, and the misaligned one alone would mark itself by signalling. A signal that is dearer for the misaligned AI, but still below its gain (`cheap`), half works: the misaligned AI signals half the time, just often enough that the human, trusting a signal 2/3 of the time, is indifferent. A cost of conflict of 1.5 (`conflict`) brings the misaligned AI's gain down to 1.5, below the signal's cost of 2, and the same signal sorts them again. The signal's cost and the cost of conflict add up: what matters is whether the signal costs the misaligned AI more than exploiting gains it.
+
+"Nobody signals, nobody is trusted" is an equilibrium in every scenario, held up by what the human would do after a signal nobody sends. In `base` and `conflict` that is not credible: a misaligned AI could never gain by signalling, so a signal can only come from an aligned AI, and the human should trust it (the Intuitive Criterion, Cho and Kreps, 1987). Forge finds Nash equilibria and does not apply the criterion; the last column is worked out by hand.
+
+**For the project:** if an AI's alignment is to be shown rather than assumed, the evidence has to be dearer for an AI that is not aligned: an audit a misaligned AI is likely to fail, not a statement any AI can make. Cheap talk sorts nothing. And the cost of conflict helps here too, by lowering what a misaligned AI gains from being trusted. This is an analogy, not a model of real audits: neither the costs nor the types of real AIs are known.
+
+**Checked:** Gambit (pygambit 16.7, `enummixed_solve`) and nashpy 0.0.43 (vertex enumeration), from payoffs built outside the model, find every equilibrium Forge finds in all five scenarios. The game is degenerate (a tie off the path of play), and both also find the far end of a line of equilibria where nobody signals and the human trusts a signal with some chance, up to `min(s_aligned / b, s_misaligned / (e - c))`. Forge lists one end of that line, as it warns it may.
+
+---
+
 ## References
 
 1. Axelrod, R. (1984). *The Evolution of Cooperation*. Basic Books.
-2. Luce, R.D. and Raiffa, H. (1957). *Games and Decisions*. Wiley.
-3. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
-4. Nowak, M.A. and Sigmund, K. (1993). A strategy of win-stay, lose-shift that outperforms tit-for-tat in the Prisoner's Dilemma game. *Nature*, 364, 56-58.
+2. Cho, I.-K. and Kreps, D.M. (1987). Signaling games and stable equilibria. *Quarterly Journal of Economics*, 102(2), 179-221.
+3. Harsanyi, J.C. (1967). Games with incomplete information played by "Bayesian" players, Part I. *Management Science*, 14(3), 159-182.
+4. Kreps, D.M., Milgrom, P., Roberts, J. and Wilson, R. (1982). Rational cooperation in the finitely repeated prisoners' dilemma. *Journal of Economic Theory*, 27(2), 245-252.
 5. Ledyard, J.O. (1995). Public goods: a survey of experimental research. In Kagel, J.H. and Roth, A.E. (eds), *The Handbook of Experimental Economics*. Princeton University Press.
-6. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
+6. Luce, R.D. and Raiffa, H. (1957). *Games and Decisions*. Wiley.
+7. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
+8. Nowak, M.A. and Sigmund, K. (1993). A strategy of win-stay, lose-shift that outperforms tit-for-tat in the Prisoner's Dilemma game. *Nature*, 364, 56-58.
+9. Spence, M. (1973). Job market signaling. *Quarterly Journal of Economics*, 87(3), 355-374.
+10. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
 
 ---
 

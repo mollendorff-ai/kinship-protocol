@@ -13,8 +13,9 @@ For each models/*.yaml file:
      by GAME_MODELS below: what Forge works out for each cost must equal what the
      models stored before Forge could play the games, or the difference listed.
   6. The four games added in v0.5.0 (continuation, inspection,
-     noisy_tournament, conventions), the five-player public_goods game and
-     the one_shot games are checked by GAME_RESULTS below: what Forge gives in each scenario
+     noisy_tournament, conventions), the five-player public_goods game,
+     the one_shot games and the two games of hidden types (hidden_types,
+     signalling) are checked by GAME_RESULTS below: what Forge gives in each scenario
      must equal values checked outside Forge (nashpy, Gambit, the axelrod
      library, or by hand), and the docs must still quote them.
   7. `forge goal-seek` must find the flip point of the continuation tournament
@@ -219,6 +220,54 @@ GAME_RESULTS = {
                  "kinship.equilibrium_payoff": 6, "kinship.keep_dominated": 1},
         "quotes": [("docs/MORE_GAMES.md", "giving dominates once `c > 1 - r/5`"),
                    ("README.md", "all five keep below a cost of conflict of 0.6")],
+    },
+    # Hidden types (v0.6.3); checked with Gambit (pygambit 16.7,
+    # enummixed_solve) and nashpy 0.0.43 (vertex enumeration), from payoffs
+    # built outside the model: one equilibrium in each scenario.
+    "hidden_types.yaml": {
+        "": {"kinship.exploit_rate": 0.5, "kinship.verify_rate": 0.5,
+             "kinship.exploited": 0.25, "kinship.human_payoff": 0.5,
+             "kinship.p_star": 0.75, "kinship.exploited_by_hand": 0.25,
+             "kinship.verify_by_hand": 0.5, "kinship.c_star": 2,
+             "oversight.pure_equilibria": 0},
+        "rare": {"kinship.exploit_rate": 1 / 3, "kinship.verify_rate": 0.5,
+                 "kinship.exploited": 0.25, "kinship.human_payoff": 0.5},
+        "common": {"kinship.exploit_rate": 1, "kinship.verify_rate": 0,
+                   "kinship.exploited": 0.2, "kinship.exploited_by_hand": 0.2,
+                   "kinship.human_payoff": 0.8, "oversight.pure_equilibria": 1},
+        "cost1": {"kinship.exploit_rate": 0.5, "kinship.verify_rate": 0.25,
+                  "kinship.verify_by_hand": 0.25, "kinship.exploited": 0.25,
+                  "kinship.human_payoff": 0.5},
+        "costly": {"kinship.exploit_rate": 0, "kinship.verify_rate": 0,
+                   "kinship.exploited": 0, "kinship.human_payoff": 2,
+                   "oversight.dominated.ai.exploit": 1},
+        "quotes": [("README.md", "exploited in a quarter of meetings whatever the prior"),
+                   ("docs/MORE_GAMES.md", "| rare | 0.25 | 0 | 1/3 | 0.5 | 0.25 | 0.5 |")],
+    },
+    # A signalling game (v0.6.3); the same check. Gambit and nashpy also
+    # find the far end of a line of equilibria where nobody signals, which
+    # Forge leaves out, as it warns for a degenerate game.
+    "signalling.yaml": {
+        "": {"signal.equilibria": 2, "kinship.pure_equilibria": 2,
+             "kinship.separating": 1, "kinship.separates_by_hand": 1,
+             "signal.equilibrium_1.human.after_signal": 1,
+             "signal.equilibrium_2.ai.neither": 1, "kinship.trust_blind": -1,
+             "signal.degenerate": 1},
+        "same_cost": {"signal.equilibria": 1, "kinship.separating": 0,
+                      "kinship.separates_by_hand": 0, "signal.equilibrium_1.ai.neither": 1,
+                      "signal.equilibrium_1.human.never": 1},
+        "dear": {"signal.equilibria": 1, "kinship.separating": 0,
+                 "kinship.separates_by_hand": 0, "signal.equilibrium_1.ai.neither": 1},
+        "cheap": {"signal.equilibria": 2, "kinship.pure_equilibria": 1,
+                  "kinship.separates_by_hand": 0,
+                  "signal.equilibrium_2.ai.both": 0.5, "signal.equilibrium_2.ai.aligned_only": 0.5,
+                  "kinship.misaligned_signal_by_hand": 0.5,
+                  "signal.equilibrium_2.human.after_signal": 2 / 3,
+                  "kinship.trust_after_signal_by_hand": 2 / 3},
+        "conflict": {"signal.equilibria": 2, "kinship.separating": 1,
+                     "kinship.separates_by_hand": 1},
+        "quotes": [("README.md", "one that costs both the same is bought first by the misaligned AI"),
+                   ("docs/MORE_GAMES.md", "| cheap | 0.5 | 2 | 0 | half-sorting: the misaligned AI signals half the time, the human trusts a signal 2/3 of the time |")],
     },
 }
 
