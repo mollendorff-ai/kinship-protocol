@@ -4,6 +4,10 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
+### Changed
+
+- CI checks the models with Forge 10.0.0-rc.32 (was rc.31). All 15 models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key.
+
 *Next, parked: v0.7.0, replicator dynamics (strategies that spread).*
 
 ---
