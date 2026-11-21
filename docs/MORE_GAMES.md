@@ -42,7 +42,7 @@ Against GrimTrigger, AlwaysDefect gets T - c once and P - c in every round after
 
 At w = 0.4 a defector gets 3.4 a round against GrimTrigger's 3, so it pays to defect. Add a cost of conflict of 0.5 and the same short horizon holds: the threshold falls to 0.375, the corrected figure in COOPERATION_THRESHOLDS.md §4.2. The tournament and the formula agree in every scenario (`kinship.agrees` is 1 in all four).
 
-**Checked:** by the closed form above, which gives the same four numbers.
+**Checked:** by the closed form above, which gives the same four numbers. Forge also finds the flip point without the formula: `forge goal-seek models/continuation.yaml --target defector_edge --value 0 --vary w` plays the tournament at each w and lands on 0.5 at c = 0, 0.375 at c = 0.5 and 0.25 at c = 1, exactly `w*`.
 
 ---
 

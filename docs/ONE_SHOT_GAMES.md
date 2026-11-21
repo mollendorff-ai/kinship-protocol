@@ -295,16 +295,19 @@ One-shot viability expands the boundary conditions:
 ### 8.1 Forge Model
 
 ```bash
-forge calculate models/one_shot.yaml
+forge calculate models/one_shot.yaml --dry-run
+forge game models/one_shot.yaml
 ```
+
+The three games are tables, and Forge works out what each strategy pays against a 50/50 opponent and which strategies are dominated. (Earlier versions typed every payoff and average in by hand.)
 
 **Key outputs:**
 
-- `ipd_critical_c`: 1.5
-- `sh_critical_c`: 1.0
-- `ch_critical_c`: 0.5
-- `ipd_critical_c_any_opponent`: 2 (defection pays against no opponent)
-- `nuke_coop_wins`: 1 (peace beats first strike)
+- `kinship.ipd_critical_c`: 1.5
+- `kinship.sh_critical_c`: 1.0
+- `kinship.ch_critical_c`: 0.5
+- `kinship.ipd_critical_c_any_opponent`: 2 (defection pays against no opponent). Forge confirms it as dominance: at c = 2.5 defecting in the dilemma is strictly dominated, and at exactly 2 it only ties.
+- `kinship.nuke_coop_wins`: 1 (peace beats first strike)
 
 ### 8.2 Verification
 
