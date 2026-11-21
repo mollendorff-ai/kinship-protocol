@@ -6,6 +6,14 @@ All notable findings and releases for the Kinship Protocol project.
 
 *Next, parked: v0.7.0, replicator dynamics (strategies that spread).*
 
+---
+
+## [0.6.1] - 2026-11-21
+
+### Forge Checks the Flip Point
+
+No result changes. The one-shot games are now worked out by Forge instead of typed in, `forge goal-seek` confirms the cooperation threshold by playing the tournament, and CI tags and publishes releases from this changelog.
+
 ### Changed
 
 - **`models/one_shot.yaml` is now three Forge games** (the dilemma, the stag hunt and chicken), not hand-typed payoffs and averages. Forge works out what each strategy pays against a 50/50 opponent (`even_mix`) and which strategies are dominated; the critical costs come out the same (1.5, 1.0, 0.5, and 2 against any opponent), and Forge confirms the 2 as dominance: at c = 2.5 defecting in the dilemma is strictly dominated, at exactly 2 it only ties. Output names moved from `assumptions.*` to `kinship.*`. `scripts/check_models.py` checks every scenario against exact fractions worked out without Forge.
