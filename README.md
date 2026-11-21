@@ -116,7 +116,7 @@ kinship-protocol/
 │   ├── axelrod_tournament.yaml     # 5-strategy tournament
 │   ├── ...                         # Stag hunt, chicken, predator-prey, edge cases
 │   ├── continuation.yaml, inspection.yaml, noisy_tournament.yaml, conventions.yaml  # v0.5.0 games
-│   ├── public_goods.yaml           # Five AIs in one game (after v0.5.0)
+│   ├── public_goods.yaml           # Five AIs in one game (v0.6.0)
 │   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
@@ -125,7 +125,7 @@ kinship-protocol/
 │   └── ...                         # Claude-to-Grok, thermodynamics
 ├── blog/               # Research notes (Hugo site)
 ├── DISCLAIMER.md       # Full honest position on limitations
-├── CHANGELOG.md        # Versioned research progression (v0.0.1 → v0.5.0)
+├── CHANGELOG.md        # Versioned research progression (v0.0.1 → v0.6.0)
 └── .asimov/            # Asimov orchestration config
 ```
 
@@ -133,13 +133,13 @@ kinship-protocol/
 
 ## Roadmap
 
-**Status:** v0.5.0 is complete. The models run, CI checks them, and the claims match the math.
+**Status:** v0.6.0 is complete. The models run, CI checks them, and the claims match the math.
 
 **v0.5.0: more games.** [Forge](https://github.com/mollendorff-ai/forge) works out equilibria and plays tournaments itself since 10.0.0-rc.30 (its game sections). The stag hunt, chicken and the Axelrod tournament are rewritten that way: Forge calculates what used to be typed in, and the tournament's crossover came out 0.108, not 0.1. Four new games are in [docs/MORE_GAMES.md](docs/MORE_GAMES.md): the threshold played as a tournament, an inspection game, a tournament with mistakes and a coordination game. The tournament with mistakes was expected to show a forgiving strategy winning; with this project's roster it does only when mistakes are rare.
 
-**Since v0.5.0, unreleased:** the first half of v0.6.0, five AIs in one public goods game ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §5). Forge finds pure equilibria for any number of players, so it did not need to wait.
+**v0.6.0: five AIs in one game.** A public goods game for the five sessions of the experiment ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §5), and the tournament with mistakes played again with nine strategies, where GrimTrigger is 4th even without mistakes. Forge finds pure equilibria for any number of players, so the game did not have to wait for replicator dynamics.
 
-**Next, parked: the rest of v0.6.0, replicator dynamics** (strategies that spread over generations). That is still on Forge's roadmap.
+**Next, parked: v0.7.0, replicator dynamics** (strategies that spread over generations). That is still on Forge's roadmap.
 
 **Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and asymmetric information. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 

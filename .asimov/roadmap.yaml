@@ -7,19 +7,17 @@
 # See: README.md for project overview
 
 current:
-  version: "0.5.0"
-  status: complete
-  released: "2026-11-20"
-  note: "The models, docs and CI are maintained. Since v0.5.0, unreleased: the five-player public goods game (the first half of v0.6.0). The rest of v0.6.0 is parked."
-
-# Parked: waits on Forge. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md.
-next:
   version: "0.6.0"
-  title: "Five AIs in one game"
+  status: complete
+  released: "2026-11-21"
+  note: "The models, docs and CI are maintained. Nothing is in progress; v0.7.0 is parked. v0.6.0: the five-player public goods game (models/public_goods.yaml, checked with Gambit) and a nine-strategy tournament with mistakes. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
+
+# Parked: waits on Forge.
+next:
+  version: "0.7.0"
+  title: "Strategies that spread"
   status: parked
   waits_on: "Forge T2-GAME-THEORY-MORE (strategies that spread)"
-  done:
-    - "A five-player public goods game, the project's own setup, with its pure equilibria checked (models/public_goods.yaml, Gambit; unreleased). Forge has found pure equilibria for any number of players since rc.30, so this did not need to wait"
   deliverables:
     - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
 
@@ -27,7 +25,7 @@ next:
 ideas:
   - "Formal proof using Folk Theorem foundations and Program Equilibrium applied to Kinship (once planned as v0.5.0)"
   - "Address the Orthogonality Thesis (Bostrom) mathematically"
-  - "N-player extensions beyond v0.6.0: coalitions, tragedy of the commons"
+  - "N-player extensions beyond v0.6.0: coalitions, a repeated public goods game"
   - "Asymmetric information: Bayesian games, signalling, reputation"
   - "Put the Grok and Copilot transcripts in the repo so the cross-AI table can be checked"
   - "KL divergence / FEP formalization (only if a rigorous mapping is found)"

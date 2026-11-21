@@ -76,7 +76,7 @@ And at 10%, the defectors win. Mistakes are so common that cooperation never run
 
 It doesn't, quite. Nowak and Sigmund's result is about a population evolving over generations: strategies that do badly become rarer, and once the exploiters have nobody left to exploit, generous tit-for-tat takes over.
 
-A single round-robin is a different test. AlwaysDefect and Random are in it from start to finish, so a strategy that forgives everyone keeps paying for it. The evolving version, where strategies spread or die out, is parked for v0.6.0 and waits on Forge.
+A single round-robin is a different test. AlwaysDefect and Random are in it from start to finish, so a strategy that forgives everyone keeps paying for it. The evolving version, where strategies spread or die out, is parked for v0.7.0 and waits on Forge.
 
 So the roadmap's prediction was not wrong about the world. It was wrong about this game. We kept the game and changed the prediction.
 
@@ -84,7 +84,7 @@ So the roadmap's prediction was not wrong about the world. It was wrong about th
 
 ## Update: It Depends Who Else Plays
 
-*Added after v0.5.0.*
+*Added in v0.6.0.*
 
 Forge has two strategies this tournament left out: Pavlov (win-stay, lose-shift), the textbook answer to noise, and suspicious tit-for-tat, which opens by defecting and then copies. We added both and played it again with nine.
 

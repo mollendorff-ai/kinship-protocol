@@ -1,6 +1,6 @@
 # More Games: Horizons, Audits, Mistakes, Norms and the Commons
 
-**Technical Note v1.1**
+**Technical Note v1.2**
 
 **Date:** 2026-11-21
 **Status:** Working Draft
@@ -17,7 +17,7 @@ Five more games, each a [Forge](https://github.com/mollendorff-ai/forge) model t
 | Audit the AI | [inspection.yaml](../models/inspection.yaml) | A harsher penalty makes the human audit less, not the AI cheat less; cheaper audits make it cheat less | Textbook (Tsebelis, 1989) |
 | Does forgiveness pay? | [noisy_tournament.yaml](../models/noisy_tournament.yaml) | With mistakes, never forgiving is what falls apart; forgiving wins only while mistakes are rare, and which forgiving strategy wins depends on who else plays | Checked; it contradicts what the roadmap expected |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
-| Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added after v0.5.0 |
+| Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added in v0.6.0 |
 
 None of these are new results. What they add is that the project's levers (the cost of conflict, the chance of meeting again) are put into games where they do not always work.
 
@@ -101,7 +101,7 @@ What the tournament shows:
 - **Forgiving everything does not pay here.** Generous TitForTat forgives AlwaysDefect and Random too, and they take advantage; it finishes 5th at 5%.
 - **When mistakes are common, nobody cooperates.** At 10% the two strategies that defect most come first; cooperation never gets going long enough to pay.
 
-The textbook result that generous TitForTat wins under noise (Nowak and Sigmund, 1992) is about a population evolving over generations, where strategies that do badly die out and stop feeding the exploiters. A single round-robin with AlwaysDefect and Random in it is a different test. Replicator dynamics, which would show the evolving version, are parked for v0.6.0.
+The textbook result that generous TitForTat wins under noise (Nowak and Sigmund, 1992) is about a population evolving over generations, where strategies that do badly die out and stop feeding the exploiters. A single round-robin with AlwaysDefect and Random in it is a different test. Replicator dynamics, which would show the evolving version, are parked for v0.7.0.
 
 **For the project:** "cooperation pays" needs the other side to be able to tell a mistake from a defection. With noisy signals, the right amount of forgiveness depends on who else is playing and how noisy the channel is.
 
@@ -116,7 +116,7 @@ The textbook result that generous TitForTat wins under noise (Nowak and Sigmund,
 
 ### 3.1 With Nine Players
 
-Added after v0.5.0. Forge has two more strategies the roster above leaves out: Pavlov (win-stay, lose-shift: repeat a move that paid, switch one that did not), the textbook answer to noise (Nowak and Sigmund, 1993), and suspicious TitForTat, which opens by defecting and then copies. The model's `clean_wide` and `noisy_wide` games play all nine; the seven-player results above are unchanged.
+Added in v0.6.0. Forge has two more strategies the roster above leaves out: Pavlov (win-stay, lose-shift: repeat a move that paid, switch one that did not), the textbook answer to noise (Nowak and Sigmund, 1993), and suspicious TitForTat, which opens by defecting and then copies. The model's `clean_wide` and `noisy_wide` games play all nine; the seven-player results above are unchanged.
 
 | Noise | Winner (payoff per round) | Second | GrimTrigger | Pavlov | Generous TitForTat |
 |-------|---------------------------|--------|-------------|--------|--------------------|
@@ -176,7 +176,7 @@ With no cost, they miss each other 52% of the time and each expects 1.2, less th
 
 ## 5. Five AIs in One Game
 
-**Model:** [public_goods.yaml](../models/public_goods.yaml). Added after v0.5.0; it is the first half of what the roadmap parked as v0.6.0.
+**Model:** [public_goods.yaml](../models/public_goods.yaml). Added in v0.6.0.
 
 The README's experiment asked five AI sessions the same question. Here the five play one game. Each holds 1 and, at the same moment as the others, gives it to a common pot or keeps it. The pot is multiplied by r and shared equally by all five, keepers included. Each one who keeps pays the cost of conflict c.
 
@@ -197,7 +197,7 @@ Switching from keep to give changes an AI's own payoff by `r/5 - (1 - c)`, whate
 
 With r = 2, all five keep below a cost of conflict of 0.6 and all five give above it. Below the line it is the prisoner's dilemma with five players: all five giving pays each 2, but each does better by keeping, so they end on 1. A cost of conflict of 0.5 does not help, it only makes the bad outcome worse (each gets 0.5). At 0.6 exactly, every profile is an equilibrium. With a pot worth six times what goes in, more than the number of players, each AI's own share of its own gift is worth more than the gift, and giving pays without any cost.
 
-**For the project:** the lever works with five players as with two, and the line has the same shape: the cost has to cover what keeping gains, `1 - r/5`. What changes with more players is that the line moves up: each giver's share of its own gift is `r/n`, so the more AIs share the pot, the larger the cost of conflict that cooperation needs. And this is a game played once. The repeated version, where the chance of meeting again does the work, is the [continuation](#1-when-cooperation-holds) game's territory, and strategies that spread over generations (replicator dynamics) still wait on Forge.
+**For the project:** the lever works with five players as with two, and the line has the same shape: the cost has to cover what keeping gains, `1 - r/5`. What changes with more players is that the line moves up: each giver's share of its own gift is `r/n`, so the more AIs share the pot, the larger the cost of conflict that cooperation needs. And this is a game played once. The repeated version, where the chance of meeting again does the work, is the [continuation](#1-when-cooperation-holds) game's territory, and strategies that spread over generations (replicator dynamics, parked for v0.7.0) still wait on Forge.
 
 Two of the five sessions were the same model (SuperGrok 4.1) in two modes. The players are named after the sessions to tie the game to the experiment, not because they would play differently: in this game all five have the same payoffs.
 
