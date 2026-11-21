@@ -48,9 +48,9 @@ The shadow of the future. Maps cooperation dynamics as time horizons shorten. Fi
 
 **[MORE_GAMES.md](MORE_GAMES.md)**
 
-Four Forge games added in v0.5.0: the cooperation threshold played as a tournament, an inspection game (audit the AI), a tournament with mistakes, and a coordination game over whose norms to follow.
+Forge games: four added in v0.5.0 (the cooperation threshold played as a tournament, an inspection game, a tournament with mistakes, a coordination game over whose norms to follow) and, since then, a five-player public goods game and a nine-strategy version of the tournament with mistakes.
 
-**Key result:** The project's levers do not always work. A harsher penalty does not make the AI cheat less, forgiveness pays only while mistakes are rare, and a cost of conflict does not fix coordination.
+**Key result:** The project's levers do not always work. A harsher penalty does not make the AI cheat less, forgiveness pays only while mistakes are rare (and which forgiving strategy wins depends on who else plays), and a cost of conflict does not fix coordination. With five players the cost-of-conflict lever works as with two, at a higher line (`1 - r/5`).
 
 ---
 
@@ -82,7 +82,7 @@ Model validation across 18 edge cases. Tests extreme values, boundary conditions
 | APEX_PARADOX | Asymmetric power dynamics | Restraint > extraction under uncertainty |
 | ONE_SHOT_GAMES | One-shot viability | Chicken enables one-shot cooperation |
 | SHORT_HORIZONS | Time horizon dynamics | Defection advantage capped; cooperation advantage unbounded as w → 1 |
-| MORE_GAMES | Inspection, noise, coordination, threshold as tournament | Penalties, forgiveness and costs each fail somewhere |
+| MORE_GAMES | Inspection, noise, coordination, threshold as tournament, five-player public goods | Penalties, forgiveness and costs each fail somewhere |
 | FAILURE_MODES | Boundary conditions | 7 failure modes with diagnostics and mitigations |
 | EDGE_CASES | Model validation | 18/18 tests pass, models robust |
 

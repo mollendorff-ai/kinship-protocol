@@ -2,7 +2,7 @@
 
 **Technical Note v1.1**
 
-**Date:** 2026-11-20
+**Date:** 2026-11-21
 **Status:** Working Draft
 
 ---
