@@ -20,8 +20,10 @@
 # worth more than the gift), giving pays without any cost.
 #
 # At c* exactly, each AI is indifferent, so all 32 profiles are pure
-# equilibria. Forge finds pure equilibria for any number of players
-# (10.0.0-rc.30 or later); mixed ones it finds only for two.
+# equilibria. The game is written in Forge's count form (10.0.0-rc.33 or
+# later): the five are alike, so a payoff is one formula for each strategy
+# over how many of the other four give, and Forge expands it into the 32
+# profiles. It used to be those 32 cells, written out by a script.
 #
 # Two of the five were the same model (SuperGrok 4.1) in two modes, so "five
 # AIs" is generous, as the README says. Textbook: Isaac and Walker (1988),
@@ -40,37 +42,10 @@ games:
     description: Five AIs give to a common pot or keep, at once
     players: [claude, grok_unhinged, grok_argumentative, copilot_free, copilot_m365]
     strategies: [give, keep]
-    payoffs:                          # one level per player, in the order of players
-      give:
-        give:
-          give:
-            give: {give: [=r*5/5, =r*5/5, =r*5/5, =r*5/5, =r*5/5], keep: [=r*4/5, =r*4/5, =r*4/5, =r*4/5, =1 - c + r*4/5]}
-            keep: {give: [=r*4/5, =r*4/5, =r*4/5, =1 - c + r*4/5, =r*4/5], keep: [=r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5, =1 - c + r*3/5]}
-          keep:
-            give: {give: [=r*4/5, =r*4/5, =1 - c + r*4/5, =r*4/5, =r*4/5], keep: [=r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5, =1 - c + r*3/5]}
-            keep: {give: [=r*3/5, =r*3/5, =1 - c + r*3/5, =1 - c + r*3/5, =r*3/5], keep: [=r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =1 - c + r*2/5]}
-        keep:
-          give:
-            give: {give: [=r*4/5, =1 - c + r*4/5, =r*4/5, =r*4/5, =r*4/5], keep: [=r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5]}
-            keep: {give: [=r*3/5, =1 - c + r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5], keep: [=r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5]}
-          keep:
-            give: {give: [=r*3/5, =1 - c + r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5], keep: [=r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5]}
-            keep: {give: [=r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5], keep: [=r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5]}
-      keep:
-        give:
-          give:
-            give: {give: [=1 - c + r*4/5, =r*4/5, =r*4/5, =r*4/5, =r*4/5], keep: [=1 - c + r*3/5, =r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5]}
-            keep: {give: [=1 - c + r*3/5, =r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5], keep: [=1 - c + r*2/5, =r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5]}
-          keep:
-            give: {give: [=1 - c + r*3/5, =r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5], keep: [=1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5]}
-            keep: {give: [=1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5], keep: [=1 - c + r*1/5, =r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5]}
-        keep:
-          give:
-            give: {give: [=1 - c + r*3/5, =1 - c + r*3/5, =r*3/5, =r*3/5, =r*3/5], keep: [=1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =r*2/5, =1 - c + r*2/5]}
-            keep: {give: [=1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =1 - c + r*2/5, =r*2/5], keep: [=1 - c + r*1/5, =1 - c + r*1/5, =r*1/5, =1 - c + r*1/5, =1 - c + r*1/5]}
-          keep:
-            give: {give: [=1 - c + r*2/5, =1 - c + r*2/5, =1 - c + r*2/5, =r*2/5, =r*2/5], keep: [=1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =r*1/5, =1 - c + r*1/5]}
-            keep: {give: [=1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =1 - c + r*1/5, =r*1/5], keep: [=1 - c + r*0/5, =1 - c + r*0/5, =1 - c + r*0/5, =1 - c + r*0/5, =1 - c + r*0/5]}
+    symmetric: true                   # the five are alike, so a payoff is by own strategy
+    payoffs:                          # and by how many of the other four give
+      give: =r * (commons.others.give + 1) / 5
+      keep: =1 - c + r * commons.others.give / 5
 
 kinship:
   pure_equilibria:

@@ -2,6 +2,14 @@
 
 All notable findings and releases for the Kinship Protocol project.
 
+## [Unreleased]
+
+### Changed
+
+- **`models/public_goods.yaml` is written in Forge's count form (rc.33).** The five AIs are alike, so each strategy has one formula over how many of the other four give (`commons.others.give`), where the model was 32 cells of five payoffs written by a script. Nothing it says changes: the same 1, 1, 32, 1 and 1 pure equilibria in the five scenarios, and the same payoffs and dominance, all pinned in `scripts/check_models.py` and unchanged. Breaking the keeper's payoff on purpose made the check fail.
+
+---
+
 ## [0.7.0] - 2026-11-22
 
 ### Strategies That Spread
