@@ -10,14 +10,14 @@ current:
   version: "0.6.2"
   status: complete
   released: "2026-11-21"
-  note: "The models, docs and CI are maintained. Nothing is in progress; v0.7.0 is parked. v0.6.0: the five-player public goods game (models/public_goods.yaml, checked with Gambit) and a nine-strategy tournament with mistakes. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
+  note: "The models, docs and CI are maintained. v0.6.3 (hidden types) is unreleased in CHANGELOG.md; v0.7.0 is ready to start. v0.6.0: the five-player public goods game (models/public_goods.yaml, checked with Gambit) and a nine-strategy tournament with mistakes. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
 
-# Parked: waits on Forge.
+# Unblocked: Forge 10.0.0-rc.33 has the dynamics: key (ADR-073).
 next:
   version: "0.7.0"
   title: "Strategies that spread"
-  status: parked
-  waits_on: "Forge T2-GAME-THEORY-MORE (strategies that spread)"
+  status: ready
+  unblocked_by: "Forge 10.0.0-rc.33: dynamics: (discrete replicator equation) and symmetric games of many players in the count form"
   deliverables:
     - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
 

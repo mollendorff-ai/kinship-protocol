@@ -14,9 +14,9 @@ v0.6.3, hidden types: two games where the human cannot tell an aligned AI from a
 
 ### Changed
 
-- CI checks the models with Forge 10.0.0-rc.32 (was rc.31). All 15 models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key.
+- CI checks the models with Forge 10.0.0-rc.33 (was rc.31; rc.32 was checked on the way). All 17 models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key. rc.33 adds symmetric games of many players in a count form and the `dynamics:` key (replicator dynamics), which unpark v0.7.0. `models/README.md` names rc.33 in its install lines (it still said rc.31).
 
-*Next, parked: v0.7.0, replicator dynamics (strategies that spread).*
+*Next: v0.7.0, replicator dynamics (strategies that spread), now that Forge rc.33 has `dynamics:`.*
 
 ---
 
