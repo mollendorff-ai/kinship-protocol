@@ -28,6 +28,8 @@ next:
   routes:
     - "A Forge change: forge validate checks the stored results of each scenario (an ADR in Forge first; Forge's rules apply: 100% coverage, pedantic clippy)"
     - "No Forge change: committed golden output (forge compare --format csv, forge calculate) that CI diffs with plain shell; weaker, since a golden file is regenerated, not stated"
+  blocked_by:
+    - "forge bayesian reads literal numbers only (a formula in a prior or a cpt is refused: 'invalid type: string, expected f64') and takes no --scenario. mistake_or_defection.yaml's nine settings of the prior and the noise are therefore checked by a Python script that rewrites the network and compares forge bayesian with Bayes' rule in exact fractions. A Forge formula can give Bayes' rule by hand for each setting, but nothing then checks the network engine at those settings. Either Forge's networks take scalars and scenarios (a Forge change), or the check is reduced to the base network plus a formula table."
   acceptance: "CI's check job runs only forge and shell; breaking a value in any model fails it, as it does today; every figure the docs quote is still pinned"
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.
