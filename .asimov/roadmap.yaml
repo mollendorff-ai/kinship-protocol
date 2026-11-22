@@ -42,3 +42,4 @@ ideas:
   - "KL divergence / FEP formalization (only if a rigorous mapping is found)"
   - "public_goods.yaml in Forge's count form (two lines instead of 32 cells), keeping its 1, 1, 32, 1, 1 pure equilibria"
   - "A two-variable table of w* (cost of conflict by temptation) with forge sensitivity, hand-checked"
+  - "Stability of mixed equilibria (Forge's <game>.equilibrium_<k>.stable): only spread.yaml shows it. Say in stag_hunt.yaml, chicken.yaml and inspection.yaml whether a population returns to the mix, and what that means for cooperation"
