@@ -2,9 +2,11 @@
 
 All notable findings and releases for the Kinship Protocol project.
 
-## [Unreleased]
+## [0.7.0] - 2026-11-22
 
-v0.7.0, strategies that spread: what takes over a population of AIs that copy whatever earns more. Also two games where the human cannot tell an aligned AI from a misaligned one (once planned as v0.6.3).
+### Strategies That Spread
+
+What takes over a population of AIs that copy whatever earns more, with Forge following the population generation by generation. Cooperation spreads only from enough reciprocators, a forgiving strategy takes over at every level of mistakes tried (and can later be lost), and a Monte Carlo over the whole game puts the chance at about 71% under uncertain horizons, costs and starts. Also two games where the human cannot tell an aligned AI from a misaligned one (once planned as v0.6.3).
 
 ### Added
 
@@ -19,7 +21,7 @@ v0.7.0, strategies that spread: what takes over a population of AIs that copy wh
 
 ### Changed
 
-- CI checks the models with Forge 10.0.0-rc.33 (was rc.31; rc.32 was checked on the way). All 17 models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key. rc.33 adds symmetric games of many players in a count form and the `dynamics:` key (replicator dynamics), which unpark v0.7.0. `models/README.md` names rc.33 in its install lines (it still said rc.31).
+- CI checks the models with Forge 10.0.0-rc.33 (was rc.31; rc.32 was checked on the way). All 17 earlier models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key. rc.33 adds symmetric games of many players in a count form and the `dynamics:` key (replicator dynamics), which unpark v0.7.0. `models/README.md` names rc.33 in its install lines (it still said rc.31).
 
 *Next: ideas only; see .asimov/roadmap.yaml.*
 
