@@ -85,6 +85,18 @@ ANALYTICS = [
     ("calculate", "five_ais_bootstrap.yaml",
      r"assumptions\.exact_lower_95 = ([\d.]+)", 0.478, 0.0005,
      "README.md", "as low as 48%"),
+    # Monte Carlo over a game with dynamics: (v0.7.0). 10,000 draws of w, c
+    # and the starting share; Forge plays the tournament and the population
+    # for each. Every draw goes where x* says (agrees: min 1).
+    ("simulate", "spread_monte_carlo.yaml",
+     r"P\(kinship\.spreads > 0\.5\) = ([\d.]+)%", 71.15, 0.05,
+     "README.md", "in about 71% of the draws"),
+    ("simulate", "spread_monte_carlo.yaml",
+     r"(?s)kinship\.agrees:.*?Min:\s+([\d.]+)", 1.0, 1e-9,
+     "docs/MORE_GAMES.md", "all 10,000 draws go where `x*` says"),
+    ("simulate", "spread_monte_carlo.yaml",
+     r"(?s)kinship\.spreads:.*?Drivers[^\n]*\n\s+\+[\d.]+\s+assumptions\.(\w+)", "w", None,
+     "docs/MORE_GAMES.md", "the chance of meeting again matters most"),
 ]
 
 

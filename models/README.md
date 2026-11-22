@@ -34,6 +34,7 @@ These use Forge's analysis commands instead of `forge calculate`. Each run is se
 | Model | Command | Result |
 |-------|---------|--------|
 | [cooperation_monte_carlo.yaml](analytics/cooperation_monte_carlo.yaml) | `forge simulate` | Cooperation pays in 90.3% of 10,000 draws; the chance of meeting again is the biggest driver |
+| [spread_monte_carlo.yaml](analytics/spread_monte_carlo.yaml) | `forge simulate` over a game | Cooperation spreads in 71.2% of 10,000 draws of w, c and the starting share; each draw plays the tournament and the population; the chance of meeting again is the biggest driver |
 | [cooperation_tornado.yaml](analytics/cooperation_tornado.yaml) | `forge tornado` | Cost of conflict swings the threshold by 0.5, temptation by 0.33, reward by 0.25, punishment by 0.10 |
 | [restraint_option.yaml](analytics/restraint_option.yaml) | `forge real-options` | The option to defect later adds 27.70 to restraint's 112.5 lead (American put, 100-step binomial tree) |
 | [five_ais_bootstrap.yaml](analytics/five_ais_bootstrap.yaml) | `forge bootstrap` | Bootstrap interval 100% to 100%; exact 95% lower bound 47.8% |

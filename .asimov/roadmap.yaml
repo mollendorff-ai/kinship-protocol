@@ -14,6 +14,21 @@ current:
   deliverables:
     - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml (spread.yaml, ecology.yaml)"
     - "Hidden types: hidden_types.yaml and signalling.yaml"
+    - "Monte Carlo over a game: models/analytics/spread_monte_carlo.yaml asks how likely cooperation is to spread when w, c and the starting share are uncertain (forge simulate over a game with dynamics:); it runs 600 generations, since a start near x* leaves it slowly and 60 is too short"
+
+# Planned. Needs a decision before it starts: how Forge checks expected values per scenario.
+next:
+  version: "0.8.0"
+  title: "Forge only"
+  status: planned
+  why: "The models are there to show what Forge can do, and the CI check that pins their figures is a Python script (scripts/check_models.py, the only Python in the repo). Forge validates a model's stored values but only for the base case: forge validate takes no --scenario, and most of the figures live in scenarios."
+  deliverables:
+    - "Every check runs through Forge (and plain shell): no .py file in the repo, scripts/check_models.py gone"
+    - "Expected figures live beside the model they belong to, not in a script"
+  routes:
+    - "A Forge change: forge validate checks the stored results of each scenario (an ADR in Forge first; Forge's rules apply: 100% coverage, pedantic clippy)"
+    - "No Forge change: committed golden output (forge compare --format csv, forge calculate) that CI diffs with plain shell; weaker, since a golden file is regenerated, not stated"
+  acceptance: "CI's check job runs only forge and shell; breaking a value in any model fails it, as it does today; every figure the docs quote is still pinned"
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.
 ideas:
@@ -23,3 +38,5 @@ ideas:
   - "Reputation over repeated play: hidden types in a repeated game (Kreps, Milgrom, Roberts and Wilson, 1982). v0.7.0 has the one-shot games (hidden_types.yaml, signalling.yaml); the repeated ones need repeated games with hidden types in Forge"
   - "Put the Grok and Copilot transcripts in the repo so the cross-AI table can be checked"
   - "KL divergence / FEP formalization (only if a rigorous mapping is found)"
+  - "public_goods.yaml in Forge's count form (two lines instead of 32 cells), keeping its 1, 1, 32, 1, 1 pure equilibria"
+  - "A two-variable table of w* (cost of conflict by temptation) with forge sensitivity, hand-checked"

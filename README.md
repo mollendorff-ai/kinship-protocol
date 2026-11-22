@@ -89,11 +89,12 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 
 ## Stress Tests
 
-The findings above use fixed payoffs. Four [Forge](https://github.com/mollendorff-ai/forge) analyses in [models/analytics/](models/analytics/) ask what happens when the numbers are uncertain, and one turns the joke into arithmetic. CI checks each figure below against Forge's output.
+The findings above use fixed payoffs. Five [Forge](https://github.com/mollendorff-ai/forge) analyses in [models/analytics/](models/analytics/) ask what happens when the numbers are uncertain, and one turns the joke into arithmetic. CI checks each figure below against Forge's output.
 
 | Question | Forge feature | Answer | Status |
 |----------|---------------|--------|--------|
 | Does cooperation still pay when nobody knows the payoffs exactly? | Monte Carlo (10,000 draws) | Yes, in about 90% of the draws. The chance of meeting again matters more than any payoff. | Serious, but the answer follows from the ranges I picked |
+| Will cooperation spread when nobody knows how long AIs expect to meet, what conflict costs, or how many reciprocate at the start? | Monte Carlo over a game (10,000 draws; Forge plays the tournament and the population for each) | Yes, in about 71% of the draws. The chance of meeting again matters most, then the cost of conflict. | Serious, but the answer follows from the ranges I picked |
 | Which assumption matters most for the threshold? | Tornado | The cost of conflict moves the threshold most (by 0.5), then the temptation to defect | Serious |
 | Is restraint worth more than its head start? | Real options (binomial tree) | Restraint wins by 112.5, and keeping the option to defect later is worth another 27.7. Destroying the prey is irreversible; restraint keeps the choice open. | Serious analogy, borrowed from finance |
 | What do five AIs agreeing prove? | Bootstrap, plus an exact bound | The bootstrap says agreement runs from 100% to 100%, which only shows it cannot see past five answers. The exact 95% bound says the real rate could be as low as 48%, and two sessions were the same model. | The joke, with the error bars it deserves |
@@ -124,7 +125,7 @@ kinship-protocol/
 │   ├── mistake_or_defection.yaml   # Bayesian network: a slip or a defection?
 │   ├── hidden_types.yaml, signalling.yaml  # Aligned or not? Hidden types (v0.7.0)
 │   ├── spread.yaml, ecology.yaml   # Strategies that spread (v0.7.0)
-│   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
+│   └── analytics/                  # Monte Carlo (also over a game), tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
 │   ├── what-about-us.md            # "Complementary unreliability" discovery
