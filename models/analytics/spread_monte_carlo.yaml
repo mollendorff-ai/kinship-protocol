@@ -1,0 +1,97 @@
+# Will Cooperation Spread? (Monte Carlo over a game)
+# ===================================================
+# Run: forge simulate models/analytics/spread_monte_carlo.yaml
+#
+# models/spread.yaml asks, for one setting, how many reciprocators a
+# population needs before cooperation spreads instead of dying out. Nobody
+# knows the setting. Here the chance of meeting again (w), the cost of
+# conflict (c) and the share of reciprocators at the start are uncertain,
+# and Forge plays the whole game for each draw: the tournament, then the
+# population changing generation by generation (`dynamics:`).
+#
+# The ranges are mine, not measured. w from 0.3 to 0.9 spans a short horizon
+# (below w* = 0.5 at no cost, nothing spreads) to a long one; c from 0 to 1
+# is none to P - S; the start covers nearly every share. The answer follows
+# from them, as with cooperation_monte_carlo.yaml.
+#
+# `agrees` is 1 when the population went where x* (spread.yaml) says it
+# would. It is a check Forge makes of itself on every draw: the dynamics
+# against the formula. A start just above x* leaves it slowly, so with too
+# few generations it has not crossed one half yet: of 10,000 draws, 34
+# disagree after 60 generations, 4 after 200 and none after 600, which is
+# why this runs 600 (spread.yaml's scenarios start far from x*, and run 60).
+
+_forge_version: "5.5.0"
+
+monte_carlo:
+  enabled: true
+  iterations: 10000
+  sampling: latin_hypercube
+  seed: 42
+  outputs:
+    - variable: kinship.spreads
+      percentiles: [50]
+      threshold: "> 0.5"
+    - variable: kinship.agrees
+      percentiles: [50]
+
+assumptions:
+  w:
+    formula: "=MC.Uniform(0.3, 0.9)"
+    notes: The chance that a match goes on after a round
+  c:
+    formula: "=MC.Uniform(0, 1)"
+    notes: The cost of conflict, from none to P - S
+  start:
+    formula: "=MC.Uniform(0.05, 0.95)"
+    notes: The share of reciprocators in the first generation
+
+dilemma_payoffs:
+  T: 5    # temptation: defect against a cooperator
+  R: 3    # reward: both cooperate
+  P: 1    # punishment: both defect
+  S: 0    # sucker: cooperate against a defector
+
+games:
+  dilemma:
+    description: The prisoner's dilemma, one round
+    players: [me, you]
+    strategies: [cooperate, defect]   # a tournament reads the first as cooperate
+    symmetric: true
+    payoffs:
+      cooperate: {cooperate: =R, defect: =S}
+      defect: {cooperate: =T - assumptions.c, defect: =P - assumptions.c}
+  matches:
+    description: GrimTrigger and AlwaysDefect in matches that end at random
+    tournament:
+      round: dilemma
+      players:
+        grim: grim_trigger
+        ad: always_defect
+      continuation: =assumptions.w
+      self_play: true
+  population:
+    description: AIs that copy what earns more, meeting in those matches
+    players: [me, you]
+    strategies: [grim, ad]
+    symmetric: true
+    payoffs:
+      grim: {grim: =matches.match.grim.grim, ad: =matches.match.grim.ad}
+      ad: {grim: =matches.match.ad.grim, ad: =matches.match.ad.ad}
+    dynamics:
+      start: {grim: =assumptions.start, ad: =1 - assumptions.start}
+      generations: 600
+
+kinship:
+  threshold:
+    formula: "=(T - assumptions.c - R) / (T - P)"
+    notes: w*, from which GrimTrigger holds against AlwaysDefect
+  barrier:
+    formula: "=IF(assumptions.w > threshold, (1 - assumptions.w) * (P - assumptions.c - S) / ((1 - assumptions.w) * (P - assumptions.c - S) + R - (1 - assumptions.w) * (T - assumptions.c) - assumptions.w * (P - assumptions.c)), 1)"
+    notes: x*, the share of reciprocators from which cooperation spreads (1 when nothing short of everyone is enough)
+  spreads:
+    formula: "=IF(population.dynamics.share.grim > 0.5, 1, 0)"
+    notes: 1 when cooperation took over
+  agrees:
+    formula: "=IF(spreads = IF(assumptions.start > barrier, 1, 0), 1, 0)"
+    notes: 1 when the population went where x* says it would

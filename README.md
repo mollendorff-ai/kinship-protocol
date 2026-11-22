@@ -79,6 +79,8 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 - **Telling a slip from a defection depends on how rare defectors are.** A Bayesian network in Forge shows that when defectors are rare and mistakes common, one defection is more likely a slip: with 1 defector in 100 and 5% noise it takes two before "defector" is the better reading. When 1 in 10 is a defector, one is enough. That is TitForTwoTats' rule against TitForTat's — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook Bayes)
 - **With five players the lever works as with two.** In a one-shot public goods game between the five AI sessions, all five keep below a cost of conflict of 0.6 and all five give above it (`1 - r/5`, with the pot doubled); the more players share the pot, the higher the line. Forge finds the equilibria and Gambit agrees — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **When the human cannot tell an aligned AI from a misaligned one, more aligned AIs do not make it safer.** In an oversight game with a hidden type, below a prior of 0.75 the human is exploited in a quarter of meetings whatever the prior is, because each misaligned AI exploits more often when they are rarer. A cost of conflict of 2 makes exploiting dominated, and then nobody needs to know which AI is which. A signal of alignment sorts the AIs only if it is dearer for a misaligned AI than what exploiting gains it: one that costs both the same is bought first by the misaligned AI, which gains more from being trusted. Forge finds the equilibria, and Gambit and nashpy agree — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) §6 (textbook: Tsebelis, Spence)
+- **In a population, cooperating needs enough others who do.** When AIs copy whatever earns more, reciprocators take over only from a big enough start: at a chance of meeting again of 0.6 and no cost, half the AIs must start out reciprocating, or they die out. A cost of conflict of 0.5 lowers that to 18%, and below `w*` no start is enough. The lever that lowers `w*` also lowers how many must go first — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) §7 (textbook: Axelrod, Nowak)
+- **When strategies spread, forgiveness wins, for a while.** Let the nine strategies of the tournament with mistakes spread by what they earn, and a forgiving one takes over at every level of mistakes tried: Pavlov at 1%, generous TitForTat at 5% and 10%. AlwaysDefect, second in the round-robin at 10% noise, dies out once there is no one left to exploit. But a population of Pavlovs is later taken over by GrimTrigger, which was never quite gone, and everyone ends up earning half as much. Forge does all of the arithmetic, and each figure is a result of the model, checked in CI — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) §7 (textbook: Axelrod; Nowak and Sigmund)
 - **A cost of conflict does not fix coordination.** When human and AI prefer different norms, they miss each other about half the time whatever a miss costs; a convention fixes it — see [docs/MORE_GAMES.md](docs/MORE_GAMES.md) (textbook)
 - **7 explicit failure modes** where cooperation breaks down — see [docs/FAILURE_MODES.md](docs/FAILURE_MODES.md)
 - **Prior art exists** (Gauthier, Binmore, Barasz et al.) — we synthesize, not claim novelty — see [docs/LITERATURE_SYNTHESIS.md](docs/LITERATURE_SYNTHESIS.md)
@@ -87,11 +89,12 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full honest position.
 
 ## Stress Tests
 
-The findings above use fixed payoffs. Four [Forge](https://github.com/mollendorff-ai/forge) analyses in [models/analytics/](models/analytics/) ask what happens when the numbers are uncertain, and one turns the joke into arithmetic. CI checks each figure below against Forge's output.
+The findings above use fixed payoffs. Five [Forge](https://github.com/mollendorff-ai/forge) analyses in [models/analytics/](models/analytics/) ask what happens when the numbers are uncertain, and one turns the joke into arithmetic. CI checks each figure below against Forge's output.
 
 | Question | Forge feature | Answer | Status |
 |----------|---------------|--------|--------|
 | Does cooperation still pay when nobody knows the payoffs exactly? | Monte Carlo (10,000 draws) | Yes, in about 90% of the draws. The chance of meeting again matters more than any payoff. | Serious, but the answer follows from the ranges I picked |
+| Will cooperation spread when nobody knows how long AIs expect to meet, what conflict costs, or how many reciprocate at the start? | Monte Carlo over a game (10,000 draws; Forge plays the tournament and the population for each) | Yes, in about 71% of the draws. The chance of meeting again matters most, then the cost of conflict. | Serious, but the answer follows from the ranges I picked |
 | Which assumption matters most for the threshold? | Tornado | The cost of conflict moves the threshold most (by 0.5), then the temptation to defect | Serious |
 | Is restraint worth more than its head start? | Real options (binomial tree) | Restraint wins by 112.5, and keeping the option to defect later is worth another 27.7. Destroying the prey is irreversible; restraint keeps the choice open. | Serious analogy, borrowed from finance |
 | What do five AIs agreeing prove? | Bootstrap, plus an exact bound | The bootstrap says agreement runs from 100% to 100%, which only shows it cannot see past five answers. The exact 95% bound says the real rate could be as low as 48%, and two sessions were the same model. | The joke, with the error bars it deserves |
@@ -120,8 +123,9 @@ kinship-protocol/
 │   ├── continuation.yaml, inspection.yaml, noisy_tournament.yaml, conventions.yaml  # v0.5.0 games
 │   ├── public_goods.yaml           # Five AIs in one game (v0.6.0)
 │   ├── mistake_or_defection.yaml   # Bayesian network: a slip or a defection?
-│   ├── hidden_types.yaml, signalling.yaml  # Aligned or not? Hidden types (v0.6.3)
-│   └── analytics/                  # Monte Carlo, tornado, real options, bootstrap
+│   ├── hidden_types.yaml, signalling.yaml  # Aligned or not? Hidden types (v0.7.0)
+│   ├── spread.yaml, ecology.yaml   # Strategies that spread (v0.7.0)
+│   └── analytics/                  # Monte Carlo (also over a game), tornado, real options, bootstrap
 ├── dialogues/          # Primary source conversations (human-AI, AI-AI)
 │   ├── rex-claude-kinship.md       # Original hypothesis conversation
 │   ├── what-about-us.md            # "Complementary unreliability" discovery
@@ -129,7 +133,7 @@ kinship-protocol/
 │   └── ...                         # Claude-to-Grok, thermodynamics
 ├── blog/               # Research notes (Hugo site)
 ├── DISCLAIMER.md       # Full honest position on limitations
-├── CHANGELOG.md        # Versioned research progression (v0.0.1 → v0.6.2)
+├── CHANGELOG.md        # Versioned research progression (v0.0.1 → v0.7.0)
 └── .asimov/            # Asimov orchestration config
 ```
 
@@ -137,15 +141,13 @@ kinship-protocol/
 
 ## Roadmap
 
-**Status:** v0.6.2 is complete. The models run, CI checks them, and the claims match the math.
+**Status:** v0.7.0 is in progress (unreleased). The models run, CI checks them, and the claims match the math.
 
 **v0.5.0: more games.** [Forge](https://github.com/mollendorff-ai/forge) works out equilibria and plays tournaments itself since 10.0.0-rc.30 (its game sections). The stag hunt, chicken and the Axelrod tournament are rewritten that way: Forge calculates what used to be typed in, and the tournament's crossover came out 0.108, not 0.1. Four new games are in [docs/MORE_GAMES.md](docs/MORE_GAMES.md): the threshold played as a tournament, an inspection game, a tournament with mistakes and a coordination game. The tournament with mistakes was expected to show a forgiving strategy winning; with this project's roster it does only when mistakes are rare.
 
 **v0.6.0: five AIs in one game.** A public goods game for the five sessions of the experiment ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §5), and the tournament with mistakes played again with nine strategies, where GrimTrigger is 4th even without mistakes. Forge finds pure equilibria for any number of players, so the game did not have to wait for replicator dynamics.
 
-**Next, parked: v0.7.0, replicator dynamics** (strategies that spread over generations). That is still on Forge's roadmap.
-
-**v0.6.3 (unreleased): hidden types.** Two games where the human cannot tell an aligned AI from a misaligned one: oversight with a hidden type, and a signalling game ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §6). Reputation over repeated play needs repeated games with hidden types, which Forge does not have.
+**v0.7.0 (unreleased): strategies that spread, and hidden types.** Forge 10.0.0-rc.33 follows a population by the replicator equation (its `dynamics:` key), so the games can now ask what spreads, not only what an AI should do: how many AIs must start out reciprocating before cooperation spreads, and which of the nine strategies of the tournament with mistakes takes over a population ([docs/MORE_GAMES.md](docs/MORE_GAMES.md) §7). Also two games where the human cannot tell an aligned AI from a misaligned one: oversight with a hidden type, and a signalling game (§6). Reputation over repeated play needs repeated games with hidden types, which Forge does not have.
 
 **Not planned:** a formal proof that cooperation dominates (once planned as v0.5.0), coalitions and reputation over repeated play. A proof of "ethics is derivable" will not come out of a hobby repo, and the Orthogonality Thesis (Bostrom) is a serious objection I have not answered. Pull requests that take any of these on are welcome; I will not be driving them.
 

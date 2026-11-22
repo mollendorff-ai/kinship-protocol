@@ -19,6 +19,8 @@ Executable via [Forge](https://github.com/mollendorff-ai/forge).
 | [mistake_or_defection.yaml](mistake_or_defection.yaml) | Bayesian network: is a defection a slip? (`forge bayesian`) | With 1 defector in 100 and 5% noise, one defection says 16% and two say 78%; at 1 in 10, one says 68% | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [hidden_types.yaml](hidden_types.yaml) | Oversight when the AI's type is hidden | Below p* = 0.75 the human is exploited in 1/4 of meetings whatever p is; from c* = 2 nobody exploits; checked with Gambit and nashpy | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [signalling.yaml](signalling.yaml) | Can an AI show it is aligned? (signalling game) | A signal sorts the types only if it costs a misaligned AI at least its gain (`e - c`); costing both the same, it never does; checked with Gambit and nashpy | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [spread.yaml](spread.yaml) | A population of reciprocators and defectors (`dynamics:`) | Cooperation spreads only from `x*` reciprocators: 1/2 at w = 0.6, 2/11 with c = 0.5, none below `w*`; Forge's equilibrium finder agrees with the formula | [MORE_GAMES](../docs/MORE_GAMES.md) |
+| [ecology.yaml](ecology.yaml) | The nine strategies with mistakes, spreading by what they earn | Pavlov takes over at 1% noise, generous TitForTat at 5% and 10%; the round-robin's defectors die out; GrimTrigger later takes over from Pavlov (generation 2,961); every figure is a Forge result | [MORE_GAMES](../docs/MORE_GAMES.md) |
 | [predator_prey.yaml](predator_prey.yaml) | Asymmetric power dynamics | Restraint wins when g·m·δ > 1 - c/v (202.5 vs 90 at base parameters) | [APEX_PARADOX](../docs/APEX_PARADOX.md) |
 | [one_shot.yaml](one_shot.yaml) | One-shot games (dilemma, stag hunt, chicken), worked out by Forge | One-shot c*: IPD 1.5, Stag Hunt 1.0, Chicken 0.5 (50/50 opponent) | [ONE_SHOT_GAMES](../docs/ONE_SHOT_GAMES.md) |
 | [short_horizon.yaml](short_horizon.yaml) | Time horizon sweep | Defection advantage capped at 2; cooperation advantage unbounded as w → 1 | [SHORT_HORIZONS](../docs/SHORT_HORIZONS.md) |
@@ -32,6 +34,7 @@ These use Forge's analysis commands instead of `forge calculate`. Each run is se
 | Model | Command | Result |
 |-------|---------|--------|
 | [cooperation_monte_carlo.yaml](analytics/cooperation_monte_carlo.yaml) | `forge simulate` | Cooperation pays in 90.3% of 10,000 draws; the chance of meeting again is the biggest driver |
+| [spread_monte_carlo.yaml](analytics/spread_monte_carlo.yaml) | `forge simulate` over a game | Cooperation spreads in 71.2% of 10,000 draws of w, c and the starting share; each draw plays the tournament and the population; the chance of meeting again is the biggest driver |
 | [cooperation_tornado.yaml](analytics/cooperation_tornado.yaml) | `forge tornado` | Cost of conflict swings the threshold by 0.5, temptation by 0.33, reward by 0.25, punishment by 0.10 |
 | [restraint_option.yaml](analytics/restraint_option.yaml) | `forge real-options` | The option to defect later adds 27.70 to restraint's 112.5 lead (American put, 100-step binomial tree) |
 | [five_ais_bootstrap.yaml](analytics/five_ais_bootstrap.yaml) | `forge bootstrap` | Bootstrap interval 100% to 100%; exact 95% lower bound 47.8% |
@@ -41,8 +44,8 @@ All four results were also recomputed independently in Python (NumPy, a separate
 
 ## Running Models
 
-Install Forge 10.0.0-rc.30 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.31`.
-Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need; CI runs rc.31.
+Install Forge 10.0.0-rc.30 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.33`.
+Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need; CI runs rc.33.
 Use `--dry-run` to print results without touching the file.
 Without it, `forge calculate` writes the results back into the model and keeps a `.bak` copy.
 
@@ -107,7 +110,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-cargo install mollendorff-forge --version 10.0.0-rc.31  # or see github.com/mollendorff-ai/forge
+cargo install mollendorff-forge --version 10.0.0-rc.33  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'

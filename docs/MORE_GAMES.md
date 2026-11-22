@@ -1,15 +1,15 @@
-# More Games: Horizons, Audits, Mistakes, Norms, the Commons and Hidden Types
+# More Games: Horizons, Audits, Mistakes, Norms, the Commons, Hidden Types and Populations
 
-**Technical Note v1.4**
+**Technical Note v1.5**
 
-**Date:** 2026-11-21
+**Date:** 2026-11-22
 **Status:** Working Draft
 
 ---
 
 ## Abstract
 
-More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
+More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|
@@ -19,8 +19,10 @@ More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that w
 | Mistake or defection? | [mistake_or_defection.yaml](../models/mistake_or_defection.yaml) | When defectors are rare and mistakes common, one defection is more likely a slip: it takes two or three before "defector" is the better reading | Textbook Bayes' rule; added in v0.6.2 |
 | Whose conventions? | [conventions.yaml](../models/conventions.yaml) | When human and AI prefer different norms, a cost of conflict hardly helps; giving way does | Textbook (Luce and Raiffa, 1957) |
 | Five AIs in one game | [public_goods.yaml](../models/public_goods.yaml) | With five players the cost of conflict works as it does with two: below a line all five keep, above it all five give | Textbook (Ledyard, 1995); added in v0.6.0 |
-| Aligned or not? | [hidden_types.yaml](../models/hidden_types.yaml) | When the human cannot tell which AI it faces, more aligned AIs do not make it safer until it stops checking; a cost of conflict that makes exploiting dominated means nobody needs to know | Textbook (Tsebelis, 1989, with a type); added in v0.6.3 |
-| Can an AI show it is aligned? | [signalling.yaml](../models/signalling.yaml) | A signal sorts aligned from misaligned AIs only if it is dearer for the misaligned one; one that costs both the same is bought first by the misaligned AI | Textbook (Spence, 1973); added in v0.6.3 |
+| Aligned or not? | [hidden_types.yaml](../models/hidden_types.yaml) | When the human cannot tell which AI it faces, more aligned AIs do not make it safer until it stops checking; a cost of conflict that makes exploiting dominated means nobody needs to know | Textbook (Tsebelis, 1989, with a type); added in v0.7.0 |
+| Can an AI show it is aligned? | [signalling.yaml](../models/signalling.yaml) | A signal sorts aligned from misaligned AIs only if it is dearer for the misaligned one; one that costs both the same is bought first by the misaligned AI | Textbook (Spence, 1973); added in v0.7.0 |
+| How many must cooperate first? | [spread.yaml](../models/spread.yaml) | In a population, reciprocating needs enough others who reciprocate; the cost of conflict and the chance of meeting again both lower how many | Textbook (Axelrod, 1984; Nowak, 2006); added in v0.7.0 |
+| Does forgiveness spread? | [ecology.yaml](../models/ecology.yaml) | When strategies spread by what they earn, a forgiving one takes over at every level of mistakes tried, and the defectors that win a round-robin die out; cooperation won this way can still be lost | Textbook (Axelrod, 1984; Nowak and Sigmund, 1992, 1993); added in v0.7.0 |
 
 None of these are new results. What they add is that the project's levers (the cost of conflict, the chance of meeting again) are put into games where they do not always work.
 
@@ -244,7 +246,7 @@ Two of the five sessions were the same model (SuperGrok 4.1) in two modes. The p
 
 ## 6. Hidden Types
 
-Every game above assumes each side knows what the other is. Here the human does not: the AI may be aligned or misaligned, and only the AI knows which. The human's belief that it is aligned, before anything happens, is the prior `p`. Forge has no move by chance, so both games are written in normal form with payoffs expected over the AI's type (Harsanyi, 1967). Both were added in v0.6.3.
+Every game above assumes each side knows what the other is. Here the human does not: the AI may be aligned or misaligned, and only the AI knows which. The human's belief that it is aligned, before anything happens, is the prior `p`. Forge has no move by chance, so both games are written in normal form with payoffs expected over the AI's type (Harsanyi, 1967). Both were added in v0.7.0.
 
 ### 6.1 Aligned or Not?
 
@@ -303,6 +305,56 @@ A signal that costs both types the same never sorts them here: one that costs bo
 
 **Checked:** Gambit (pygambit 16.7, `enummixed_solve`) and nashpy 0.0.43 (vertex enumeration), from payoffs built outside the model, find every equilibrium Forge finds in all five scenarios. The game is degenerate (a tie off the path of play), and both also find the far end of a line of equilibria where nobody signals and the human trusts a signal with some chance, up to `min(s_aligned / b, s_misaligned / (e - c))`. Forge lists one end of that line, as it warns it may.
 
+## 7. Strategies That Spread
+
+Every game above asks what an AI should do, given what the others do. A population asks something else: if AIs copy whatever earns more, which way of playing ends up everywhere? Both models follow the shares of strategies in a population, generation by generation, by the discrete replicator equation (Taylor and Jonker, 1978): a strategy's share grows in proportion to what it earns against the population, `x' = x f / f̄`. That is Forge's `dynamics:` key (10.0.0-rc.33), and in both models the payoffs are the scores of a tournament Forge plays first.
+
+### 7.1 How Many Must Cooperate First?
+
+**Model:** [spread.yaml](../models/spread.yaml).
+
+`w*` says when cooperating pays against an AI that reciprocates. It does not say what happens when most AIs do not. Here a population is split between GrimTrigger and AlwaysDefect, who meet in matches that go on after each round with the chance w. Above `w*` there are two stable states, everyone reciprocating and everyone defecting, and between them an unstable mix: the share `x*` of reciprocators from which cooperation spreads instead of dying out.
+
+`x* = (1-w)(P - c - S) / ((1-w)(P - c - S) + R - (1-w)(T - c) - w (P - c))`
+
+| w | c | x* | Start | Reciprocators after 60 generations |
+|---|---|----|-------|------------------------------------|
+| 0.6 | 0 | 1/2 | 30% | die out |
+| 0.6 | 0 | 1/2 | 60% | spread (99.9%) |
+| 0.6 | 0.5 | 2/11 (18%) | 30% | spreads |
+| 0.6 | 1 | 0 | 5% | spread |
+| 0.4 | 0 | none (below w* = 0.5) | 90% | die out |
+| 0.9 | 0 | 1/17 (6%) | 10% | spread |
+
+At w = 0.6 with no cost, half the AIs must start out reciprocating. A cost of conflict of 0.5 lowers that to 2/11, and the same 30% that died out now takes over. At c = P - S = 1, mutual defection pays no more than being exploited, `x*` is 0, and one reciprocator is enough. Below `w*` no share is enough: even from 90%, the defectors take over. Meeting again matters twice: at w = 0.9 one AI in seventeen is enough.
+
+Nobody knows w, c or the starting share. `forge simulate` over [spread_monte_carlo.yaml](../models/analytics/spread_monte_carlo.yaml) draws all three at random (w from 0.3 to 0.9, c from 0 to 1, the start from 5% to 95%, ranges of my choosing) and plays the whole game for each of 10,000 draws, the tournament and then 600 generations of the population. Cooperation spreads in 71% of them, and the chance of meeting again matters most (rank correlation 0.57), then the cost of conflict (0.37), then the start (0.31). Because the model also computes `x*`, it checks itself: all 10,000 draws go where `x*` says. At 60 generations 34 of them did not, starts just above `x*` that had not yet crossed one half, which is why that model runs 600.
+
+**For the project:** the cost of conflict lowers two thresholds, not one. It makes cooperating pay against a reciprocator at a shorter horizon (`w*`), and it makes cooperation spread from fewer reciprocators (`x*`). The second is the one a world of many AIs would need, and it is not zero: with no cost, a population where most AIs defect stays that way. Copying what earns more is not the same as being right.
+
+**Checked:** every figure above is a Forge result. `x*` is a formula in the model (`kinship.barrier`), and Forge's equilibrium finder lands on the same mixed equilibrium in every scenario (`population.equilibrium_3`), so two parts of Forge agree on it; 1/2, 2/11 and 1/17 were also worked out by hand. `scripts/check_models.py` pins each one. Forge's own validation checks the `dynamics:` key generation by generation against egttools 0.2.1 and R on every Forge pull request.
+
+### 7.2 Does Forgiveness Spread?
+
+**Model:** [ecology.yaml](../models/ecology.yaml).
+
+§3.1's nine strategies play one round-robin. Here they start as equal shares of a population, and each generation every share grows by its score in the noisy tournament against the population as it then is: Axelrod's "ecological tournament" (1984, ch. 3), with mistakes. After 500 generations:
+
+| Noise | First in the round-robin (§3.1) | After 500 generations | Average payoff a round |
+|-------|---------------------------------|-----------------------|------------------------|
+| none | TitForTwoTats | every strategy that never defects first survives; AlwaysDefect, Random and suspicious TitForTat die out | 3 |
+| 1% | TitForTwoTats | Pavlov, 100% | 2.95 |
+| 5% | TitForTwoTats | generous TitForTat, 95% | 2.86 |
+| 10% | GrimTrigger, AlwaysDefect | generous TitForTat, 89% | 2.74 |
+
+§3 found that forgiving pays only while mistakes are rare: at 10% noise the defectors come first. Let the strategies spread and that turns round. AlwaysDefect does well in a round-robin because it meets AlwaysCooperate and Random; once those shrink, it has no one left to exploit. At 10% noise the round-robin's two winners are the first two strategies to fall below 1% of the population: AlwaysDefect in generation 37, GrimTrigger in 38. A forgiving strategy takes over at every level of mistakes tried: Pavlov when they are rare, as Nowak and Sigmund (1993) found, and generous TitForTat, the result §3 could not test (Nowak and Sigmund, 1992), when they are common.
+
+Cooperation won this way can be lost. At 1% noise GrimTrigger is never quite gone: after 500 generations it is still 2 in ten billion of the population. It earns 2.97 a round against a Pavlov, where Pavlovs earn 2.95 against each other, so it grows slowly even among them. It takes the majority in generation 2,961 (48% in generation 2,960, 50% in 2,961), and by generation 3,000 it is 99.99% (`careful_long`). Every AI then earns 1.52 a round instead of 2.95, because GrimTriggers who slip punish each other for good. A finite population would have lost its last GrimTrigger long before; this one never does, and a population that keeps a trace of every strategy is also the one in which no state is safe for good.
+
+**For the project:** in a world of AIs that copy what works, the round-robin's lesson (never forgive, or defect, when mistakes are common) is wrong: forgiving spreads. But nothing keeps it there. Which strategy rules depends on who is still around, however few, and the population does not settle on what is best for everyone. That is closer to an argument for watching than for trusting the math to do the ethics.
+
+**Checked:** every figure above is a Forge result, and `scripts/check_models.py` pins each one. The generation counts in the text are scenarios of the model: `careless_36`, `careless_37` and `careless_38` for the strategies falling below 1%, and `careful_2960` and `careful_2961` for the majority. The scores the population is built on are those of §3.1's tournament, which the axelrod library confirms there. Forge's own validation checks the `dynamics:` key generation by generation against egttools 0.2.1 and R on every Forge pull request; nothing here was recomputed outside Forge.
+
 ---
 
 ## References
@@ -313,10 +365,12 @@ A signal that costs both types the same never sorts them here: one that costs bo
 4. Kreps, D.M., Milgrom, P., Roberts, J. and Wilson, R. (1982). Rational cooperation in the finitely repeated prisoners' dilemma. *Journal of Economic Theory*, 27(2), 245-252.
 5. Ledyard, J.O. (1995). Public goods: a survey of experimental research. In Kagel, J.H. and Roth, A.E. (eds), *The Handbook of Experimental Economics*. Princeton University Press.
 6. Luce, R.D. and Raiffa, H. (1957). *Games and Decisions*. Wiley.
-7. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
-8. Nowak, M.A. and Sigmund, K. (1993). A strategy of win-stay, lose-shift that outperforms tit-for-tat in the Prisoner's Dilemma game. *Nature*, 364, 56-58.
-9. Spence, M. (1973). Job market signaling. *Quarterly Journal of Economics*, 87(3), 355-374.
-10. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
+7. Nowak, M.A. (2006). *Evolutionary Dynamics: Exploring the Equations of Life*. Harvard University Press.
+8. Nowak, M.A. and Sigmund, K. (1992). Tit for tat in heterogeneous populations. *Nature*, 355, 250-253.
+9. Nowak, M.A. and Sigmund, K. (1993). A strategy of win-stay, lose-shift that outperforms tit-for-tat in the Prisoner's Dilemma game. *Nature*, 364, 56-58.
+10. Spence, M. (1973). Job market signaling. *Quarterly Journal of Economics*, 87(3), 355-374.
+11. Taylor, P.D. and Jonker, L.B. (1978). Evolutionary stable strategies and game dynamics. *Mathematical Biosciences*, 40(1-2), 145-156.
+12. Tsebelis, G. (1989). The abuse of probability in political analysis: the Robinson Crusoe fallacy. *American Political Science Review*, 83(1), 77-91.
 
 ---
 
