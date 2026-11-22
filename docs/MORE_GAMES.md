@@ -9,7 +9,7 @@
 
 ## Abstract
 
-More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.30 or later). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
+More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.33 or later: the populations and the five-player game use its newer forms). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|
@@ -223,6 +223,8 @@ If k of the five give:
 
 - a giver gets `r k / 5`
 - a keeper gets `1 - c + r k / 5`
+
+The model writes this in Forge's count form: the five are alike, so each strategy has one formula over how many of the other four give (`commons.others.give`), and Forge expands it into the 32 profiles every result is worked out from. It used to be those 32 cells, written out by a script; the equilibria, payoffs and dominance below did not change.
 
 Switching from keep to give changes an AI's own payoff by `r/5 - (1 - c)`, whatever the other four do. So keeping dominates while `c < 1 - r/5`, and giving dominates once `c > 1 - r/5`. The game has 32 profiles, and Forge finds every pure equilibrium of it (Forge finds pure equilibria for any number of players; mixed ones only for two).
 
