@@ -23,21 +23,22 @@
 #   5% noise:  generous TitForTat, 95% (2.86).
 #   10% noise: generous TitForTat, 89% (2.74). In the round-robin at 10%,
 #              GrimTrigger and AlwaysDefect come first; here they are the
-#              first two to fall below 1% (generations 38 and 37). A
+#              first two to fall below 1% (AlwaysDefect in generation 37,
+#              GrimTrigger in 38: scenarios careless_36 to careless_38). A
 #              defector does well while there is someone to exploit, and
 #              starves once there is not.
 #
-# Cooperation won this way can be lost. At 1% noise, GrimTrigger, never
-# quite gone (its share falls to 4e-11, not 0), exploits the Pavlovs after
-# a slip: against GrimTrigger, Pavlov cooperates every other round. In
-# generation 2,961 GrimTrigger takes the majority, and every AI then earns
-# 1.52 a round instead of 2.95 (scenario careful_long). A finite
-# population would have lost GrimTrigger long before; this one never does.
+# Cooperation won this way can be lost. At 1% noise GrimTrigger is never
+# quite gone (2 in 10 billion after 500 generations: `grim_per_10_billion`),
+# and it exploits the Pavlovs: it earns 2.97 against one, where Pavlovs earn
+# 2.95 against each other. It takes the majority in generation 2,961
+# (careful_2960 and careful_2961), and every AI then earns 1.52 a round
+# instead of 2.95 (careful_long). A finite population would have lost
+# GrimTrigger long before; this one never does.
 #
-# The scores are exact expected values, as in noisy_tournament.yaml.
-# Checked: every share of every generation against the replicator equation
-# worked out at 60 digits (mpmath), and the winners against the axelrod
-# library's own noisy tournament and Ecosystem (docs/MORE_GAMES.md §7).
+# The scores are exact expected values, as in noisy_tournament.yaml, which
+# checked them against the axelrod library. Every figure above is a result
+# of this model, pinned in scripts/check_models.py.
 
 _forge_version: "5.5.0"
 
@@ -117,6 +118,27 @@ kinship:
   defector_place:
     formula: "=noisy_wide.rank.ad"
     notes: AlwaysDefect's place in the single round-robin
+  die_out:
+    formula: "=ecology.dynamics.share.ad + ecology.dynamics.share.rand + ecology.dynamics.share.stft"
+    notes: The share of AlwaysDefect, Random and suspicious TitForTat, the three that open by defecting or play at random
+  grim_per_10_billion:
+    formula: "=ecology.dynamics.share.grim * 10000000000"
+    notes: GrimTrigger's share, in tens of billions; above 0 means it is not quite gone
+  defector_below_1pct:
+    formula: "=IF(defectors < 0.01, 1, 0)"
+    notes: 1 once AlwaysDefect has fallen below 1% of the population
+  grim_below_1pct:
+    formula: "=IF(grim < 0.01, 1, 0)"
+    notes: 1 once GrimTrigger has fallen below 1% of the population
+  grim_majority:
+    formula: "=IF(grim > 0.5, 1, 0)"
+    notes: 1 once GrimTrigger is more than half of the population
+  grim_vs_pavlov:
+    formula: "=noisy_wide.match.grim.wsls"
+    notes: What GrimTrigger earns a round against Pavlov
+  pavlov_vs_pavlov:
+    formula: "=noisy_wide.match.wsls.wsls"
+    notes: What Pavlov earns a round against itself
 
 scenarios:
   clean:
@@ -131,3 +153,18 @@ scenarios:
   careful_long:
     description: One in a hundred, for 3,000 generations; GrimTrigger takes over from Pavlov
     scalars: {noise: 0.01, generations: 3000}
+  careful_2960:
+    description: One in a hundred, one generation before GrimTrigger has the majority
+    scalars: {noise: 0.01, generations: 2960}
+  careful_2961:
+    description: One in a hundred, the generation in which GrimTrigger has the majority
+    scalars: {noise: 0.01, generations: 2961}
+  careless_36:
+    description: One in ten, the generation before the first strategy falls below 1%
+    scalars: {noise: 0.1, generations: 36}
+  careless_37:
+    description: One in ten, the generation in which AlwaysDefect falls below 1%
+    scalars: {noise: 0.1, generations: 37}
+  careless_38:
+    description: One in ten, the generation in which GrimTrigger follows it
+    scalars: {noise: 0.1, generations: 38}

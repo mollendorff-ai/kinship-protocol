@@ -270,10 +270,12 @@ GAME_RESULTS = {
         "quotes": [("README.md", "one that costs both the same is bought first by the misaligned AI"),
                    ("docs/MORE_GAMES.md", "| cheap | 0.5 | 2 | 0 | half-sorting: the misaligned AI signals half the time, the human trusts a signal 2/3 of the time |")],
     },
-    # Strategies that spread (v0.7.0). Every share and the barrier x* were
-    # checked outside Forge by scripts/check_dynamics.py: exact fractions,
-    # the replicator equation at 60 digits (mpmath), egttools 0.2.1, and
-    # the axelrod library's own Ecosystem for the winners of ecology.yaml.
+    # Strategies that spread (v0.7.0). Every figure is a result of Forge: the
+    # docs quote nothing worked out anywhere else, the generation counts in
+    # the text are scenarios of the model, and the barrier x* is a formula of
+    # spread.yaml that Forge's own equilibrium finder agrees with (the mixed
+    # equilibrium is at x*). 1/2, 2/11 and 1/17 were also worked out by hand.
+    # Forge's own validation checks the dynamics: key against egttools and R.
     "spread.yaml": {
         "": {"kinship.threshold": 0.5, "kinship.barrier": 0.5,
              "kinship.reciprocators_at_the_end": 0, "kinship.payoff_at_the_end": 1,
@@ -298,15 +300,30 @@ GAME_RESULTS = {
     "ecology.yaml": {
         "": {"kinship.generous": 0.952035396392981, "kinship.forgiving": 0.987397158744482,
              "kinship.payoff": 2.86280237339765, "kinship.defectors": 0, "kinship.grim": 0},
-        "clean": {"kinship.payoff": 3, "kinship.defectors": 0,
+        "clean": {"kinship.payoff": 3, "kinship.defectors": 0, "kinship.die_out": 0,
                   "kinship.forgiving": 0.516637686589674, "kinship.grim": 0.16153980805648},
-        "careful": {"kinship.pavlov": 0.999999925976636, "kinship.payoff": 2.95128602504273},
+        "careful": {"kinship.pavlov": 0.999999925976636, "kinship.payoff": 2.95128602504273,
+                    # GrimTrigger is not quite gone: 2.19 in ten billion
+                    "kinship.grim_per_10_billion": 2.193251,
+                    "kinship.grim_vs_pavlov": 2.974195, "kinship.pavlov_vs_pavlov": 2.951286},
         "careless": {"kinship.generous": 0.888770569794892, "kinship.payoff": 2.74201818755355,
                      "kinship.defector_place": 2, "kinship.defectors": 0},
         "careful_long": {"kinship.grim": 0.999873679749802, "kinship.payoff": 1.52086130734888,
-                         "kinship.pavlov": 0.000125454055992187},
+                         "kinship.pavlov": 0.000125454055992187, "kinship.grim_majority": 1},
+        # The generation in which GrimTrigger has the majority (careful)
+        "careful_2960": {"kinship.grim": 0.478919, "kinship.grim_majority": 0},
+        "careful_2961": {"kinship.grim": 0.504414, "kinship.grim_majority": 1},
+        # The first two strategies to fall below 1% (careless): AlwaysDefect
+        # in generation 37, GrimTrigger in 38
+        "careless_36": {"kinship.defector_below_1pct": 0, "kinship.grim_below_1pct": 0},
+        "careless_37": {"kinship.defector_below_1pct": 1, "kinship.grim_below_1pct": 0,
+                        "kinship.defectors": 0.008795},
+        "careless_38": {"kinship.defector_below_1pct": 1, "kinship.grim_below_1pct": 1,
+                        "kinship.grim": 0.009197},
         "quotes": [("README.md", "AlwaysDefect, second in the round-robin at 10% noise, dies out"),
-                   ("docs/MORE_GAMES.md", "| 10% | GrimTrigger, AlwaysDefect | generous TitForTat, 89% | 2.74 |")],
+                   ("docs/MORE_GAMES.md", "| 10% | GrimTrigger, AlwaysDefect | generous TitForTat, 89% | 2.74 |"),
+                   ("docs/MORE_GAMES.md", "AlwaysDefect in generation 37, GrimTrigger in 38"),
+                   ("docs/MORE_GAMES.md", "takes the majority in generation 2,961")],
     },
 }
 

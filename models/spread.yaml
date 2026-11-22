@@ -35,9 +35,12 @@
 #      start, even 90% reciprocators. The more AIs expect to meet again,
 #      the fewer must go first: at w = 0.9, x* = 1/17.
 #
-# Checked: x* and every share below in exact fractions, outside Forge
-# (scripts/check_models.py, GAME_RESULTS), and the dynamics against
-# egttools 0.2.1 (docs/MORE_GAMES.md §7).
+# Every figure above is a result of this model, pinned in
+# scripts/check_models.py. x* is a formula here (kinship.barrier), and
+# Forge's own equilibrium finder lands on the same mixed equilibrium
+# (population.equilibrium_3) in every scenario; 1/2, 2/11 and 1/17 were
+# also worked out by hand. Forge's own validation checks the dynamics: key
+# against egttools and R (docs/MORE_GAMES.md §7).
 
 _forge_version: "5.5.0"
 
