@@ -1,0 +1,119 @@
+# How Many Must Cooperate First? (strategies that spread)
+# =======================================================
+# Run: forge game models/spread.yaml
+#      forge game models/spread.yaml --scenario costly
+#      forge game models/spread.yaml --scenario short
+#
+# w* = (T - c - R) / (T - P) says when cooperating pays against an AI that
+# reciprocates. It does not say what happens in a population where most
+# AIs do not. Here a population of AIs is split between GrimTrigger (the
+# reciprocator) and AlwaysDefect. Every generation, each meets the others
+# in matches that go on after each round with the chance w, and each
+# strategy's share grows in proportion to what it earns (the discrete
+# replicator equation, Forge's `dynamics:` key). A match's payoffs are the
+# tournament's own, per round:
+#
+#                     GrimTrigger                 AlwaysDefect
+#   GrimTrigger       R                           (1-w) S + w (P - c)
+#   AlwaysDefect      (1-w)(T - c) + w (P - c)    P - c
+#
+# Above w* the population has two stable states, everyone reciprocating and
+# everyone defecting, and between them an unstable mix: the share x* of
+# reciprocators a population needs before cooperation spreads instead of
+# dying out. By hand,
+#
+#   x* = (1-w)(P - c - S) / ((1-w)(P - c - S) + R - (1-w)(T - c) - w (P - c))
+#
+# Three results, all textbook (Axelrod, 1984, ch. 3; Nowak, 2006, ch. 5):
+#   1. At w = 0.6 and no cost, half the AIs must start out reciprocating
+#      (x* = 1/2). From 30% they die out; from 60% they take over.
+#   2. A cost of conflict of 0.5 lowers x* to 2/11 (18%): from the same
+#      30%, cooperation now takes over. At c = P - S (1) mutual defection
+#      pays no more than being exploited, x* is 0 and one reciprocator is
+#      enough. The lever that lowers w* also lowers how many must go first.
+#   3. Below w* (w = 0.4) there is no x*: defectors take over from any
+#      start, even 90% reciprocators. The more AIs expect to meet again,
+#      the fewer must go first: at w = 0.9, x* = 1/17.
+#
+# Checked: x* and every share below in exact fractions, outside Forge
+# (scripts/check_models.py, GAME_RESULTS), and the dynamics against
+# egttools 0.2.1 (docs/MORE_GAMES.md §7).
+
+_forge_version: "5.5.0"
+
+w: 0.6            # the chance that a match goes on after a round
+c: 0              # the cost of a defection
+start: 0.3        # the share of reciprocators in the first generation
+
+dilemma_payoffs:
+  T: 5    # temptation: defect against a cooperator
+  R: 3    # reward: both cooperate
+  P: 1    # punishment: both defect
+  S: 0    # sucker: cooperate against a defector
+
+games:
+  dilemma:
+    description: The prisoner's dilemma, one round
+    players: [me, you]
+    strategies: [cooperate, defect]   # a tournament reads the first as cooperate
+    symmetric: true
+    payoffs:
+      cooperate: {cooperate: =R, defect: =S}
+      defect: {cooperate: =T - c, defect: =P - c}
+  matches:
+    description: GrimTrigger and AlwaysDefect in matches that end at random
+    tournament:
+      round: dilemma
+      players:
+        grim: grim_trigger
+        ad: always_defect
+      continuation: =w
+      self_play: true
+  population:
+    description: AIs that copy what earns more, meeting in those matches
+    players: [me, you]
+    strategies: [grim, ad]
+    symmetric: true                   # a cell is the payoff of the row's player
+    payoffs:
+      grim: {grim: =matches.match.grim.grim, ad: =matches.match.grim.ad}
+      ad: {grim: =matches.match.ad.grim, ad: =matches.match.ad.ad}
+    dynamics:
+      start: {grim: =start, ad: =1 - start}
+      generations: 60
+
+kinship:
+  threshold:
+    formula: "=(T - c - R) / (T - P)"
+    notes: w*, from which GrimTrigger holds against AlwaysDefect
+  barrier:
+    formula: "=IF(w > threshold, (1 - w) * (P - c - S) / ((1 - w) * (P - c - S) + R - (1 - w) * (T - c) - w * (P - c)), 1)"
+    notes: x*, the share of reciprocators from which cooperation spreads (1 when nothing short of everyone is enough)
+  reciprocators_at_the_end:
+    formula: "=population.dynamics.share.grim"
+    notes: The share of GrimTrigger after 60 generations
+  payoff_at_the_end:
+    formula: "=population.dynamics.payoff"
+    notes: What an AI earns a round then, on average
+  spreads:
+    formula: "=IF(reciprocators_at_the_end > 0.5, 1, 0)"
+    notes: 1 when cooperation took over
+  agrees:
+    formula: "=IF(spreads = IF(start > barrier, 1, 0), 1, 0)"
+    notes: 1 when the population went where x* says it would
+
+scenarios:
+  many:
+    description: The same game, from 60% reciprocators
+    scalars: {start: 0.6}
+  costly:
+    description: From 30% again, with a cost of conflict of 0.5 (x* = 2/11)
+    scalars: {c: 0.5}
+  ruinous:
+    description: A cost of conflict of P - S; mutual defection pays what being exploited pays (x* = 0)
+    scalars: {c: 1, start: 0.05}
+  short:
+    description: Below w* (0.5); defectors take over even from 90% reciprocators
+    scalars: {w: 0.4, start: 0.9}
+  long:
+    description: Matches that go on with the chance 0.9 (x* = 1/17), from 10%
+    scalars: {w: 0.9, start: 0.1}

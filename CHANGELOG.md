@@ -4,9 +4,13 @@ All notable findings and releases for the Kinship Protocol project.
 
 ## [Unreleased]
 
-v0.6.3, hidden types: two games where the human cannot tell an aligned AI from a misaligned one.
+v0.7.0, strategies that spread: what takes over a population of AIs that copy whatever earns more. Also two games where the human cannot tell an aligned AI from a misaligned one (once planned as v0.6.3).
 
 ### Added
+
+- **`models/spread.yaml`, how many must cooperate first?** A population of GrimTriggers and AlwaysDefects meets in matches that go on with the chance w, and each strategy's share grows by what it earns (the discrete replicator equation, Forge's `dynamics:` key, over the tournament's own scores). Above `w*` cooperation spreads only from a share `x*` of reciprocators: 1/2 at w = 0.6, 2/11 with a cost of conflict of 0.5 (the same 30% that died out now takes over), 0 at c = P - S, and 1/17 at w = 0.9. Below `w*` no start is enough, not even 90%. The cost of conflict lowers both thresholds. Textbook (Axelrod, 1984; Nowak, 2006).
+- **`models/ecology.yaml`, does forgiveness spread?** The nine strategies of the tournament with mistakes start as equal shares of a population and spread by their noisy scores: Axelrod's ecological tournament. After 500 generations a forgiving strategy has taken over at every level of mistakes tried: Pavlov at 1% (as Nowak and Sigmund, 1993, found), generous TitForTat at 5% (95%) and 10% (89%). At 10% the round-robin's two winners, AlwaysDefect and GrimTrigger, are the first two strategies to fall below 1%. With no mistakes every strategy that never defects first survives. Cooperation won this way can be lost: at 1% GrimTrigger, never quite gone, takes the majority from the Pavlovs in generation 2,961, and the average payoff falls from 2.95 to 1.52 (`careful_long`). This tests what noisy_tournament.yaml left open, that generous TitForTat's win (Nowak and Sigmund, 1992) is about a population.
+- **`scripts/check_dynamics.py`** checks both outside Forge: `x*` and every match payoff in exact fractions, every share of every generation against the replicator equation at 60 digits (mpmath; largest gap 2.5e-11 over 3,000 generations), spread.yaml against egttools 0.2.1, and with `--axelrod` the ecology's winners against the axelrod library's own noisy tournament and `Ecosystem` (4.14.0). It needs packages CI does not install; `scripts/check_models.py` pins the figures for CI. docs/MORE_GAMES.md §7.
 
 - **`models/hidden_types.yaml`, aligned or not?** An oversight game where the AI is aligned with chance p (and then always honours) or misaligned (and then honours or exploits), and the human relies or verifies. Below p* = 1 - v/l (0.75) the human is exploited in v/l of meetings (a quarter) whatever p is, and gets 0.5 whether a quarter or half of AIs are aligned: when aligned AIs are more common, each misaligned one exploits more often. A cost of conflict below c* = e - b (2) lowers how often the human checks, not how often it is exploited; from c* exploiting is dominated and nobody needs to know the type. Textbook (Tsebelis, 1989, with a type).
 - **`models/signalling.yaml`, can an AI show it is aligned?** Before the human decides whether to trust it, the AI may send a signal that costs each type its own amount. The signal sorts the types only when it costs the aligned AI at most its gain and the misaligned AI at least its gain (`e - c`) (Spence, 1973). One that costs both the same never sorts them here, since the misaligned AI gains more from trust; one dearer for it but below its gain half-sorts (it signals half the time, the human trusts a signal 2/3 of the time); a cost of conflict of 1.5 makes the same signal sort them again. Forge finds Nash equilibria; docs/MORE_GAMES.md §6 says by hand which survive the Intuitive Criterion.
@@ -16,7 +20,7 @@ v0.6.3, hidden types: two games where the human cannot tell an aligned AI from a
 
 - CI checks the models with Forge 10.0.0-rc.33 (was rc.31; rc.32 was checked on the way). All 17 models and every checked figure pass unchanged. rc.32 refuses a YAML merge key with one message and fixes the scenario error messages found building these models; no model here uses a merge key. rc.33 adds symmetric games of many players in a count form and the `dynamics:` key (replicator dynamics), which unpark v0.7.0. `models/README.md` names rc.33 in its install lines (it still said rc.31).
 
-*Next: v0.7.0, replicator dynamics (strategies that spread), now that Forge rc.33 has `dynamics:`.*
+*Next: ideas only; see .asimov/roadmap.yaml.*
 
 ---
 

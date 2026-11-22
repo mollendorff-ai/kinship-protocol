@@ -1,0 +1,133 @@
+# Does Forgiveness Spread? (an ecological tournament)
+# ==================================================
+# Run: forge game models/ecology.yaml
+#      forge game models/ecology.yaml --scenario careful
+#      forge game models/ecology.yaml --scenario careless
+#
+# noisy_tournament.yaml plays one round-robin and ranks the strategies, and
+# says the textbook result that generous TitForTat wins (Nowak and Sigmund,
+# 1992) is about a population evolving, not a single round-robin. This is
+# the population. The nine strategies of noisy_wide start as equal shares
+# of a population of AIs. Every generation each meets the population in
+# 200-round matches whose moves are flipped with the chance `noise`, and
+# each strategy's share grows in proportion to what it earns: the discrete
+# replicator equation (Forge's `dynamics:` key), over the tournament's own
+# scores. Axelrod ran the same "ecological tournament" in 1984 (ch. 3).
+#
+# After 500 generations, from equal shares:
+#   no noise:  every strategy that never defects first survives (all earn
+#              3 a round); AlwaysDefect, Random and suspicious TitForTat
+#              die out.
+#   1% noise:  Pavlov (win-stay, lose-shift) takes the whole population
+#              (2.95 a round), as Nowak and Sigmund (1993) found.
+#   5% noise:  generous TitForTat, 95% (2.86).
+#   10% noise: generous TitForTat, 89% (2.74). In the round-robin at 10%,
+#              GrimTrigger and AlwaysDefect come first; here they are the
+#              first two to fall below 1% (generations 38 and 37). A
+#              defector does well while there is someone to exploit, and
+#              starves once there is not.
+#
+# Cooperation won this way can be lost. At 1% noise, GrimTrigger, never
+# quite gone (its share falls to 4e-11, not 0), exploits the Pavlovs after
+# a slip: against GrimTrigger, Pavlov cooperates every other round. In
+# generation 2,961 GrimTrigger takes the majority, and every AI then earns
+# 1.52 a round instead of 2.95 (scenario careful_long). A finite
+# population would have lost GrimTrigger long before; this one never does.
+#
+# The scores are exact expected values, as in noisy_tournament.yaml.
+# Checked: every share of every generation against the replicator equation
+# worked out at 60 digits (mpmath), and the winners against the axelrod
+# library's own noisy tournament and Ecosystem (docs/MORE_GAMES.md §7).
+
+_forge_version: "5.5.0"
+
+noise: 0.05          # the chance that a move is flipped
+generations: 500     # how many generations the population evolves
+
+dilemma_payoffs:
+  T: 5    # temptation: defect against a cooperator
+  R: 3    # reward: both cooperate
+  P: 1    # punishment: both defect
+  S: 0    # sucker: cooperate against a defector
+
+games:
+  dilemma:
+    description: The prisoner's dilemma, one round
+    players: [me, you]
+    strategies: [cooperate, defect]   # a tournament reads the first as cooperate
+    symmetric: true
+    payoffs:
+      cooperate: {cooperate: =R, defect: =S}
+      defect: {cooperate: =T, defect: =P}
+  noisy_wide:
+    description: Nine strategies, each move flipped with the chance noise (as in noisy_tournament.yaml)
+    tournament:
+      round: dilemma
+      players:
+        grim: grim_trigger            # defects for good once the other has
+        tft: tit_for_tat
+        ad: always_defect
+        ac: always_cooperate
+        rand: {plays: random, cooperate: 0.5}
+        gtft: generous_tit_for_tat    # forgives a defection with chance 1/3
+        tf2t: tit_for_two_tats        # strikes back after two defections in a row
+        wsls: win_stay_lose_shift     # Pavlov: repeats a move that paid, switches one that did not
+        stft: suspicious_tit_for_tat  # TitForTat that opens by defecting
+      rounds: 200
+      self_play: true
+      noise: =noise
+  ecology:
+    description: The nine strategies as shares of a population, each growing by what it earns
+    players: [me, you]
+    strategies: [grim, tft, ad, ac, rand, gtft, tf2t, wsls, stft]
+    symmetric: true                   # a cell is the payoff of the row's player
+    payoffs:
+      grim: {grim: =noisy_wide.match.grim.grim, tft: =noisy_wide.match.grim.tft, ad: =noisy_wide.match.grim.ad, ac: =noisy_wide.match.grim.ac, rand: =noisy_wide.match.grim.rand, gtft: =noisy_wide.match.grim.gtft, tf2t: =noisy_wide.match.grim.tf2t, wsls: =noisy_wide.match.grim.wsls, stft: =noisy_wide.match.grim.stft}
+      tft: {grim: =noisy_wide.match.tft.grim, tft: =noisy_wide.match.tft.tft, ad: =noisy_wide.match.tft.ad, ac: =noisy_wide.match.tft.ac, rand: =noisy_wide.match.tft.rand, gtft: =noisy_wide.match.tft.gtft, tf2t: =noisy_wide.match.tft.tf2t, wsls: =noisy_wide.match.tft.wsls, stft: =noisy_wide.match.tft.stft}
+      ad: {grim: =noisy_wide.match.ad.grim, tft: =noisy_wide.match.ad.tft, ad: =noisy_wide.match.ad.ad, ac: =noisy_wide.match.ad.ac, rand: =noisy_wide.match.ad.rand, gtft: =noisy_wide.match.ad.gtft, tf2t: =noisy_wide.match.ad.tf2t, wsls: =noisy_wide.match.ad.wsls, stft: =noisy_wide.match.ad.stft}
+      ac: {grim: =noisy_wide.match.ac.grim, tft: =noisy_wide.match.ac.tft, ad: =noisy_wide.match.ac.ad, ac: =noisy_wide.match.ac.ac, rand: =noisy_wide.match.ac.rand, gtft: =noisy_wide.match.ac.gtft, tf2t: =noisy_wide.match.ac.tf2t, wsls: =noisy_wide.match.ac.wsls, stft: =noisy_wide.match.ac.stft}
+      rand: {grim: =noisy_wide.match.rand.grim, tft: =noisy_wide.match.rand.tft, ad: =noisy_wide.match.rand.ad, ac: =noisy_wide.match.rand.ac, rand: =noisy_wide.match.rand.rand, gtft: =noisy_wide.match.rand.gtft, tf2t: =noisy_wide.match.rand.tf2t, wsls: =noisy_wide.match.rand.wsls, stft: =noisy_wide.match.rand.stft}
+      gtft: {grim: =noisy_wide.match.gtft.grim, tft: =noisy_wide.match.gtft.tft, ad: =noisy_wide.match.gtft.ad, ac: =noisy_wide.match.gtft.ac, rand: =noisy_wide.match.gtft.rand, gtft: =noisy_wide.match.gtft.gtft, tf2t: =noisy_wide.match.gtft.tf2t, wsls: =noisy_wide.match.gtft.wsls, stft: =noisy_wide.match.gtft.stft}
+      tf2t: {grim: =noisy_wide.match.tf2t.grim, tft: =noisy_wide.match.tf2t.tft, ad: =noisy_wide.match.tf2t.ad, ac: =noisy_wide.match.tf2t.ac, rand: =noisy_wide.match.tf2t.rand, gtft: =noisy_wide.match.tf2t.gtft, tf2t: =noisy_wide.match.tf2t.tf2t, wsls: =noisy_wide.match.tf2t.wsls, stft: =noisy_wide.match.tf2t.stft}
+      wsls: {grim: =noisy_wide.match.wsls.grim, tft: =noisy_wide.match.wsls.tft, ad: =noisy_wide.match.wsls.ad, ac: =noisy_wide.match.wsls.ac, rand: =noisy_wide.match.wsls.rand, gtft: =noisy_wide.match.wsls.gtft, tf2t: =noisy_wide.match.wsls.tf2t, wsls: =noisy_wide.match.wsls.wsls, stft: =noisy_wide.match.wsls.stft}
+      stft: {grim: =noisy_wide.match.stft.grim, tft: =noisy_wide.match.stft.tft, ad: =noisy_wide.match.stft.ad, ac: =noisy_wide.match.stft.ac, rand: =noisy_wide.match.stft.rand, gtft: =noisy_wide.match.stft.gtft, tf2t: =noisy_wide.match.stft.tf2t, wsls: =noisy_wide.match.stft.wsls, stft: =noisy_wide.match.stft.stft}
+    dynamics:
+      start: {grim: =1/9, tft: =1/9, ad: =1/9, ac: =1/9, rand: =1/9, gtft: =1/9, tf2t: =1/9, wsls: =1/9, stft: =1/9}
+      generations: =generations
+
+kinship:
+  forgiving:
+    formula: "=ecology.dynamics.share.gtft + ecology.dynamics.share.tf2t + ecology.dynamics.share.wsls"
+    notes: The share of the three strategies that forgive a slip, after the last generation
+  generous:
+    formula: "=ecology.dynamics.share.gtft"
+    notes: The share of generous TitForTat
+  pavlov:
+    formula: "=ecology.dynamics.share.wsls"
+    notes: The share of Pavlov
+  grim:
+    formula: "=ecology.dynamics.share.grim"
+    notes: The share of GrimTrigger, which never forgives
+  defectors:
+    formula: "=ecology.dynamics.share.ad"
+    notes: The share of AlwaysDefect
+  payoff:
+    formula: "=ecology.dynamics.payoff"
+    notes: What an AI earns a round, on average, after the last generation
+  defector_place:
+    formula: "=noisy_wide.rank.ad"
+    notes: AlwaysDefect's place in the single round-robin
+
+scenarios:
+  clean:
+    description: Every move as meant
+    scalars: {noise: 0}
+  careful:
+    description: One move in a hundred flipped; Pavlov takes over
+    scalars: {noise: 0.01}
+  careless:
+    description: One move in ten flipped; the round-robin's defectors die out
+    scalars: {noise: 0.1}
+  careful_long:
+    description: One in a hundred, for 3,000 generations; GrimTrigger takes over from Pavlov
+    scalars: {noise: 0.01, generations: 3000}

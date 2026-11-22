@@ -7,25 +7,19 @@
 # See: README.md for project overview
 
 current:
-  version: "0.6.2"
-  status: complete
-  released: "2026-11-21"
-  note: "The models, docs and CI are maintained. v0.6.3 (hidden types) is unreleased in CHANGELOG.md; v0.7.0 is ready to start. v0.6.0: the five-player public goods game (models/public_goods.yaml, checked with Gambit) and a nine-strategy tournament with mistakes. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
-
-# Unblocked: Forge 10.0.0-rc.33 has the dynamics: key (ADR-073).
-next:
   version: "0.7.0"
+  status: in_progress
   title: "Strategies that spread"
-  status: ready
-  unblocked_by: "Forge 10.0.0-rc.33: dynamics: (discrete replicator equation) and symmetric games of many players in the count form"
+  note: "Unreleased in CHANGELOG.md. spread.yaml (how many must cooperate first) and ecology.yaml (the nine strategies with mistakes as a population), with Forge 10.0.0-rc.33's dynamics: key; checked by scripts/check_dynamics.py. Also the hidden-type games once planned as v0.6.3. v0.6.0: the five-player public goods game. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
   deliverables:
-    - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml"
+    - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml (spread.yaml, ecology.yaml)"
+    - "Hidden types: hidden_types.yaml and signalling.yaml"
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.
 ideas:
   - "Formal proof using Folk Theorem foundations and Program Equilibrium applied to Kinship (once planned as v0.5.0)"
   - "Address the Orthogonality Thesis (Bostrom) mathematically"
   - "N-player extensions beyond v0.6.0: coalitions, a repeated public goods game"
-  - "Reputation over repeated play: hidden types in a repeated game (Kreps, Milgrom, Roberts and Wilson, 1982). v0.6.3 has the one-shot games (hidden_types.yaml, signalling.yaml); the repeated ones need repeated games with hidden types in Forge"
+  - "Reputation over repeated play: hidden types in a repeated game (Kreps, Milgrom, Roberts and Wilson, 1982). v0.7.0 has the one-shot games (hidden_types.yaml, signalling.yaml); the repeated ones need repeated games with hidden types in Forge"
   - "Put the Grok and Copilot transcripts in the repo so the cross-AI table can be checked"
   - "KL divergence / FEP formalization (only if a rigorous mapping is found)"

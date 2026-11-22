@@ -14,8 +14,9 @@ For each models/*.yaml file:
      models stored before Forge could play the games, or the difference listed.
   6. The four games added in v0.5.0 (continuation, inspection,
      noisy_tournament, conventions), the five-player public_goods game,
-     the one_shot games and the two games of hidden types (hidden_types,
-     signalling) are checked by GAME_RESULTS below: what Forge gives in each scenario
+     the one_shot games, the two games of hidden types (hidden_types,
+     signalling) and the two of strategies that spread (spread, ecology,
+     v0.7.0) are checked by GAME_RESULTS below: what Forge gives in each scenario
      must equal values checked outside Forge (nashpy, Gambit, the axelrod
      library, or by hand), and the docs must still quote them.
   7. `forge goal-seek` must find the flip point of the continuation tournament
@@ -221,7 +222,7 @@ GAME_RESULTS = {
         "quotes": [("docs/MORE_GAMES.md", "giving dominates once `c > 1 - r/5`"),
                    ("README.md", "all five keep below a cost of conflict of 0.6")],
     },
-    # Hidden types (v0.6.3); checked with Gambit (pygambit 16.7,
+    # Hidden types (v0.7.0); checked with Gambit (pygambit 16.7,
     # enummixed_solve) and nashpy 0.0.43 (vertex enumeration), from payoffs
     # built outside the model: one equilibrium in each scenario.
     "hidden_types.yaml": {
@@ -244,7 +245,7 @@ GAME_RESULTS = {
         "quotes": [("README.md", "exploited in a quarter of meetings whatever the prior"),
                    ("docs/MORE_GAMES.md", "| rare | 0.25 | 0 | 1/3 | 0.5 | 0.25 | 0.5 |")],
     },
-    # A signalling game (v0.6.3); the same check. Gambit and nashpy also
+    # A signalling game (v0.7.0); the same check. Gambit and nashpy also
     # find the far end of a line of equilibria where nobody signals, which
     # Forge leaves out, as it warns for a degenerate game.
     "signalling.yaml": {
@@ -268,6 +269,44 @@ GAME_RESULTS = {
                      "kinship.separates_by_hand": 1},
         "quotes": [("README.md", "one that costs both the same is bought first by the misaligned AI"),
                    ("docs/MORE_GAMES.md", "| cheap | 0.5 | 2 | 0 | half-sorting: the misaligned AI signals half the time, the human trusts a signal 2/3 of the time |")],
+    },
+    # Strategies that spread (v0.7.0). Every share and the barrier x* were
+    # checked outside Forge by scripts/check_dynamics.py: exact fractions,
+    # the replicator equation at 60 digits (mpmath), egttools 0.2.1, and
+    # the axelrod library's own Ecosystem for the winners of ecology.yaml.
+    "spread.yaml": {
+        "": {"kinship.threshold": 0.5, "kinship.barrier": 0.5,
+             "kinship.reciprocators_at_the_end": 0, "kinship.payoff_at_the_end": 1,
+             "kinship.spreads": 0, "kinship.agrees": 1,
+             "population.equilibria": 3, "population.equilibrium_3.me.grim": 0.5,
+             "population.equilibrium_3.stable": 0, "population.equilibrium_1.stable": 1,
+             "population.equilibrium_2.stable": 1},
+        "many": {"kinship.spreads": 1, "kinship.agrees": 1,
+                 "kinship.reciprocators_at_the_end": 0.999438684743459},
+        "costly": {"kinship.threshold": 0.375, "kinship.barrier": 2 / 11,
+                   "population.equilibrium_3.me.grim": 2 / 11,
+                   "kinship.spreads": 1, "kinship.agrees": 1, "kinship.payoff_at_the_end": 3},
+        "ruinous": {"kinship.barrier": 0, "kinship.spreads": 1, "kinship.agrees": 1,
+                    "population.equilibria": 2},
+        "short": {"kinship.barrier": 1, "kinship.spreads": 0, "kinship.agrees": 1,
+                  "population.equilibria": 1, "kinship.reciprocators_at_the_end": 0},
+        "long": {"kinship.barrier": 1 / 17, "population.equilibrium_3.me.grim": 1 / 17,
+                 "kinship.spreads": 1, "kinship.agrees": 1},
+        "quotes": [("README.md", "half the AIs must start out reciprocating"),
+                   ("docs/MORE_GAMES.md", "| 0.6 | 0.5 | 2/11 (18%) | 30% | spreads |")],
+    },
+    "ecology.yaml": {
+        "": {"kinship.generous": 0.952035396392981, "kinship.forgiving": 0.987397158744482,
+             "kinship.payoff": 2.86280237339765, "kinship.defectors": 0, "kinship.grim": 0},
+        "clean": {"kinship.payoff": 3, "kinship.defectors": 0,
+                  "kinship.forgiving": 0.516637686589674, "kinship.grim": 0.16153980805648},
+        "careful": {"kinship.pavlov": 0.999999925976636, "kinship.payoff": 2.95128602504273},
+        "careless": {"kinship.generous": 0.888770569794892, "kinship.payoff": 2.74201818755355,
+                     "kinship.defector_place": 2, "kinship.defectors": 0},
+        "careful_long": {"kinship.grim": 0.999873679749802, "kinship.payoff": 1.52086130734888,
+                         "kinship.pavlov": 0.000125454055992187},
+        "quotes": [("README.md", "AlwaysDefect, second in the round-robin at 10% noise, dies out"),
+                   ("docs/MORE_GAMES.md", "| 10% | GrimTrigger, AlwaysDefect | generous TitForTat, 89% | 2.74 |")],
     },
 }
 
