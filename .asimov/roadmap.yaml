@@ -22,13 +22,15 @@ next:
   version: "0.8.0"
   title: "Forge only"
   status: planned
+  waits_on: "Forge T2-SCENARIO-CHECKS (forge validate checks each scenario's expected results) and the first step of T2-BAYESIAN-LINK (a Bayesian network takes scalars and --scenario); both need an ADR-074 in Forge first, then a Forge release"
   why: "The models are there to show what Forge can do, and the CI check that pins their figures is a Python script (scripts/check_models.py, the only Python in the repo). Forge validates a model's stored values but only for the base case: forge validate takes no --scenario, and most of the figures live in scenarios."
   deliverables:
     - "Every check runs through Forge (and plain shell): no .py file in the repo, scripts/check_models.py gone"
     - "Expected figures live beside the model they belong to, not in a script"
-  routes:
-    - "A Forge change: forge validate checks the stored results of each scenario (an ADR in Forge first; Forge's rules apply: 100% coverage, pedantic clippy)"
-    - "No Forge change: committed golden output (forge compare --format csv, forge calculate) that CI diffs with plain shell; weaker, since a golden file is regenerated, not stated"
+  route: "A Forge change, chosen 2026-11-22: forge validate checks the stored results of each scenario, and a Bayesian network takes scalars and scenarios (ADR in Forge first; Forge's rules apply: 100% coverage, pedantic clippy). Not chosen: committed golden output that CI diffs with plain shell, which is weaker, since a golden file is regenerated, not stated, and which would cut the Bayesian check to one setting"
+  steps:
+    - "Forge: ADR-074, then the validate change, then the Bayesian change, then a release (Forge roadmap T2-SCENARIO-CHECKS, T2-BAYESIAN-LINK)"
+    - "Here: move every figure that scripts/check_models.py pins into the models, make the nine settings of mistake_or_defection.yaml scenarios of one file, keep the checks that the docs still quote the figures as a few lines of shell in the workflow, delete scripts/check_models.py and the pip install"
   blocked_by:
     - "forge bayesian reads literal numbers only (a formula in a prior or a cpt is refused: 'invalid type: string, expected f64') and takes no --scenario. mistake_or_defection.yaml's nine settings of the prior and the noise are therefore checked by a Python script that rewrites the network and compares forge bayesian with Bayes' rule in exact fractions. A Forge formula can give Bayes' rule by hand for each setting, but nothing then checks the network engine at those settings. Either Forge's networks take scalars and scenarios (a Forge change), or the check is reduced to the base network plus a formula table."
   acceptance: "CI's check job runs only forge and shell; breaking a value in any model fails it, as it does today; every figure the docs quote is still pinned"
