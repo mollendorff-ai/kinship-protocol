@@ -25,7 +25,7 @@
 # The two stories at the bottom (a scam between strangers, a first strike)
 # are plain arithmetic, not games Forge solves.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 c: 0      # the cost of a defection
 T: 5      # temptation: defect against a cooperator
@@ -107,25 +107,68 @@ kinship:
     formula: "=IF(nuke_peace > nuke_defect_ev, 1, 0)"
     notes: Catastrophic mutual defection makes cooperation dominant
 
+expect:
+  kinship.ipd_critical_c: 1.5
+  kinship.sh_critical_c: 1.0
+  kinship.ch_critical_c: 0.5
+  kinship.ipd_critical_c_any_opponent: 2.0
+  kinship.viable_without_future: 1
+  kinship.catastrophic_games_easier: 1
+  kinship.anon_defect_ev: 40
+  kinship.anon_coop_wins: 1
+  kinship.nuke_defect_ev: -450
+  kinship.nuke_coop_wins: 1
+  kinship.ipd_coop_wins: 0
+  kinship.sh_coop_wins: 0
+  kinship.ch_coop_wins: 0
+
 scenarios:
   c025:
     description: Cost 0.25
     scalars: {c: 0.25}
+    expect:
+      kinship.ipd_coop_wins: 0
+      kinship.sh_coop_wins: 0
+      kinship.ch_coop_wins: 0
   c050:
     description: Cost 0.5
     scalars: {c: 0.5}
+    expect:
+      kinship.ipd_coop_wins: 0
+      kinship.sh_coop_wins: 0
+      kinship.ch_coop_wins: 0
   c075:
     description: Cost 0.75
     scalars: {c: 0.75}
+    expect:
+      kinship.ipd_coop_wins: 0
+      kinship.sh_coop_wins: 0
+      kinship.ch_coop_wins: 1
   c100:
     description: Cost 1
     scalars: {c: 1}
+    expect:
+      kinship.ipd_coop_wins: 0
+      kinship.sh_coop_wins: 0
+      kinship.ch_coop_wins: 1
   c150:
     description: Cost 1.5
     scalars: {c: 1.5}
+    expect:
+      kinship.ipd_coop_wins: 0
+      kinship.sh_coop_wins: 1
+      kinship.ch_coop_wins: 1
   c200:
     description: Cost 2, the critical cost against any opponent
     scalars: {c: 2}
+    expect:
+      kinship.ipd_coop_wins: 1
+      kinship.sh_coop_wins: 1
+      kinship.ch_coop_wins: 1
+      kinship.ipd_defect_dominated: 0
   c250:
     description: Cost 2.5, above it
     scalars: {c: 2.5}
+    expect:
+      kinship.ipd_defect_dominated: 1
+      kinship.ipd_critical_c: 1.5

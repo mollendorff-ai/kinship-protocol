@@ -33,7 +33,7 @@ assumptions:
     value: 3
     notes: Anthropic, xAI, Microsoft; the five sessions are not independent
   exact_lower_95:
-    value: 0.478
+    value: 0.478176249895019
     formula: "=0.025 ^ (1 / sessions)"
     notes: Clopper-Pearson 95% lower bound when all sessions agree
   rule_of_three_lower_95:

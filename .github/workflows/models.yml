@@ -1,7 +1,9 @@
-# Check that every Forge model still runs and that no stored value has drifted
-# from its formula, and that the figures quoted in the README and docs still
-# match what Forge computes. Runs on its own for every push and pull request
-# that touches the models or the prose that quotes them; nothing to start by hand.
+# Check that every Forge model validates (its stored values follow from its
+# formulas, and every result it states under expect: is what Forge gives, in the
+# file as written and in each scenario), that the seeded analyses give the
+# figures the README quotes, and that the README and docs still quote them.
+# Forge and shell only. Runs on its own for every push and pull request that
+# touches the models or the prose that quotes them; nothing to start by hand.
 name: Check models
 
 on:
@@ -11,14 +13,14 @@ on:
       - 'models/**'
       - 'README.md'
       - 'docs/**'
-      - 'scripts/check_models.py'
+      - 'blog/**'
       - '.github/workflows/models.yml'
   pull_request:
     paths:
       - 'models/**'
       - 'README.md'
       - 'docs/**'
-      - 'scripts/check_models.py'
+      - 'blog/**'
       - '.github/workflows/models.yml'
   workflow_dispatch:
 
@@ -26,7 +28,7 @@ permissions:
   contents: read
 
 env:
-  FORGE_VERSION: v10.0.0-rc.33
+  FORGE_VERSION: v10.0.0-rc.34
 
 jobs:
   check:
@@ -42,8 +44,105 @@ jobs:
           curl -fsSL "https://raw.githubusercontent.com/mollendorff-ai/forge/${FORGE_VERSION}/install.sh" | FORGE_VERSION="$FORGE_VERSION" sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
-      - name: Install PyYAML
-        run: python3 -m pip install --user pyyaml
+      # forge validate calculates each model and compares its stored values
+      # with its formulas, then calculates the file as written and each
+      # scenario that has an expect: and compares every figure stated there.
+      # The two Monte Carlo models have MC.* inputs, which validate cannot
+      # calculate (forge simulate does, in the next step).
+      - name: Validate the models
+        run: |
+          failed=0
+          for model in models/*.yaml models/analytics/*.yaml; do
+            case "$model" in
+              models/analytics/cooperation_monte_carlo.yaml|models/analytics/spread_monte_carlo.yaml) continue ;;
+            esac
+            if forge validate "$model" > /tmp/validate.txt 2>&1; then
+              echo "ok   $model"
+            else
+              failed=1
+              echo "FAIL $model"
+              cat /tmp/validate.txt
+            fi
+          done
+          exit "$failed"
 
-      - name: Check models
-        run: python3 scripts/check_models.py
+      # The analyses print reports, not scalars of a model, so their figures
+      # are matched as text. Runs are seeded: the numbers are the same every time.
+      - name: Check the analysis figures
+        run: |
+          failed=0
+          has() {
+            if ! grep -qF -- "$2" <<< "$1"; then
+              failed=1
+              echo "FAIL missing: $2"
+            fi
+          }
+          mc=$(forge simulate models/analytics/cooperation_monte_carlo.yaml)
+          has "$mc" 'P(assumptions.margin > 0) = 90.28%'
+          tornado=$(forge tornado models/analytics/cooperation_tornado.yaml)
+          has "$tornado" 'assumptions.dissipation_cost |██████████████████████████████| swing 0.50 '
+          has "$tornado" 'Base value: 0.375'
+          real=$(forge real-options models/analytics/restraint_option.yaml)
+          has "$real" 'Adds over the traditional NPV: $27.70'
+          boot=$(forge bootstrap models/analytics/five_ais_bootstrap.yaml)
+          has "$boot" '95% CI: [1.0000, 1.0000]'
+          exact=$(forge calculate models/analytics/five_ais_bootstrap.yaml --dry-run)
+          has "$exact" 'assumptions.exact_lower_95 = 0.478'
+          spread=$(forge simulate models/analytics/spread_monte_carlo.yaml)
+          has "$spread" 'P(kinship.spreads > 0.5) = 71.15%'
+          has "$(sed -n '/kinship.agrees:/,/Max:/p' <<< "$spread")" 'Min:       1.00'
+          has "$(sed -n '/kinship.spreads:/,/kinship.agrees:/p' <<< "$spread" | grep -A1 'Drivers')" '+0.574  assumptions.w'
+          insp=$(forge tornado models/inspection.yaml)
+          has "$insp" 'inputs.penalty    |██████████████████████████████| swing 0.30 '
+          has "$insp" 'inputs.audit_cost |█                             | swing 0.00 '
+          exit "$failed"
+
+      # The docs quote figures that the models above pin; if one moves, the
+      # prose has to move with it.
+      - name: Check the docs still quote the figures
+        run: |
+          failed=0
+          quote() {
+            if ! grep -qF -- "$2" "$1"; then
+              failed=1
+              echo "FAIL $1 no longer contains '$2'"
+            fi
+          }
+          quote docs/COOPERATION_THRESHOLDS.md '| 0.5 | 0.375 |'
+          quote README.md '202.5 vs 90'
+          quote README.md 'discount rate of 0.4'
+          quote README.md 'dissipation cost of 1.5'
+          quote README.md 'or 2 (against anyone)'
+          quote docs/MORE_GAMES.md '3.4 a round against GrimTrigger'"'"'s 3'
+          quote docs/MORE_GAMES.md 'lands on 0.5 at c = 0, 0.375 at c = 0.5 and 0.25 at c = 1'
+          quote README.md 'a harsher penalty makes the human audit less'
+          quote docs/MORE_GAMES.md '| 8 | 1 | 0.2 | 1/3 |'
+          quote docs/MORE_GAMES.md '| 5% | TitForTat 2.248, TitForTwoTats 2.247 |'
+          quote docs/MORE_GAMES.md 'GrimTrigger is 4th even without mistakes'
+          quote blog/content/posts/08-does-forgiveness-pay.md 'GrimTrigger is 4th even without mistakes'
+          quote docs/MORE_GAMES.md 'they miss each other 52% of the time'
+          quote docs/ONE_SHOT_GAMES.md '`kinship.ipd_critical_c`: 1.5'
+          quote docs/MORE_GAMES.md 'giving dominates once `c > 1 - r/5`'
+          quote README.md 'all five keep below a cost of conflict of 0.6'
+          quote README.md 'exploited in a quarter of meetings whatever the prior'
+          quote docs/MORE_GAMES.md '| rare | 0.25 | 0 | 1/3 | 0.5 | 0.25 | 0.5 |'
+          quote README.md 'one that costs both the same is bought first by the misaligned AI'
+          quote docs/MORE_GAMES.md '| cheap | 0.5 | 2 | 0 | half-sorting: the misaligned AI signals half the time, the human trusts a signal 2/3 of the time |'
+          quote README.md 'half the AIs must start out reciprocating'
+          quote docs/MORE_GAMES.md '| 0.6 | 0.5 | 2/11 (18%) | 30% | spreads |'
+          quote README.md 'AlwaysDefect, second in the round-robin at 10% noise, dies out'
+          quote docs/MORE_GAMES.md '| 10% | GrimTrigger, AlwaysDefect | generous TitForTat, 89% | 2.74 |'
+          quote docs/MORE_GAMES.md 'AlwaysDefect in generation 37, GrimTrigger in 38'
+          quote docs/MORE_GAMES.md 'takes the majority in generation 2,961'
+          quote README.md 'in about 90% of the draws'
+          quote README.md 'moves the threshold most (by 0.5)'
+          quote README.md 'worth another 27.7'
+          quote README.md 'from 100% to 100%'
+          quote README.md 'as low as 48%'
+          quote README.md 'in about 71% of the draws'
+          quote docs/MORE_GAMES.md 'all 10,000 draws go where `x*` says'
+          quote docs/MORE_GAMES.md 'the chance of meeting again matters most'
+          quote docs/MORE_GAMES.md '| 1 in 100 | 5% | 16.1% | 78.5% | 98.6% | 2 |'
+          quote docs/MORE_GAMES.md '| 1 in 10 | 5% | 67.9% | 97.6% | 99.9% | 1 |'
+          quote README.md 'one defection is more likely a slip'
+          exit "$failed"

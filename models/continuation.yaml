@@ -19,7 +19,7 @@
 #
 # Adapted from Forge's examples/games/continuation.yaml.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 w: 0.6    # the chance that a match goes on after a round
 c: 0      # the cost of a defection
@@ -64,13 +64,55 @@ kinship:
     formula: "=long_run.match.ad.grim - long_run.match.grim.grim"
     notes: How much more AlwaysDefect gets against GrimTrigger than GrimTrigger gets against itself
 
+expect:
+  kinship.threshold: 0.5
+  kinship.grim_holds: 1
+  kinship.agrees: 1
+  long_run.match.ad.grim: 2.6
+
 scenarios:
   short:
     description: Below the threshold
     scalars: {w: 0.4}
+    expect:
+      kinship.threshold: 0.5
+      kinship.grim_holds: 0
+      kinship.agrees: 1
+      long_run.match.ad.grim: 3.4
   edge:
     description: At the threshold, where defecting and cooperating tie
     scalars: {w: 0.5}
+    expect:
+      kinship.grim_holds: 1
+      kinship.agrees: 1
+      long_run.match.ad.grim: 3
   costly:
     description: The same short horizon with a cost of conflict of 0.5 (w* = 0.375)
     scalars: {w: 0.4, c: 0.5}
+    expect:
+      kinship.threshold: 0.375
+      kinship.grim_holds: 1
+      kinship.agrees: 1
+      long_run.match.ad.grim: 2.9
+
+  # The flip point: at the w where w* = (T - c - R) / (T - P) says AlwaysDefect
+  # stops beating GrimTrigger, the edge is nil. The three costs the old
+  # goal-seek check used, each at its own w*; at c = 0 it is the edge above.
+  flip_free:
+    description: w* at no cost of conflict (0.5); AlwaysDefect has no edge over GrimTrigger
+    scalars: {w: 0.5, c: 0}
+    expect:
+      kinship.defector_edge: 0
+      kinship.threshold: 0.5
+  flip_costly:
+    description: w* at a cost of conflict of 0.5 (0.375)
+    scalars: {w: 0.375, c: 0.5}
+    expect:
+      kinship.defector_edge: 0
+      kinship.threshold: 0.375
+  flip_ruinous:
+    description: w* at a cost of conflict of 1 (0.25)
+    scalars: {w: 0.25, c: 1}
+    expect:
+      kinship.defector_edge: 0
+      kinship.threshold: 0.25

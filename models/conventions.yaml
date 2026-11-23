@@ -20,7 +20,7 @@
 #
 # Adapted from Forge's examples/games/battle-of-the-sexes.yaml.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 c: 0      # what missing each other costs each side
 
@@ -48,10 +48,25 @@ kinship:
     formula: "=norms.equilibrium_3.human.payoff"
     notes: What each side expects in the mixed equilibrium (the AI's is the same)
 
+expect:
+  kinship.pure_equilibria: 2
+  kinship.insist_rate: 0.6
+  kinship.insist_by_hand: 0.6
+  kinship.miss_rate: 0.52
+  kinship.mixed_payoff: 1.2
+
 scenarios:
   costly:
     description: Missing each other costs each side 1
     scalars: {c: 1}
+    expect:
+      kinship.insist_rate: =4/7
+      kinship.miss_rate: =25/49
+      kinship.mixed_payoff: =5/7
   very_costly:
     description: Missing each other costs each side 5
     scalars: {c: 5}
+    expect:
+      kinship.insist_rate: =8/15
+      kinship.miss_rate: =113/225
+      kinship.mixed_payoff: =-19/15

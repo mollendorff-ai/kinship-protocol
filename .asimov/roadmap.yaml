@@ -7,33 +7,19 @@
 # See: README.md for project overview
 
 current:
-  version: "0.7.0"
-  status: complete
-  released: "2026-11-22"
-  title: "Strategies that spread"
-  note: "Released. spread.yaml (how many must cooperate first) and ecology.yaml (the nine strategies with mistakes as a population), with Forge 10.0.0-rc.33's dynamics: key; every figure is a Forge result pinned in scripts/check_models.py. Also the hidden-type games once planned as v0.6.3. v0.6.0: the five-player public goods game. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
-  deliverables:
-    - "Replicator dynamics: strategy shares changing by generation, beside predator_prey.yaml (spread.yaml, ecology.yaml)"
-    - "Hidden types: hidden_types.yaml and signalling.yaml"
-    - "Monte Carlo over a game: models/analytics/spread_monte_carlo.yaml asks how likely cooperation is to spread when w, c and the starting share are uncertain (forge simulate over a game with dynamics:); it runs 600 generations, since a start near x* leaves it slowly and 60 is too short"
-
-# Planned. Needs a decision before it starts: how Forge checks expected values per scenario.
-next:
   version: "0.8.0"
+  status: complete
+  released: "2026-11-23"
   title: "Forge only"
-  status: planned
-  waits_on: "Forge T2-SCENARIO-CHECKS (forge validate checks each scenario's expected results) and the first step of T2-BAYESIAN-LINK (a Bayesian network takes scalars and --scenario); both need an ADR-074 in Forge first, then a Forge release"
-  why: "The models are there to show what Forge can do, and the CI check that pins their figures is a Python script (scripts/check_models.py, the only Python in the repo). Forge validates a model's stored values but only for the base case: forge validate takes no --scenario, and most of the figures live in scenarios."
+  note: "Released. Every check of the models runs through Forge 10.0.0-rc.34 (its ADR-074): each model states the figures it must give under expect:, in the file as written and in each scenario, and forge validate compares them. mistake_or_defection.yaml is one file with the nine settings as scenarios and a network that reads the model. CI's check job runs only forge and shell (forge validate on every model, the seeded analyses and the docs' quotes as grep -F); scripts/check_models.py and the pip install are gone. v0.7.0: strategies that spread (spread.yaml, ecology.yaml, hidden types). v0.6.0: the five-player public goods game. v0.5.0's games are in CHANGELOG.md and docs/MORE_GAMES.md."
   deliverables:
     - "Every check runs through Forge (and plain shell): no .py file in the repo, scripts/check_models.py gone"
-    - "Expected figures live beside the model they belong to, not in a script"
-  route: "A Forge change, chosen 2026-11-22: forge validate checks the stored results of each scenario, and a Bayesian network takes scalars and scenarios (ADR in Forge first; Forge's rules apply: 100% coverage, pedantic clippy). Not chosen: committed golden output that CI diffs with plain shell, which is weaker, since a golden file is regenerated, not stated, and which would cut the Bayesian check to one setting"
-  steps:
-    - "Forge: ADR-074, then the validate change, then the Bayesian change, then a release (Forge roadmap T2-SCENARIO-CHECKS, T2-BAYESIAN-LINK)"
-    - "Here: move every figure that scripts/check_models.py pins into the models, make the nine settings of mistake_or_defection.yaml scenarios of one file, keep the checks that the docs still quote the figures as a few lines of shell in the workflow, delete scripts/check_models.py and the pip install"
-  blocked_by:
-    - "forge bayesian reads literal numbers only (a formula in a prior or a cpt is refused: 'invalid type: string, expected f64') and takes no --scenario. mistake_or_defection.yaml's nine settings of the prior and the noise are therefore checked by a Python script that rewrites the network and compares forge bayesian with Bayes' rule in exact fractions. A Forge formula can give Bayes' rule by hand for each setting, but nothing then checks the network engine at those settings. Either Forge's networks take scalars and scenarios (a Forge change), or the check is reduced to the base network plus a formula table."
-  acceptance: "CI's check job runs only forge and shell; breaking a value in any model fails it, as it does today; every figure the docs quote is still pinned"
+    - "Expected figures live beside the model they belong to, under expect: (252 figures of the ten game models, 41 of stag hunt, chicken and Axelrod, the flip points of continuation.yaml as scenarios)"
+    - "mistake_or_defection.yaml: nine settings of the prior and the noise as scenarios of one file, with named queries, Bayes' rule by hand and a takes formula, all pinned"
+    - "short_horizon.yaml and analytics/five_ais_bootstrap.yaml store Forge's values and pass forge validate"
+    - "The 11 seeded analysis figures and the 37 quotes of the docs are grep -F lines in .github/workflows/models.yml"
+  acceptance: "CI's check job runs only forge and shell; breaking a value in any model fails it; every figure the docs quote is still pinned"
+  not_covered: "The two Monte Carlo models (analytics/cooperation_monte_carlo.yaml, spread_monte_carlo.yaml) have MC.* inputs, which forge validate cannot calculate; their figures are grep -F lines on forge simulate's report"
 
 # Ideas, not plans. Nobody is working on these. Pull requests welcome.
 ideas:

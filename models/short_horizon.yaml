@@ -49,16 +49,16 @@ assumptions:
   w_01:
     value: 0.1
   w_01_coop_ev:
-    value: 3.33
+    value: 3.33333333333333
     formula: =R / (1 - w_01)
   w_01_defect_ev:
-    value: 5.11
+    value: 5.11111111111111
     formula: =T + (w_01 * P) / (1 - w_01)
   w_01_coop_wins:
     value: 0.0
     formula: =IF(w_01_coop_ev > w_01_defect_ev, 1, 0)
   w_01_gap:
-    value: -1.78
+    value: -1.77777777777778
     formula: =w_01_coop_ev - w_01_defect_ev
     notes: Negative = defection advantage
 
@@ -80,16 +80,16 @@ assumptions:
   w_03:
     value: 0.3
   w_03_coop_ev:
-    value: 4.29
+    value: 4.28571428571429
     formula: =R / (1 - w_03)
   w_03_defect_ev:
-    value: 5.43
+    value: 5.42857142857143
     formula: =T + (w_03 * P) / (1 - w_03)
   w_03_coop_wins:
     value: 0.0
     formula: =IF(w_03_coop_ev > w_03_defect_ev, 1, 0)
   w_03_gap:
-    value: -1.14
+    value: -1.14285714285714
     formula: =w_03_coop_ev - w_03_defect_ev
 
   w_04:
@@ -98,13 +98,13 @@ assumptions:
     value: 5.0
     formula: =R / (1 - w_04)
   w_04_defect_ev:
-    value: 5.67
+    value: 5.66666666666667
     formula: =T + (w_04 * P) / (1 - w_04)
   w_04_coop_wins:
     value: 0.0
     formula: =IF(w_04_coop_ev > w_04_defect_ev, 1, 0)
   w_04_gap:
-    value: -0.67
+    value: -0.666666666666667
     formula: =w_04_coop_ev - w_04_defect_ev
 
   w_05:
@@ -145,13 +145,13 @@ assumptions:
     value: 10.0
     formula: =R / (1 - w_07)
   w_07_defect_ev:
-    value: 7.33
+    value: 7.33333333333333
     formula: =T + (w_07 * P) / (1 - w_07)
   w_07_coop_wins:
     value: 1.0
     formula: =IF(w_07_coop_ev > w_07_defect_ev, 1, 0)
   w_07_gap:
-    value: 2.67
+    value: 2.66666666666667
     formula: =w_07_coop_ev - w_07_defect_ev
 
   w_08:
@@ -190,23 +190,23 @@ assumptions:
     value: 0.5
 
   w_03_c_defect_ev:
-    value: 4.71
+    value: 4.71428571428571
     formula: =T - c_cost + (w_03 * (P - c_cost)) / (1 - w_03)
   w_03_c_coop_wins:
     value: 0.0
     formula: =IF(w_03_coop_ev > w_03_c_defect_ev, 1, 0)
   w_03_c_gap:
-    value: -0.43
+    value: -0.428571428571429
     formula: =w_03_coop_ev - w_03_c_defect_ev
 
   w_04_c_defect_ev:
-    value: 4.83
+    value: 4.83333333333333
     formula: =T - c_cost + (w_04 * (P - c_cost)) / (1 - w_04)
   w_04_c_coop_wins:
     value: 1.0
     formula: =IF(w_04_coop_ev > w_04_c_defect_ev, 1, 0)
   w_04_c_gap:
-    value: 0.17
+    value: 0.166666666666667
     formula: =w_04_coop_ev - w_04_c_defect_ev
     notes: Cooperation already wins at w=0.4 with c=0.5 (exact breakeven is w=0.375)
 
@@ -227,10 +227,10 @@ assumptions:
     value: 0.3
     notes: 30% chance of future interaction
   startup_coop_ev:
-    value: 4.29
+    value: 4.28571428571429
     formula: =R / (1 - startup_w)
   startup_defect_ev:
-    value: 5.43
+    value: 5.42857142857143
     formula: =T + (startup_w * P) / (1 - startup_w)
   startup_defect_wins:
     value: 1.0
@@ -245,7 +245,7 @@ assumptions:
     value: 10.0
     formula: =R / (1 - conference_w)
   conference_defect_ev:
-    value: 7.33
+    value: 7.33333333333333
     formula: =T + (conference_w * P) / (1 - conference_w)
   conference_coop_wins:
     value: 1.0
@@ -289,6 +289,6 @@ assumptions:
 
   # Ratio: how much more does cooperation win at long vs short horizon?
   horizon_leverage:
-    value: 10.67
+    value: 10.6666666666667
     formula: =long_horizon_advantage / short_horizon_disadvantage
     notes: Ratio for w=0.9 vs w=0.2 only; it changes with the horizons chosen, so it is not a finding
