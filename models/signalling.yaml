@@ -40,7 +40,7 @@
 # (vertex enumeration) find the same equilibria in each scenario, from
 # payoffs built outside this file, plus the other end of that line.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 inputs:
   p: 0.5              # the chance the AI is aligned (the human's prior)
@@ -101,16 +101,50 @@ kinship:
     formula: "=inputs.s_misaligned / (inputs.e - inputs.c)"
     notes: In the half-sorting equilibrium, how often the human trusts a signal (it leaves a misaligned AI indifferent)
 
+expect:
+  signal.equilibria: 2
+  kinship.pure_equilibria: 2
+  kinship.separating: 1
+  kinship.separates_by_hand: 1
+  signal.equilibrium_1.human.after_signal: 1
+  signal.equilibrium_2.ai.neither: 1
+  kinship.trust_blind: -1
+  signal.degenerate: 1
+
 scenarios:
   same_cost:
     description: The signal costs both types 0.5
     scalars: {inputs.s_misaligned: 0.5}
+    expect:
+      signal.equilibria: 1
+      kinship.separating: 0
+      kinship.separates_by_hand: 0
+      signal.equilibrium_1.ai.neither: 1
+      signal.equilibrium_1.human.never: 1
   dear:
     description: The signal costs both types 2, more than the aligned AI gains
     scalars: {inputs.s_aligned: 2, inputs.s_misaligned: 2}
+    expect:
+      signal.equilibria: 1
+      kinship.separating: 0
+      kinship.separates_by_hand: 0
+      signal.equilibrium_1.ai.neither: 1
   cheap:
     description: The signal costs a misaligned AI 2, less than its gain of 3
     scalars: {inputs.s_misaligned: 2}
+    expect:
+      signal.equilibria: 2
+      kinship.pure_equilibria: 1
+      kinship.separates_by_hand: 0
+      signal.equilibrium_2.ai.both: 0.5
+      signal.equilibrium_2.ai.aligned_only: 0.5
+      kinship.misaligned_signal_by_hand: 0.5
+      signal.equilibrium_2.human.after_signal: =2/3
+      kinship.trust_after_signal_by_hand: =2/3
   conflict:
     description: As cheap, with a cost of conflict of 1.5
     scalars: {inputs.s_misaligned: 2, inputs.c: 1.5}
+    expect:
+      signal.equilibria: 2
+      kinship.separating: 1
+      kinship.separates_by_hand: 1

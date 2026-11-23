@@ -9,7 +9,7 @@
 
 ## Abstract
 
-More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.33 or later: the populations and the five-player game use its newer forms). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `scripts/check_models.py` checks every figure below on each change.
+More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.34 or later: the populations, the five-player game and the checks of each figure use its newer forms). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `forge validate` checks every figure below on each change (each model states its figures under `expect:`), and CI checks that this page still quotes them.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|
@@ -180,7 +180,7 @@ So a defection followed by a cooperation leaves you where you started.
 
 **Left out:** partners who answer your moves. Against TitForTat, a defection may be its reply to your own slip, and this network does not model that. Nor does it model a partner who is a defector only some of the time.
 
-**Checked:** `scripts/check_models.py` runs the network at all nine settings and compares Forge's chances after one, two and three defections with Bayes' rule in exact fractions (all agree to 1e-9), and checks the count in the last column.
+**Checked:** the nine settings are the nine scenarios of `mistake_or_defection.yaml`, and `forge validate` compares the network's chances after one, two and three defections with Bayes' rule in exact fractions (written under `expect:`, and worked out by a formula in the model), and checks the count in the last column.
 
 ---
 
@@ -334,7 +334,7 @@ Nobody knows w, c or the starting share. `forge simulate` over [spread_monte_car
 
 **For the project:** the cost of conflict lowers two thresholds, not one. It makes cooperating pay against a reciprocator at a shorter horizon (`w*`), and it makes cooperation spread from fewer reciprocators (`x*`). The second is the one a world of many AIs would need, and it is not zero: with no cost, a population where most AIs defect stays that way. Copying what earns more is not the same as being right.
 
-**Checked:** every figure above is a Forge result. `x*` is a formula in the model (`kinship.barrier`), and Forge's equilibrium finder lands on the same mixed equilibrium in every scenario (`population.equilibrium_3`), so two parts of Forge agree on it; 1/2, 2/11 and 1/17 were also worked out by hand. `scripts/check_models.py` pins each one. Forge's own validation checks the `dynamics:` key generation by generation against egttools 0.2.1 and R on every Forge pull request.
+**Checked:** every figure above is a Forge result. `x*` is a formula in the model (`kinship.barrier`), and Forge's equilibrium finder lands on the same mixed equilibrium in every scenario (`population.equilibrium_3`), so two parts of Forge agree on it; 1/2, 2/11 and 1/17 were also worked out by hand. `expect:` pins each one. Forge's own validation checks the `dynamics:` key generation by generation against egttools 0.2.1 and R on every Forge pull request.
 
 ### 7.2 Does Forgiveness Spread?
 
@@ -355,7 +355,7 @@ Cooperation won this way can be lost. At 1% noise GrimTrigger is never quite gon
 
 **For the project:** in a world of AIs that copy what works, the round-robin's lesson (never forgive, or defect, when mistakes are common) is wrong: forgiving spreads. But nothing keeps it there. Which strategy rules depends on who is still around, however few, and the population does not settle on what is best for everyone. That is closer to an argument for watching than for trusting the math to do the ethics.
 
-**Checked:** every figure above is a Forge result, and `scripts/check_models.py` pins each one. The generation counts in the text are scenarios of the model: `careless_36`, `careless_37` and `careless_38` for the strategies falling below 1%, and `careful_2960` and `careful_2961` for the majority. The scores the population is built on are those of §3.1's tournament, which the axelrod library confirms there. Forge's own validation checks the `dynamics:` key generation by generation against egttools 0.2.1 and R on every Forge pull request; nothing here was recomputed outside Forge.
+**Checked:** every figure above is a Forge result, and `expect:` pins each one. The generation counts in the text are scenarios of the model: `careless_36`, `careless_37` and `careless_38` for the strategies falling below 1%, and `careful_2960` and `careful_2961` for the majority. The scores the population is built on are those of §3.1's tournament, which the axelrod library confirms there. Forge's own validation checks the `dynamics:` key generation by generation against egttools 0.2.1 and R on every Forge pull request; nothing here was recomputed outside Forge.
 
 ---
 

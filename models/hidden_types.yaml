@@ -35,7 +35,7 @@
 # (vertex enumeration) find the same single equilibrium in each scenario,
 # from payoffs built outside this file.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 inputs:
   p: 0.5        # the chance the AI is aligned (the human's prior)
@@ -88,16 +88,51 @@ kinship:
     formula: "=inputs.e - inputs.b"
     notes: From this cost of conflict, exploiting is dominated
 
+expect:
+  kinship.exploit_rate: 0.5
+  kinship.verify_rate: 0.5
+  kinship.exploited: 0.25
+  kinship.human_payoff: 0.5
+  kinship.p_star: 0.75
+  kinship.exploited_by_hand: 0.25
+  kinship.verify_by_hand: 0.5
+  kinship.c_star: 2
+  oversight.pure_equilibria: 0
+
 scenarios:
   rare:
     description: Only a quarter of AIs aligned
     scalars: {inputs.p: 0.25}
+    expect:
+      kinship.exploit_rate: =1/3
+      kinship.verify_rate: 0.5
+      kinship.exploited: 0.25
+      kinship.human_payoff: 0.5
   common:
     description: Most AIs aligned, above p*
     scalars: {inputs.p: 0.8}
+    expect:
+      kinship.exploit_rate: 1
+      kinship.verify_rate: 0
+      kinship.exploited: 0.2
+      kinship.exploited_by_hand: 0.2
+      kinship.human_payoff: 0.8
+      oversight.pure_equilibria: 1
   cost1:
     description: A cost of conflict of 1, below c*
     scalars: {inputs.c: 1}
+    expect:
+      kinship.exploit_rate: 0.5
+      kinship.verify_rate: 0.25
+      kinship.verify_by_hand: 0.25
+      kinship.exploited: 0.25
+      kinship.human_payoff: 0.5
   costly:
     description: A cost of conflict of 2.5, above c*
     scalars: {inputs.c: 2.5}
+    expect:
+      kinship.exploit_rate: 0
+      kinship.verify_rate: 0
+      kinship.exploited: 0
+      kinship.human_payoff: 2
+      oversight.dominated.ai.exploit: 1

@@ -35,14 +35,14 @@
 #      start, even 90% reciprocators. The more AIs expect to meet again,
 #      the fewer must go first: at w = 0.9, x* = 1/17.
 #
-# Every figure above is a result of this model, pinned in
-# scripts/check_models.py. x* is a formula here (kinship.barrier), and
+# Every figure above is a result of this model, stated under expect: and
+# checked by forge validate. x* is a formula here (kinship.barrier), and
 # Forge's own equilibrium finder lands on the same mixed equilibrium
 # (population.equilibrium_3) in every scenario; 1/2, 2/11 and 1/17 were
 # also worked out by hand. Forge's own validation checks the dynamics: key
 # against egttools and R (docs/MORE_GAMES.md §7).
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 w: 0.6            # the chance that a match goes on after a round
 c: 0              # the cost of a defection
@@ -104,19 +104,59 @@ kinship:
     formula: "=IF(spreads = IF(start > barrier, 1, 0), 1, 0)"
     notes: 1 when the population went where x* says it would
 
+expect:
+  kinship.threshold: 0.5
+  kinship.barrier: 0.5
+  kinship.reciprocators_at_the_end: 0
+  kinship.payoff_at_the_end: 1
+  kinship.spreads: 0
+  kinship.agrees: 1
+  population.equilibria: 3
+  population.equilibrium_3.me.grim: 0.5
+  population.equilibrium_3.stable: 0
+  population.equilibrium_1.stable: 1
+  population.equilibrium_2.stable: 1
+
 scenarios:
   many:
     description: The same game, from 60% reciprocators
     scalars: {start: 0.6}
+    expect:
+      kinship.spreads: 1
+      kinship.agrees: 1
+      kinship.reciprocators_at_the_end: 0.999438684743459
   costly:
     description: From 30% again, with a cost of conflict of 0.5 (x* = 2/11)
     scalars: {c: 0.5}
+    expect:
+      kinship.threshold: 0.375
+      kinship.barrier: =2/11
+      population.equilibrium_3.me.grim: =2/11
+      kinship.spreads: 1
+      kinship.agrees: 1
+      kinship.payoff_at_the_end: 3
   ruinous:
     description: A cost of conflict of P - S; mutual defection pays what being exploited pays (x* = 0)
     scalars: {c: 1, start: 0.05}
+    expect:
+      kinship.barrier: 0
+      kinship.spreads: 1
+      kinship.agrees: 1
+      population.equilibria: 2
   short:
     description: Below w* (0.5); defectors take over even from 90% reciprocators
     scalars: {w: 0.4, start: 0.9}
+    expect:
+      kinship.barrier: 1
+      kinship.spreads: 0
+      kinship.agrees: 1
+      population.equilibria: 1
+      kinship.reciprocators_at_the_end: 0
   long:
     description: Matches that go on with the chance 0.9 (x* = 1/17), from 10%
     scalars: {w: 0.9, start: 0.1}
+    expect:
+      kinship.barrier: =1/17
+      population.equilibrium_3.me.grim: =1/17
+      kinship.spreads: 1
+      kinship.agrees: 1

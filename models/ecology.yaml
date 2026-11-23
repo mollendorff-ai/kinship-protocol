@@ -38,9 +38,9 @@
 #
 # The scores are exact expected values, as in noisy_tournament.yaml, which
 # checked them against the axelrod library. Every figure above is a result
-# of this model, pinned in scripts/check_models.py.
+# of this model, stated under expect: and checked by forge validate.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 noise: 0.05          # the chance that a move is flipped
 generations: 500     # how many generations the population evolves
@@ -140,31 +140,77 @@ kinship:
     formula: "=noisy_wide.match.wsls.wsls"
     notes: What Pavlov earns a round against itself
 
+expect:
+  kinship.generous: 0.952035396392981
+  kinship.forgiving: 0.987397158744482
+  kinship.payoff: 2.86280237339765
+  kinship.defectors: 0
+  kinship.grim: 0
+
 scenarios:
   clean:
     description: Every move as meant
     scalars: {noise: 0}
+    expect:
+      kinship.payoff: 3
+      kinship.defectors: 0
+      kinship.die_out: 0
+      kinship.forgiving: 0.516637686589674
+      kinship.grim: 0.16153980805648
   careful:
     description: One move in a hundred flipped; Pavlov takes over
     scalars: {noise: 0.01}
+    expect:
+      kinship.pavlov: 0.999999925976636
+      kinship.payoff: 2.95128602504273
+      kinship.grim_per_10_billion: 2.193251
+      kinship.grim_vs_pavlov: 2.974195
+      kinship.pavlov_vs_pavlov: 2.951286
   careless:
     description: One move in ten flipped; the round-robin's defectors die out
     scalars: {noise: 0.1}
+    expect:
+      kinship.generous: 0.888770569794892
+      kinship.payoff: 2.74201818755355
+      kinship.defector_place: 2
+      kinship.defectors: 0
   careful_long:
     description: One in a hundred, for 3,000 generations; GrimTrigger takes over from Pavlov
     scalars: {noise: 0.01, generations: 3000}
+    expect:
+      kinship.grim: 0.999873679749802
+      kinship.payoff: 1.52086130734888
+      kinship.pavlov: 0.000125454055992187
+      kinship.grim_majority: 1
   careful_2960:
     description: One in a hundred, one generation before GrimTrigger has the majority
     scalars: {noise: 0.01, generations: 2960}
+    expect:
+      kinship.grim: 0.478919
+      kinship.grim_majority: 0
   careful_2961:
     description: One in a hundred, the generation in which GrimTrigger has the majority
     scalars: {noise: 0.01, generations: 2961}
+    expect:
+      kinship.grim: 0.504414
+      kinship.grim_majority: 1
   careless_36:
     description: One in ten, the generation before the first strategy falls below 1%
     scalars: {noise: 0.1, generations: 36}
+    expect:
+      kinship.defector_below_1pct: 0
+      kinship.grim_below_1pct: 0
   careless_37:
     description: One in ten, the generation in which AlwaysDefect falls below 1%
     scalars: {noise: 0.1, generations: 37}
+    expect:
+      kinship.defector_below_1pct: 1
+      kinship.grim_below_1pct: 0
+      kinship.defectors: 0.008795
   careless_38:
     description: One in ten, the generation in which GrimTrigger follows it
     scalars: {noise: 0.1, generations: 38}
+    expect:
+      kinship.defector_below_1pct: 1
+      kinship.grim_below_1pct: 1
+      kinship.grim: 0.009197

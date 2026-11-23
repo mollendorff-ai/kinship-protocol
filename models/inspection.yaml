@@ -22,7 +22,7 @@
 #
 # Adapted from Forge's examples/games/inspection.yaml.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 inputs:
   gain: 2         # what cheating gains the AI when it is not caught
@@ -58,16 +58,32 @@ kinship:
     formula: "=inputs.audit_cost / inputs.harm"
     notes: The cheating rate that leaves the human indifferent
 
+expect:
+  kinship.pure_equilibria: 0
+  kinship.audit_rate: =1/3
+  kinship.cheat_rate: =1/3
+  kinship.audit_by_hand: =1/3
+  kinship.cheat_by_hand: =1/3
+
 scenarios:
   harsh:
     description: Twice the penalty
     scalars: {inputs.penalty: 8}
+    expect:
+      kinship.audit_rate: 0.2
+      kinship.cheat_rate: =1/3
   mild:
     description: Half the penalty
     scalars: {inputs.penalty: 2}
+    expect:
+      kinship.audit_rate: 0.5
+      kinship.cheat_rate: =1/3
   cheap_audits:
     description: Audits at half the cost
     scalars: {inputs.audit_cost: 0.5}
+    expect:
+      kinship.audit_rate: =1/3
+      kinship.cheat_rate: =1/6
 
 # Which input moves the audit rate most
 tornado:

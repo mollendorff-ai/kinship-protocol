@@ -14,7 +14,7 @@
 # so stag wins once c passes 1. The scenarios are kinship's other costs:
 #   forge game models/stag_hunt.yaml --scenario c3
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 c: 0      # the cost of a defection (hunting hare)
 
@@ -39,13 +39,30 @@ kinship:
     formula: "=stag_hunt.equilibrium_3.me.stag"
     notes: How often each hunter goes for the stag in the mixed equilibrium
 
+expect:
+  kinship.coop_wins: 0
+  kinship.crossover_c: 1.0
+  kinship.stag_share: 0.75
+
 scenarios:
   c1:
     description: kinship's second cost
     scalars: {c: 0.5}
+    expect:
+      kinship.coop_wins: 0
+      kinship.crossover_c: 1.0
+      kinship.stag_share: 0.625
   c2:
     description: The crossover, where stag and hare tie
     scalars: {c: 1}
+    expect:
+      kinship.coop_wins: 0
+      kinship.crossover_c: 1.0
+      kinship.stag_share: 0.5
   c3:
     description: A cost at which cooperation wins
     scalars: {c: 1.5}
+    expect:
+      kinship.coop_wins: 1
+      kinship.crossover_c: 1.0
+      kinship.stag_share: 0.375

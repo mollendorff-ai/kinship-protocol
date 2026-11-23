@@ -2,11 +2,25 @@
 
 All notable findings and releases for the Kinship Protocol project.
 
-## [Unreleased]
+## [0.8.0] - 2026-11-23
+
+### Forge Only
+
+Every check of the models now runs through Forge, and the one Python file in the repo is gone. Each model states what it gives, beside the model, and `forge validate` compares. Needs Forge 10.0.0-rc.34, which added `expect:` (model format 5.6.0) and the Bayesian networks that read the model (its ADR-074).
+
+### Added
+
+- **`expect:` in the models.** The figures that `scripts/check_models.py` pinned are now stated under `expect:`, at the top of each of the 13 game models (the file as written) and in each scenario: 252 results of the ten game models in their base case and 43 scenarios, 41 of the stag hunt, chicken and the Axelrod tournament (the cost at which cooperation wins, the crossover and each share, per cost), and the three flip points of the continuation tournament, which are now scenarios (`flip_free`, `flip_costly`, `flip_ruinous`) where `kinship.defector_edge` is 0 at w\* = 0.5, 0.375 and 0.25. A fraction is a formula (`=2/11`). Every figure of the old script was checked to be in a model before the script was deleted, and breaking a value in a model makes `forge validate` fail.
+- **`models/mistake_or_defection.yaml` is one file for nine settings.** The prior and the noise are scalars (`p`, `noise`) of the network, the nine settings are the nine scenarios, and four named queries (`one`, `two`, `three` and `back`, a defection then a cooperation) give the chance the partner is a defector as scalars of the model. Beside them a block of Bayes' rule by hand (`by_hand`) and a `takes` formula (the defections it takes before "defector" is more likely than not, with a margin so that the exact ties at prior = noise do not count). `expect:` pins both, in exact fractions, in all ten settings. Before, a script rewrote the network nine times and compared.
+- **The Forge values of `short_horizon.yaml` (18) and `analytics/five_ais_bootstrap.yaml` (1)** are stored: they were typed to two decimals and failed `forge validate`.
 
 ### Changed
 
-- **`models/public_goods.yaml` is written in Forge's count form (rc.33).** The five AIs are alike, so each strategy has one formula over how many of the other four give (`commons.others.give`), where the model was 32 cells of five payoffs written by a script. Nothing it says changes: the same 1, 1, 32, 1 and 1 pure equilibria in the five scenarios, and the same payoffs and dominance, all pinned in `scripts/check_models.py` and unchanged. Breaking the keeper's payoff on purpose made the check fail.
+- **CI runs only Forge and shell, with Forge 10.0.0-rc.34** (was rc.33). `forge validate` on every model; the 11 figures of the seeded analyses (Monte Carlo, tornado, real options, bootstrap) as `grep -F` on each command's report, and the 37 quotes of the README, docs and blog as `grep -F` in the files that make them. `scripts/check_models.py` and the `pip install pyyaml` are gone. The two Monte Carlo models, with `MC.*` inputs, cannot be validated and are only simulated.
+- **The 13 game models and the Bayesian network moved to model format 5.6.0**, which `expect:` needs.
+- **`models/public_goods.yaml` is written in Forge's count form (rc.33).** The five AIs are alike, so each strategy has one formula over how many of the other four give (`commons.others.give`), where the model was 32 cells of five payoffs written by a script. Nothing it says changes: the same 1, 1, 32, 1 and 1 pure equilibria in the five scenarios, and the same payoffs and dominance, all pinned and unchanged. Breaking the keeper's payoff on purpose made the check fail.
+
+*Next: ideas only; see .asimov/roadmap.yaml.*
 
 ---
 

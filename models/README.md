@@ -44,8 +44,8 @@ All four results were also recomputed independently in Python (NumPy, a separate
 
 ## Running Models
 
-Install Forge 10.0.0-rc.33 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.33`.
-Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need, and rc.33 adds the `dynamics:` key and the count form that `spread.yaml`, `ecology.yaml` and `public_goods.yaml` use; CI runs rc.33.
+Install Forge 10.0.0-rc.34 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.34`.
+Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need, and rc.33 adds the `dynamics:` key and the count form that `spread.yaml`, `ecology.yaml` and `public_goods.yaml` use, and rc.34 adds `expect:` (model format 5.6.0) and the networks that read the model, which the game models and `mistake_or_defection.yaml` use; CI runs rc.34.
 Use `--dry-run` to print results without touching the file.
 Without it, `forge calculate` writes the results back into the model and keeps a `.bak` copy.
 
@@ -67,12 +67,19 @@ forge tornado models/inspection.yaml   # which input moves the audit rate
 
 ## Checking for Drift
 
-`scripts/check_models.py` runs every model through Forge and fails if any stored value no longer matches its formula (values rounded to 2 decimals pass). It also checks the headline figures quoted in the README and docs against Forge's output, including the stress-test figures, and the results of the v0.5.0 games in each scenario (each checked outside Forge with nashpy, the Python axelrod library, or by hand).
-It runs automatically in CI on every push and pull request that touches `models/`, the README or `docs/`.
+Forge checks the models; there is no script. Each model states what it gives, and `forge validate` compares:
+
+- a stored `value:` must still follow from its formula;
+- under `expect:`, at the top of a model or in a scenario, every figure the model has to give (a game's equilibrium, a tournament rank, a posterior) is stated as the author checked it (with nashpy, Gambit, the Python axelrod library or by hand; a fraction is a formula, `=2/11`). `forge validate` calculates the file as written and each scenario that has an `expect:`, and lists every difference. A misspelt name fails too.
 
 ```bash
-python3 scripts/check_models.py
+forge validate models/spread.yaml
 ```
+
+`mistake_or_defection.yaml` is the example of both: its nine settings of the prior and the noise are nine scenarios, and each pins the network's chances after one, two and three defections beside Bayes' rule worked out by hand. `forge calculate` (without `--scenario`) stores a model's own values; it never writes `expect:`.
+
+Two things Forge cannot check, which `.github/workflows/models.yml` does with `grep -F`: the seeded Monte Carlo, tornado, real-options and bootstrap reports (their figures are text of a report, not scalars of a model; the two Monte Carlo models, with `MC.*` inputs, cannot be validated at all, only simulated), and that the README and docs still quote the figures.
+The workflow runs on every push and pull request that touches `models/`, the README or `docs/`.
 
 ## Key Results Summary
 
@@ -110,7 +117,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-cargo install mollendorff-forge --version 10.0.0-rc.33  # or see github.com/mollendorff-ai/forge
+cargo install mollendorff-forge --version 10.0.0-rc.34  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'

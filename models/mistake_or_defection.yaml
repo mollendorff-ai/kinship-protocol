@@ -1,7 +1,9 @@
 # Mistake or Defection? (a Bayesian network)
 # ===========================================
-# Run: forge bayesian models/mistake_or_defection.yaml -q partner -e move_1=defect
-#      forge bayesian models/mistake_or_defection.yaml -q partner -e move_1=defect -e move_2=defect
+# Run: forge calculate models/mistake_or_defection.yaml --dry-run
+#      forge validate models/mistake_or_defection.yaml
+#      forge bayesian models/mistake_or_defection.yaml -q partner -e move_1=defect
+#      forge bayesian models/mistake_or_defection.yaml --scenario p01_e05 -q partner -e move_1=defect
 #
 # The tournament with mistakes (noisy_tournament.yaml) ends on a condition:
 # cooperation needs each side to tell a slip from a defection. This network
@@ -28,13 +30,20 @@
 # 16% and two say 78%; at 10% noise it takes three. That is TitForTwoTats'
 # rule (strike back after two) against TitForTat's (after one): which is the
 # better reading depends on how rare defectors are and how noisy the moves.
-# scripts/check_models.py checks nine settings of the prior and the noise
-# against the formula above.
+# Nine settings of the prior and the noise are the nine scenarios below
+# (p10_e05 is the file as written): `forge validate` plays each, and checks
+# the network's posteriors against Bayes' rule worked out by hand here in
+# exact fractions, and the number of defections it takes against what the
+# docs say. The ties (prior = noise, so one defection leaves exactly 1/2)
+# are why `takes` compares with 0.5 + 1e-9: a tie does not count.
 #
 # Left out: partners who answer your moves. Against TitForTat, a defection
 # may be its reply to your own slip, which this network does not model.
 
-_forge_version: "5.1.0"
+_forge_version: "5.6.0"
+
+p: 0.1       # the share of defectors among partners
+noise: 0.05  # the chance a move is flipped by mistake
 
 bayesian_network:
   name: "Mistake or defection?"
@@ -42,25 +51,179 @@ bayesian_network:
     partner:
       type: discrete
       states: ["cooperator", "defector"]
-      prior: [0.9, 0.1]
+      prior: ["=1 - p", "=p"]
     move_1:
       type: discrete
       states: ["cooperate", "defect"]
       parents: ["partner"]
       cpt:
-        cooperator: [0.95, 0.05]
-        defector: [0.05, 0.95]
+        cooperator: ["=1 - noise", "=noise"]
+        defector: ["=noise", "=1 - noise"]
     move_2:
       type: discrete
       states: ["cooperate", "defect"]
       parents: ["partner"]
       cpt:
-        cooperator: [0.95, 0.05]
-        defector: [0.05, 0.95]
+        cooperator: ["=1 - noise", "=noise"]
+        defector: ["=noise", "=1 - noise"]
     move_3:
       type: discrete
       states: ["cooperate", "defect"]
       parents: ["partner"]
       cpt:
-        cooperator: [0.95, 0.05]
-        defector: [0.05, 0.95]
+        cooperator: ["=1 - noise", "=noise"]
+        defector: ["=noise", "=1 - noise"]
+  # The chance the partner is a defector, given the moves seen
+  queries:
+    one: {node: partner, evidence: {move_1: defect}}
+    two: {node: partner, evidence: {move_1: defect, move_2: defect}}
+    three: {node: partner, evidence: {move_1: defect, move_2: defect, move_3: defect}}
+    back: {node: partner, evidence: {move_1: defect, move_2: cooperate}}
+
+# Bayes' rule by hand: each defection multiplies the odds of "defector" by
+# (1 - noise) / noise, so after k defections the chance is
+# p (1 - noise)^k / (p (1 - noise)^k + (1 - p) noise^k). A cooperation divides
+# the odds by the same factor, so a defection and a cooperation cancel.
+by_hand:
+  one:
+    formula: "=p * (1 - noise) / (p * (1 - noise) + (1 - p) * noise)"
+    value: 0.678571428571428
+  two:
+    formula: "=p * (1 - noise)^2 / (p * (1 - noise)^2 + (1 - p) * noise^2)"
+    value: 0.975675675675676
+  three:
+    formula: "=p * (1 - noise)^3 / (p * (1 - noise)^3 + (1 - p) * noise^3)"
+    value: 0.998689574839837
+  back:
+    formula: "=p"
+    value: 0.1
+    notes: A defection and then a cooperation leave the chance where it started
+  # The defections it takes before "defector" is more likely than not, read
+  # from the network. A tie at exactly 1/2 does not count (prior = noise), and
+  # floating point could tip it either way, hence the margin.
+  takes:
+    formula: "=IF(bayesian_network.one.defector > 0.5 + 1e-9, 1, IF(bayesian_network.two.defector > 0.5 + 1e-9, 2, 3))"
+    value: 1
+
+# The file as written: 1 in 10 defectors, 5% noise. One defection says
+# 0.095 / 0.14 = 19/28, two say 0.09025 / 0.0925 = 361/370, and a defection
+# then a cooperation say 0.1.
+expect:
+  bayesian_network.one.defector: =19/28
+  bayesian_network.two.defector: =361/370
+  bayesian_network.three.defector: =6859/6868
+  by_hand.one: =19/28
+  by_hand.two: =361/370
+  by_hand.three: =6859/6868
+  bayesian_network.back.defector: =1/10
+  by_hand.takes: 1
+
+scenarios:
+  p01_e01:
+    description: 1 in 100 partners are defectors, 1% noise (2 defections to tip it)
+    scalars: {p: 0.01, noise: 0.01}
+    expect:
+      bayesian_network.one.defector: =1/2
+      bayesian_network.two.defector: =99/100
+      bayesian_network.three.defector: =9801/9802
+      by_hand.one: =1/2
+      by_hand.two: =99/100
+      by_hand.three: =9801/9802
+      bayesian_network.back.defector: =1/100
+      by_hand.takes: 2
+  p01_e05:
+    description: 1 in 100 partners are defectors, 5% noise (2 defections to tip it)
+    scalars: {p: 0.01, noise: 0.05}
+    expect:
+      bayesian_network.one.defector: =19/118
+      bayesian_network.two.defector: =361/460
+      bayesian_network.three.defector: =6859/6958
+      by_hand.one: =19/118
+      by_hand.two: =361/460
+      by_hand.three: =6859/6958
+      bayesian_network.back.defector: =1/100
+      by_hand.takes: 2
+  p01_e10:
+    description: 1 in 100 partners are defectors, 10% noise (3 defections to tip it)
+    scalars: {p: 0.01, noise: 0.1}
+    expect:
+      bayesian_network.one.defector: =1/12
+      bayesian_network.two.defector: =9/20
+      bayesian_network.three.defector: =81/92
+      by_hand.one: =1/12
+      by_hand.two: =9/20
+      by_hand.three: =81/92
+      bayesian_network.back.defector: =1/100
+      by_hand.takes: 3
+  p10_e01:
+    description: 10 in 100 partners are defectors, 1% noise (1 defection to tip it)
+    scalars: {p: 0.1, noise: 0.01}
+    expect:
+      bayesian_network.one.defector: =11/12
+      bayesian_network.two.defector: =1089/1090
+      bayesian_network.three.defector: =107811/107812
+      by_hand.one: =11/12
+      by_hand.two: =1089/1090
+      by_hand.three: =107811/107812
+      bayesian_network.back.defector: =1/10
+      by_hand.takes: 1
+  p10_e05:
+    description: 10 in 100 partners are defectors, 5% noise (1 defection to tip it)
+    scalars: {p: 0.1, noise: 0.05}
+    expect:
+      bayesian_network.one.defector: =19/28
+      bayesian_network.two.defector: =361/370
+      bayesian_network.three.defector: =6859/6868
+      by_hand.one: =19/28
+      by_hand.two: =361/370
+      by_hand.three: =6859/6868
+      bayesian_network.back.defector: =1/10
+      by_hand.takes: 1
+  p10_e10:
+    description: 10 in 100 partners are defectors, 10% noise (2 defections to tip it)
+    scalars: {p: 0.1, noise: 0.1}
+    expect:
+      bayesian_network.one.defector: =1/2
+      bayesian_network.two.defector: =9/10
+      bayesian_network.three.defector: =81/82
+      by_hand.one: =1/2
+      by_hand.two: =9/10
+      by_hand.three: =81/82
+      bayesian_network.back.defector: =1/10
+      by_hand.takes: 2
+  p30_e01:
+    description: 30 in 100 partners are defectors, 1% noise (1 defection to tip it)
+    scalars: {p: 0.3, noise: 0.01}
+    expect:
+      bayesian_network.one.defector: =297/304
+      bayesian_network.two.defector: =29403/29410
+      bayesian_network.three.defector: =2910897/2910904
+      by_hand.one: =297/304
+      by_hand.two: =29403/29410
+      by_hand.three: =2910897/2910904
+      bayesian_network.back.defector: =3/10
+      by_hand.takes: 1
+  p30_e05:
+    description: 30 in 100 partners are defectors, 5% noise (1 defection to tip it)
+    scalars: {p: 0.3, noise: 0.05}
+    expect:
+      bayesian_network.one.defector: =57/64
+      bayesian_network.two.defector: =1083/1090
+      bayesian_network.three.defector: =20577/20584
+      by_hand.one: =57/64
+      by_hand.two: =1083/1090
+      by_hand.three: =20577/20584
+      bayesian_network.back.defector: =3/10
+      by_hand.takes: 1
+  p30_e10:
+    description: 30 in 100 partners are defectors, 10% noise (1 defection to tip it)
+    scalars: {p: 0.3, noise: 0.1}
+    expect:
+      bayesian_network.one.defector: =27/34
+      bayesian_network.two.defector: =243/250
+      bayesian_network.three.defector: =2187/2194
+      by_hand.one: =27/34
+      by_hand.two: =243/250
+      by_hand.three: =2187/2194
+      bayesian_network.back.defector: =3/10
+      by_hand.takes: 1

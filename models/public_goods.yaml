@@ -32,7 +32,7 @@
 # Checked: Gambit (pygambit 16.7) finds the same pure equilibria in each
 # scenario, and so does a hand enumeration of the 32 profiles.
 
-_forge_version: "5.5.0"
+_forge_version: "5.6.0"
 
 r: 2      # the pot is multiplied by r and shared by all five
 c: 0      # the cost of conflict, paid by each one who keeps
@@ -69,16 +69,43 @@ kinship:
     formula: "=1 - c"
     notes: What each gets if all five keep
 
+expect:
+  kinship.pure_equilibria: 1
+  kinship.give_rate: 0
+  kinship.equilibrium_payoff: 1
+  kinship.give_dominated: 1
+  kinship.threshold_by_hand: 0.6
+  kinship.all_give_payoff: 2
+
 scenarios:
   cheap:
     description: Conflict costs 0.5, still below the line
     scalars: {c: 0.5}
+    expect:
+      kinship.pure_equilibria: 1
+      kinship.give_rate: 0
+      kinship.equilibrium_payoff: 0.5
+      kinship.give_dominated: 1
   edge:
     description: Conflict costs 0.6, the line itself
     scalars: {c: 0.6}
+    expect:
+      kinship.pure_equilibria: 32
+      kinship.give_dominated: 0
+      kinship.keep_dominated: 0
   costly:
     description: Conflict costs 0.7, above the line
     scalars: {c: 0.7}
+    expect:
+      kinship.pure_equilibria: 1
+      kinship.give_rate: 1
+      kinship.equilibrium_payoff: 2
+      kinship.keep_dominated: 1
   rich:
     description: The pot is multiplied by 6, with no cost of conflict
     scalars: {r: 6}
+    expect:
+      kinship.pure_equilibria: 1
+      kinship.give_rate: 1
+      kinship.equilibrium_payoff: 6
+      kinship.keep_dominated: 1
