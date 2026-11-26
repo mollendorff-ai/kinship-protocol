@@ -2,6 +2,14 @@
 
 All notable findings and releases for the Kinship Protocol project.
 
+## [Unreleased]
+
+### Changed
+
+- **CI runs Forge 10.0.0-rc.35** (was rc.34). rc.35's `forge validate` fails a formula that has no stored result, and 12 of the 22 models it checks had formulas without one: chicken, continuation, conventions, ecology, hidden_types, inspection, noisy_tournament, one_shot, public_goods, signalling, spread and stag_hunt. Every `expect:` still matched. `forge calculate` stored the missing results: 87 added `value:` lines, none deleted or changed, and all 22 models now pass `forge validate`. The two Monte Carlo models are only simulated, as before. The seeded analysis figures and the 37 quotes of the docs are unchanged. `models/README.md` says rc.35 needs each formula's result stored.
+
+---
+
 ## [0.8.0] - 2026-11-23
 
 ### Forge Only

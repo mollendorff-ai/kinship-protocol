@@ -9,7 +9,7 @@
 
 ## Abstract
 
-More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.34 or later: the populations, the five-player game and the checks of each figure use its newer forms). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `forge validate` checks every figure below on each change (each model states its figures under `expect:`), and CI checks that this page still quotes them.
+More games, each a [Forge](https://github.com/mollendorff-ai/forge) model that works out its own equilibria or plays its own tournament (Forge 10.0.0-rc.35 or later: the populations, the five-player game and the checks of each figure use its newer forms). Each result is checked outside Forge: equilibria with nashpy or Gambit, the noisy tournament with the Python axelrod library, the populations by Forge's own validation of its `dynamics:` key (against egttools and R) and by pinning every figure to a result of the model, and everything else by hand. `forge validate` checks every figure below on each change (each model states its figures under `expect:`), and CI checks that this page still quotes them.
 
 | Game | Model | What it shows | Status |
 |------|-------|---------------|--------|

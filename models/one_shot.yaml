@@ -71,40 +71,54 @@ games:
 kinship:
   ipd_critical_c:
     formula: "=c + ipd.even_mix.me.defect - ipd.even_mix.me.cooperate"
+    value: 1.5
     notes: Cost at which cooperating and defecting tie against a 50/50 opponent
   sh_critical_c:
     formula: "=c + stag_hunt.even_mix.me.hare - stag_hunt.even_mix.me.stag"
+    value: 1
   ch_critical_c:
     formula: "=c + chicken.even_mix.me.straight - chicken.even_mix.me.swerve"
+    value: 0.5
     notes: The lowest of the three
   ipd_critical_c_any_opponent:
     formula: "=MAX(T - R, P - S)"
+    value: 2
     notes: Cost above which defecting pays less against any opponent
   ipd_coop_wins:
     formula: "=IF(ipd.even_mix.me.cooperate > ipd.even_mix.me.defect, 1, 0)"
+    value: 0
     notes: 1 when cooperating pays more against a 50/50 opponent (a tie is 0)
   sh_coop_wins:
     formula: "=IF(stag_hunt.even_mix.me.stag > stag_hunt.even_mix.me.hare, 1, 0)"
+    value: 0
   ch_coop_wins:
     formula: "=IF(chicken.even_mix.me.swerve > chicken.even_mix.me.straight, 1, 0)"
+    value: 0
   ipd_defect_dominated:
     formula: "=ipd.dominated.me.defect"
+    value: 0
     notes: 1 when defecting is strictly dominated whatever the other does
   viable_without_future:
     formula: "=IF(ch_critical_c <= 1, 1, 0)"
+    value: 1
     notes: Chicken-like games can support one-shot cooperation with modest costs
   catastrophic_games_easier:
     formula: "=IF(ch_critical_c < ipd_critical_c, 1, 0)"
+    value: 1
     notes: Games with a catastrophic mutual defection need less cost for cooperation
   anon_defect_ev:
     formula: "=0.5 * anon_temptation - anon_cost"
+    value: 40
   anon_coop_wins:
     formula: "=IF(anon_cooperation > anon_defect_ev, 1, 0)"
+    value: 1
     notes: Even small costs make honesty win
   nuke_defect_ev:
     formula: "=0.5 * nuke_win + 0.5 * nuke_war"
+    value: -450
   nuke_coop_wins:
     formula: "=IF(nuke_peace > nuke_defect_ev, 1, 0)"
+    value: 1
     notes: Catastrophic mutual defection makes cooperation dominant
 
 expect:

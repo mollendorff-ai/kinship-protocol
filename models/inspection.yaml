@@ -44,18 +44,23 @@ games:
 kinship:
   pure_equilibria:
     formula: "=inspection.pure_equilibria"
+    value: 0
     notes: No cell is stable
   audit_rate:
     formula: "=inspection.equilibrium_1.human.audit"
+    value: 0.333333333333333
     notes: How often the human audits in the mixed equilibrium
   cheat_rate:
     formula: "=inspection.equilibrium_1.ai.cheat"
+    value: 0.333333333333333
     notes: How often the AI cheats in the mixed equilibrium
   audit_by_hand:
     formula: "=inputs.gain / (inputs.gain + inputs.penalty)"
+    value: 0.333333333333333
     notes: The audit rate that leaves the AI indifferent
   cheat_by_hand:
     formula: "=inputs.audit_cost / inputs.harm"
+    value: 0.333333333333333
     notes: The cheating rate that leaves the human indifferent
 
 expect:

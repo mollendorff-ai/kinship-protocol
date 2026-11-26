@@ -53,15 +53,19 @@ games:
 kinship:
   threshold:
     formula: "=(T - c - R) / (T - P)"
+    value: 0.5
     notes: The w from which GrimTrigger is stable against AlwaysDefect (w*)
   grim_holds:
     formula: "=long_run.stable.grim"
+    value: 1
     notes: 1 when nothing in the roster does better against GrimTrigger than GrimTrigger does
   agrees:
     formula: "=IF(grim_holds = IF(w >= threshold, 1, 0), 1, 0)"
+    value: 1
     notes: 1 when the tournament and the formula say the same thing
   defector_edge:
     formula: "=long_run.match.ad.grim - long_run.match.grim.grim"
+    value: -0.4
     notes: How much more AlwaysDefect gets against GrimTrigger than GrimTrigger gets against itself
 
 expect:
