@@ -109,29 +109,40 @@ games:
 kinship:
   tft_place_clean:
     formula: "=clean.rank.tft"
+    value: 2
   tft_place_noisy:
     formula: "=noisy.rank.tft"
+    value: 1
   grim_place_clean:
     formula: "=clean.rank.grim"
+    value: 1
   grim_place_noisy:
     formula: "=noisy.rank.grim"
+    value: 4
   gtft_place_noisy:
     formula: "=noisy.rank.gtft"
+    value: 5
   tf2t_place_noisy:
     formula: "=noisy.rank.tf2t"
+    value: 2
   forgiving_first:
     formula: "=IF(MIN(noisy.rank.gtft, noisy.rank.tf2t) = 1, 1, 0)"
+    value: 0
     notes: 1 when a forgiving strategy wins the noisy tournament
   wide_grim_place_clean:
     formula: "=clean_wide.rank.grim"
+    value: 4
     notes: GrimTrigger's place with nine strategies and no mistakes
   wide_grim_place_noisy:
     formula: "=noisy_wide.rank.grim"
+    value: 7
   wide_forgiving_first:
     formula: "=IF(MIN(noisy_wide.rank.gtft, noisy_wide.rank.tf2t) = 1, 1, 0)"
+    value: 1
     notes: 1 when a forgiving strategy wins the nine-strategy noisy tournament
   grim_vs_suspicious:
     formula: "=clean_wide.match.grim.stft"
+    value: 1.015
     notes: One opening defection, never forgiven
 
 expect:

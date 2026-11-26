@@ -87,21 +87,27 @@ games:
 kinship:
   threshold:
     formula: "=(T - c - R) / (T - P)"
+    value: 0.5
     notes: w*, from which GrimTrigger holds against AlwaysDefect
   barrier:
     formula: "=IF(w > threshold, (1 - w) * (P - c - S) / ((1 - w) * (P - c - S) + R - (1 - w) * (T - c) - w * (P - c)), 1)"
+    value: 0.5
     notes: x*, the share of reciprocators from which cooperation spreads (1 when nothing short of everyone is enough)
   reciprocators_at_the_end:
     formula: "=population.dynamics.share.grim"
+    value: 4.11997698714889e-13
     notes: The share of GrimTrigger after 60 generations
   payoff_at_the_end:
     formula: "=population.dynamics.payoff"
+    value: 1.00000000000049
     notes: What an AI earns a round then, on average
   spreads:
     formula: "=IF(reciprocators_at_the_end > 0.5, 1, 0)"
+    value: 0
     notes: 1 when cooperation took over
   agrees:
     formula: "=IF(spreads = IF(start > barrier, 1, 0), 1, 0)"
+    value: 1
     notes: 1 when the population went where x* says it would
 
 expect:

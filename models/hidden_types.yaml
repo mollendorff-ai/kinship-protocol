@@ -65,27 +65,35 @@ games:
 kinship:
   exploit_rate:
     formula: "=oversight.equilibrium_1.ai.exploit"
+    value: 0.5
     notes: How often a misaligned AI exploits
   verify_rate:
     formula: "=oversight.equilibrium_1.human.verify"
+    value: 0.5
     notes: How often the human verifies
   exploited:
     formula: "=(1 - inputs.p) * oversight.equilibrium_1.ai.exploit"
+    value: 0.25
     notes: The share of all meetings in which the human is exploited
   human_payoff:
     formula: "=oversight.equilibrium_1.human.payoff"
+    value: 0.5
     notes: What the human expects in the equilibrium
   p_star:
     formula: "=1 - inputs.v / inputs.l"
+    value: 0.75
     notes: Above this prior the human relies without checking
   exploited_by_hand:
     formula: "=MIN(inputs.v / inputs.l, 1 - inputs.p)"
+    value: 0.25
     notes: v/l below p*, 1 - p above it (while c < c*)
   verify_by_hand:
     formula: "=(inputs.e - inputs.c - inputs.b) / (inputs.e + inputs.f)"
+    value: 0.5
     notes: The verify rate that leaves a misaligned AI indifferent, below p*
   c_star:
     formula: "=inputs.e - inputs.b"
+    value: 2
     notes: From this cost of conflict, exploiting is dominated
 
 expect:

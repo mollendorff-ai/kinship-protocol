@@ -99,45 +99,59 @@ games:
 kinship:
   forgiving:
     formula: "=ecology.dynamics.share.gtft + ecology.dynamics.share.tf2t + ecology.dynamics.share.wsls"
+    value: 0.987397158744482
     notes: The share of the three strategies that forgive a slip, after the last generation
   generous:
     formula: "=ecology.dynamics.share.gtft"
+    value: 0.952035396392981
     notes: The share of generous TitForTat
   pavlov:
     formula: "=ecology.dynamics.share.wsls"
+    value: 0.00000314396585910918
     notes: The share of Pavlov
   grim:
     formula: "=ecology.dynamics.share.grim"
+    value: 6.3407977330683e-36
     notes: The share of GrimTrigger, which never forgives
   defectors:
     formula: "=ecology.dynamics.share.ad"
+    value: 6.79917345470095e-39
     notes: The share of AlwaysDefect
   payoff:
     formula: "=ecology.dynamics.payoff"
+    value: 2.86280237339765
     notes: What an AI earns a round, on average, after the last generation
   defector_place:
     formula: "=noisy_wide.rank.ad"
+    value: 8
     notes: AlwaysDefect's place in the single round-robin
   die_out:
     formula: "=ecology.dynamics.share.ad + ecology.dynamics.share.rand + ecology.dynamics.share.stft"
+    value: 0.00458085579245337
     notes: The share of AlwaysDefect, Random and suspicious TitForTat, the three that open by defecting or play at random
   grim_per_10_billion:
     formula: "=ecology.dynamics.share.grim * 10000000000"
+    value: 6.3407977330683e-26
     notes: GrimTrigger's share, in tens of billions; above 0 means it is not quite gone
   defector_below_1pct:
     formula: "=IF(defectors < 0.01, 1, 0)"
+    value: 1
     notes: 1 once AlwaysDefect has fallen below 1% of the population
   grim_below_1pct:
     formula: "=IF(grim < 0.01, 1, 0)"
+    value: 1
     notes: 1 once GrimTrigger has fallen below 1% of the population
   grim_majority:
     formula: "=IF(grim > 0.5, 1, 0)"
+    value: 0
     notes: 1 once GrimTrigger is more than half of the population
   grim_vs_pavlov:
     formula: "=noisy_wide.match.grim.wsls"
+    value: 2.91495580112898
     notes: What GrimTrigger earns a round against Pavlov
   pavlov_vs_pavlov:
     formula: "=noisy_wide.match.wsls.wsls"
+    value: 2.777355
     notes: What Pavlov earns a round against itself
 
 expect:

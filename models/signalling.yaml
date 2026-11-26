@@ -84,21 +84,27 @@ games:
 kinship:
   pure_equilibria:
     formula: "=signal.pure_equilibria"
+    value: 2
     notes: Pure equilibria Forge finds
   separating:
     formula: "=signal.equilibrium_1.ai.aligned_only"
+    value: 1
     notes: 1 when the first equilibrium is the one where only the aligned AI signals
   trust_blind:
     formula: "=inputs.p * inputs.h - (1 - inputs.p) * inputs.l"
+    value: -1
     notes: What trusting every AI gives the human; below 0 it will not
   separates_by_hand:
     formula: "=IF(AND(inputs.s_aligned <= inputs.b, inputs.s_misaligned >= inputs.e - inputs.c, inputs.p * inputs.h - (1 - inputs.p) * inputs.l < 0), 1, 0)"
+    value: 1
     notes: Spence's condition for a signal that sorts the types
   misaligned_signal_by_hand:
     formula: "=inputs.p * inputs.h / ((1 - inputs.p) * inputs.l)"
+    value: 0.5
     notes: In the half-sorting equilibrium, how often a misaligned AI signals (it leaves the human indifferent)
   trust_after_signal_by_hand:
     formula: "=inputs.s_misaligned / (inputs.e - inputs.c)"
+    value: 1.33333333333333
     notes: In the half-sorting equilibrium, how often the human trusts a signal (it leaves a misaligned AI indifferent)
 
 expect:

@@ -44,8 +44,9 @@ All four results were also recomputed independently in Python (NumPy, a separate
 
 ## Running Models
 
-Install Forge 10.0.0-rc.34 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.34`.
-Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need, and rc.33 adds the `dynamics:` key and the count form that `spread.yaml`, `ecology.yaml` and `public_goods.yaml` use, and rc.34 adds `expect:` (model format 5.6.0) and the networks that read the model, which the game models and `mistake_or_defection.yaml` use; CI runs rc.34.
+Install Forge 10.0.0-rc.35 or later from [crates.io](https://crates.io/crates/mollendorff-forge): `cargo install mollendorff-forge --version 10.0.0-rc.35`.
+Forge has no stable release yet, so cargo needs the `--version`. rc.30 is the first release with game sections, which the game models need, and rc.33 adds the `dynamics:` key and the count form that `spread.yaml`, `ecology.yaml` and `public_goods.yaml` use, and rc.34 adds `expect:` (model format 5.6.0) and the networks that read the model, which the game models and `mistake_or_defection.yaml` use.
+rc.35's `forge validate` fails a formula whose result the file does not store, so every model holds a `value:` beside each formula: that is what `forge calculate` writes. CI runs rc.35.
 Use `--dry-run` to print results without touching the file.
 Without it, `forge calculate` writes the results back into the model and keeps a `.bak` copy.
 
@@ -117,7 +118,7 @@ Full analysis in [docs/](../docs/README.md):
 
 ```bash
 # Install Forge
-cargo install mollendorff-forge --version 10.0.0-rc.34  # or see github.com/mollendorff-ai/forge
+cargo install mollendorff-forge --version 10.0.0-rc.35  # or see github.com/mollendorff-ai/forge
 
 # Create model
 cat > my_model.yaml << 'EOF'

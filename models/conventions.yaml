@@ -36,16 +36,21 @@ games:
 kinship:
   pure_equilibria:
     formula: "=norms.pure_equilibria"
+    value: 2
   insist_rate:
     formula: "=norms.equilibrium_3.human.human_norm"
+    value: 0.6
     notes: How often the human insists on its own norm in the mixed equilibrium
   insist_by_hand:
     formula: "=(3 + c) / (5 + 2 * c)"
+    value: 0.6
   miss_rate:
     formula: "=norms.equilibrium_3.human.human_norm * norms.equilibrium_3.ai.ai_norm + norms.equilibrium_3.human.ai_norm * norms.equilibrium_3.ai.human_norm"
+    value: 0.52
     notes: How often they pick different norms in the mixed equilibrium
   mixed_payoff:
     formula: "=norms.equilibrium_3.human.payoff"
+    value: 1.2
     notes: What each side expects in the mixed equilibrium (the AI's is the same)
 
 expect:

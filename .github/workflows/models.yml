@@ -28,7 +28,7 @@ permissions:
   contents: read
 
 env:
-  FORGE_VERSION: v10.0.0-rc.34
+  FORGE_VERSION: v10.0.0-rc.35
 
 jobs:
   check:

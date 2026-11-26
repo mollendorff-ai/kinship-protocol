@@ -50,23 +50,31 @@ games:
 kinship:
   pure_equilibria:
     formula: "=commons.pure_equilibria"
+    value: 1
   give_rate:
     formula: "=commons.equilibrium_1.claude.give"
+    value: 0
     notes: 1 when the first equilibrium has Claude giving (all five play alike)
   equilibrium_payoff:
     formula: "=commons.equilibrium_1.claude.payoff"
+    value: 1
   give_dominated:
     formula: "=commons.dominated.claude.give"
+    value: 1
   keep_dominated:
     formula: "=commons.dominated.claude.keep"
+    value: 0
   threshold_by_hand:
     formula: "=1 - r / 5"
+    value: 0.6
     notes: The cost of conflict above which giving dominates
   all_give_payoff:
     formula: "=r"
+    value: 2
     notes: What each gets if all five give
   all_keep_payoff:
     formula: "=1 - c"
+    value: 1
     notes: What each gets if all five keep
 
 expect:
